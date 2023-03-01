@@ -1,2 +1,2 @@
 
-export type IsAny<Type> = (0 & Type) extends 1 ? true : false;
+export type IsAny<T> = 0 extends (1 & T) ? true : false;
