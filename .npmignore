@@ -4,3 +4,4 @@
 
 .gitignore
 tsconfig.tsbuildinfo
+.eslintrc.cjs
