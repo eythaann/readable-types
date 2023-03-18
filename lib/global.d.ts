@@ -1,14 +1,14 @@
-import { TestsCallback, AssertsCollection, AssertType } from "./readable-test-types";
+import { TestsCallback, AssertsCollection, AssertType } from './readable-test-types';
 
 declare global {
   var PASS: PASS;
   type PASS = {
-    status: "PASS";
+    status: 'PASS';
   };
 
   var FAIL: FAIL;
-  type FAIL<T extends String = 'No Message'> = {
-    status: "FAIL";
+  type FAIL<T extends string = 'No Message'> = {
+    status: 'FAIL';
     msg: string;
   };
 

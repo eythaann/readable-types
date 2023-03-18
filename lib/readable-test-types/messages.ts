@@ -9,6 +9,6 @@ export const FailMessage = {
   isNotNever: `${expect} is not type never`,
   isNotUndefined: `${expect} is not type undefined`,
   isNotObject: `${expect} is not type object`,
-} as const
+} as const;
 
 export type FailMessage = typeof FailMessage;

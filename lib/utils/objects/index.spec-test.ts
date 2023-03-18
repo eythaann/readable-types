@@ -1,6 +1,5 @@
-import { IsObject, IsStrictObject, Modify } from ".";
-import { AnyFunction, AnyObject } from "../../constants";
-
+import { IsObject, IsStrictObject, Modify } from '.';
+import { AnyFunction, AnyObject } from '../../constants';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
@@ -26,7 +25,6 @@ describeType('IsObject', () => {
   ]);
 });
 
-
 describeType('IsStrictObject', () => {
   testType('Should return false if type is not of type object', [
     assertType<IsStrictObject<number>>().equals(false),
@@ -45,10 +43,10 @@ describeType('IsStrictObject', () => {
     assertType<IsStrictObject<AnyFunction>>().equals(false),
   ]);
 
-  testType('Should return true if type is of type object',  [
+  testType('Should return true if type is of type object', [
     assertType<IsStrictObject<AnyObject>>().equals(true),
     assertType<IsStrictObject<{ prop1: string }>>().equals(true),
-  ])
+  ]);
 });
 
 describeType('IsStrictObject', () => {
@@ -70,5 +68,5 @@ describeType('IsStrictObject', () => {
       assertType<Modify<Base, { newProp: boolean }>>().equals<expected>(),
       assertType<Modify<Base, { newProp: boolean }>>().isSupertypeOf(expected),
     ]);
-  })
+  });
 });

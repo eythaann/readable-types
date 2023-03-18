@@ -1,5 +1,5 @@
-import { IsNever } from ".";
-import { AnyFunction, AnyObject } from "../../constants";
+import { IsNever } from '.';
+import { AnyFunction, AnyObject } from '../../constants';
 
 describeType('IsNever', () => {
   testType('Should return false if type is not of type never', [
@@ -23,4 +23,4 @@ describeType('IsNever', () => {
     assertType<IsNever<never>>().equals(true),
     assertType<IsNever<never>>().not.equals(false),
   ]);
-})
+});

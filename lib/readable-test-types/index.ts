@@ -1,14 +1,13 @@
-import { If } from "../utils/conditions";
-import { IsNever } from "../utils/never";
-import { FailMessage } from "./messages";
-import { Equals, IsSubType, IsSuperType } from "../utils/comparison";
-import { IsNull, IsUndefined } from "../utils/undefined";
-import { IsObject, IsStrictObject } from "../utils/objects";
-import { UnionType } from "typescript";
-import { And, Not } from "../utils/booleans";
-import { AnyFunction } from "../constants";
+import { If } from '../utils/conditions';
+import { IsNever } from '../utils/never';
+import { FailMessage } from './messages';
+import { Equals, IsSubType, IsSuperType } from '../utils/comparison';
+import { IsNull, IsUndefined } from '../utils/undefined';
+import { IsObject, IsStrictObject } from '../utils/objects';
+import { Not } from '../utils/booleans';
+import { AnyFunction } from '../constants';
 
-type InvertIf<Condition extends boolean, ToBeInverted extends boolean> = If<Condition, Not<ToBeInverted>, ToBeInverted>
+type InvertIf<Condition extends boolean, ToBeInverted extends boolean> = If<Condition, Not<ToBeInverted>, ToBeInverted>;
 
 export interface IValidations<T, Invert extends boolean = false> {
   not: IValidations<T, true>;
@@ -38,12 +37,12 @@ export interface IValidations<T, Invert extends boolean = false> {
   toBeStrictObject: () => If<InvertIf<Invert, IsStrictObject<T>>, PASS, FAIL<FailMessage['isNotObject']>>;
 
   length: T extends unknown[]
-  ? Equals<T['length'], number> extends true ? 'infinity' : T['length']
-  : FAIL<"'expect' type do not have property of type length">
+    ? Equals<T['length'], number> extends true ? 'infinity' : T['length']
+    : FAIL<'\'expect\' type do not have property of type length'>;
 }
 
-export type IValidationsFn<T extends AnyFunction> = IValidations<T> & { returned: IValidations<ReturnType<T>> }
-export type AssertType = <T>() => T extends AnyFunction ? IValidationsFn<T> : IValidations<T> 
+export type IValidationsFn<T extends AnyFunction> = IValidations<T> & { returned: IValidations<ReturnType<T>> };
+export type AssertType = <T>() => T extends AnyFunction ? IValidationsFn<T> : IValidations<T>;
 
 export type AssertsCollection = { [testName: string]: PASS } | PASS[];
 
