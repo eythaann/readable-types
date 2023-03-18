@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
+    
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,

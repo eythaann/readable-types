@@ -20,14 +20,20 @@
     "utils",
     "library"
   ],
+  "type": "module",
   "scripts": {
     "typeChecking": "tsc --incremental",
+    "lint": "eslint \"./lib/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --fix",
     "prepare": "husky install"
   },
   "dependencies": {
     "typescript": "^5.0.0-beta"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "eslint": "^8.36.0",
     "husky": "^8.0.0"
   }
 }
