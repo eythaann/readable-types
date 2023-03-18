@@ -1,4 +1,4 @@
-import { TestsCallback, AssertsCollection, assertType as _assertType } from "./readable-test-types";
+import { TestsCallback, AssertsCollection, AssertType } from "./readable-test-types";
 
 declare global {
   var PASS: PASS;
@@ -14,6 +14,5 @@ declare global {
 
   function describeType(description: string, cb: () => void): void;
   function testType(description: string, tests: AssertsCollection | TestsCallback): void;
-
-  var assertType: typeof _assertType;
+  var assertType: AssertType;
 }

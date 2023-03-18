@@ -64,11 +64,11 @@ describeType('IsStrictObject', () => {
       newProp: boolean;
     };
 
-    const expected = { prop1: '123', prop2: 123, newProp: true };
+    const expected = { prop1: '123', prop2: 123, newProp: true, newProp2: '123' };
 
     validator([
       assertType<Modify<Base, { newProp: boolean }>>().equals<expected>(),
-      assertType<Modify<Base, { newProp: boolean }>>().assignableTo(expected),
+      assertType<Modify<Base, { newProp: boolean }>>().isSupertypeOf(expected),
     ]);
   })
 });
