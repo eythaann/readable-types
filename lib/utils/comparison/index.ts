@@ -10,4 +10,5 @@ export type Equals<T, U> = Or<[IsAny<T>, IsAny<U>]> extends true
     (<T>() => T extends Y ? 1 : 2) ? true : false; */
 
 export type IsSuperType<A, B> = B extends A ? true : false;
+
 export type IsSubType<A, B> = A extends B ? true : false;

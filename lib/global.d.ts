@@ -7,7 +7,7 @@ declare global {
   };
 
   var FAIL: FAIL;
-  type FAIL<T extends string = 'No Message'> = {
+  type FAIL<_T extends string = 'No Message'> = {
     status: 'FAIL';
     msg: string;
   };

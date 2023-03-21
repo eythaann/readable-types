@@ -25,6 +25,7 @@ module.exports = {
       'named': 'never',
       'asyncArrow': 'always',
     }],
+    '@typescript-eslint/no-unused-vars': ['warn', { 'varsIgnorePattern': '^_' }],
     'quotes': ['error', 'single'],
     'semi': 'off',
     'no-multi-spaces': ['error'],
