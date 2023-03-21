@@ -28,7 +28,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "typescript": "^5.0.0-beta"
+    "typescript": "^5.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.55.0",
