@@ -3,7 +3,7 @@ Readable Types is a Utility Library for make more easy create and test complex t
 
 
 ## License
-[MIT](https://github.com/Eythaann/readable-types/blob/master/LICENSE)
+[MIT](https://github.com/Eythaann/readable-types/blob/master/LICENSE.txt)
 
 ## Authors
 - [@eythaann](https://www.github.com/eythaann)
