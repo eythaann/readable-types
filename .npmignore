@@ -4,6 +4,7 @@
 
 # git
 .gitignore
+/.github
 
 # eslint
 .eslintrc.cjs
