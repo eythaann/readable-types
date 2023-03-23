@@ -13,7 +13,7 @@
 .vscode
 
 # commitlint
-commitlint.config.js
+commitlint.config.ts
 
 # temp files
 tsconfig.tsbuildinfo
