@@ -1,8 +1,18 @@
-
+# node
 /node_modules
 /.husky
 
+# git
 .gitignore
-tsconfig.tsbuildinfo
+
+# eslint
 .eslintrc.cjs
+
+# vs code
 .vscode
+
+# commitlint
+commitlint.config.js
+
+# temp files
+tsconfig.tsbuildinfo

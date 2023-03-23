@@ -20,7 +20,6 @@
     "utils",
     "library"
   ],
-  "type": "module",
   "scripts": {
     "typeChecking": "tsc --incremental",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\"",
@@ -31,6 +30,8 @@
     "typescript": "^4.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.5.0",
+    "@commitlint/config-conventional": "^17.4.4",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
