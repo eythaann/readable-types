@@ -24,7 +24,8 @@
     "typeChecking": "tsc --incremental",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "typescript": "^4.2"
