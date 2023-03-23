@@ -1,44 +1,65 @@
 import { If } from '../utils/conditions';
 import { IsNever } from '../utils/never';
-import { FailMessage } from './messages';
+import { FailMsgs } from './messages';
 import { Equals, IsSubType, IsSuperType } from '../utils/comparison';
 import { IsNull, IsUndefined } from '../utils/undefined';
 import { IsObject, IsStrictObject } from '../utils/objects';
-import { Not } from '../utils/booleans';
+import { NotIf as InvertIf } from '../utils/booleans';
 import { AnyFunction } from '../constants';
 
-type InvertIf<Condition extends boolean, ToBeInverted extends boolean> = If<Condition, Not<ToBeInverted>, ToBeInverted>;
+type InferredType = string | number | boolean | object | undefined | null;
 
-export interface IValidations<T, Invert extends boolean = false> {
+export interface IValidations<T, I extends boolean = false> {
   not: IValidations<T, true>;
 
+  awaited: IValidations<Awaited<T>, I>;
+
   /** asserting type should be the same type as the expected */
-  equals: <const U>(value?: U) => If<InvertIf<Invert, Equals<T, U>>, PASS, FAIL<FailMessage['notEqual']>>;
+  equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs['notEqual']>>;
 
   /** expected type should be extended of asserting type*/
-  isSupertypeOf: <const U>(value?: U) => If<InvertIf<Invert, IsSuperType<T, U>>, PASS, FAIL>;
+  isSupertypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSuperType<T, U>>, PASS, FAIL>;
 
   /** asserting type should be extended of expected type */
-  isSubtypeOf: <const U>(value?: U) => If<InvertIf<Invert, IsSubType<T, U>>, PASS, FAIL>;
+  isSubtypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSubType<T, U>>, PASS, FAIL>;
 
   /** Type should be "never" */
-  toBeNever: () => If<InvertIf<Invert, IsNever<T>>, PASS, FAIL<FailMessage['isNotNever']>>;
-
-  /** Type should be "undefined" */
-  toBeUndefined: () => If<InvertIf<Invert, IsUndefined<T>>, PASS, FAIL<FailMessage['isNotUndefined']>>;
+  toBeNever: () => If<InvertIf<I, IsNever<T>>, PASS, FAIL<FailMsgs['isNotNever']>>;
 
   /** Type should be "null" */
-  toBeNull: () => If<InvertIf<Invert, IsNull<T>>, PASS, FAIL<FailMessage['isNotUndefined']>>;
+  toBeNull: () => If<InvertIf<I, IsNull<T>>, PASS, FAIL<FailMsgs['isNotUndefined']>>;
+
+  /** Type should be "undefined" */
+  toBeUndefined: () => If<InvertIf<I, IsUndefined<T>>, PASS, FAIL<FailMsgs['isNotUndefined']>>;
+
+  /** Type should be "never" */
+  toBeAny: () => never;
 
   /** Type should extends of Object, Array or Function */
-  toBeObject: () => If<InvertIf<Invert, IsObject<T>>, PASS, FAIL<FailMessage['isNotObject']>>;
+  toBeObject: () => If<InvertIf<I, IsObject<T>>, PASS, FAIL<FailMsgs['isNotObject']>>;
 
   /** Type should extends only of Objects */
-  toBeStrictObject: () => If<InvertIf<Invert, IsStrictObject<T>>, PASS, FAIL<FailMessage['isNotObject']>>;
+  toBeStrictObject: () => If<InvertIf<I, IsStrictObject<T>>, PASS, FAIL<FailMsgs['isNotObject']>>;
 
-  length: T extends unknown[]
-    ? Equals<T['length'], number> extends true ? 'infinity' : T['length']
-    : FAIL<'\'expect\' type do not have property of type length'>;
+  toBeFunction: () => never;
+
+  toBeArray: () => never;
+
+  toBeTuple: () => never;
+
+  toBeTupleContaining: () => never;
+
+  BeTupleWithLength: <U>(v?: U) => never;
+
+  toBeString: () => never;
+
+  toBeNumber: () => never;
+
+  toBeBoolean: () => never;
+
+  toBePromise: () => never;
+
+  toHaveProperty: () => never;
 }
 
 export type IValidationsFn<T extends AnyFunction> = IValidations<T> & { returned: IValidations<ReturnType<T>> };

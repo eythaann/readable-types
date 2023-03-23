@@ -2,7 +2,7 @@
 const expect = '\'expect\'';
 const expected = '\'expected\'';
 
-export const FailMessage = {
+export const FailMsgs = {
   equal: `${expect} is equal to ${expected}`,
   notEqual: `${expect} is not equal to ${expected}`,
   isNever: `${expect} is type never`,
@@ -11,4 +11,4 @@ export const FailMessage = {
   isNotObject: `${expect} is not type object`,
 } as const;
 
-export type FailMessage = typeof FailMessage;
+export type FailMsgs = typeof FailMsgs;

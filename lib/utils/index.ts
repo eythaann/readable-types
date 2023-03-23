@@ -10,4 +10,4 @@ export * from './unknow';
 export * from './booleans';
 export * from './conditions';
 export * from './utils';
-
+export * from './functions';
