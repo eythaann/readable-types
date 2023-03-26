@@ -15,7 +15,7 @@ export interface IValidations<T, I extends boolean = false> {
   awaited: IValidations<Awaited<T>, I>;
 
   /** asserting type should be the same type as the expected */
-  equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs['notEqual']>>;
+  equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs<I>['equal']>>;
 
   /** expected type should be extended of asserting type*/
   isSupertypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSuperType<T, U>>, PASS, FAIL>;
@@ -24,22 +24,22 @@ export interface IValidations<T, I extends boolean = false> {
   isSubtypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSubType<T, U>>, PASS, FAIL>;
 
   /** Type should be "never" */
-  toBeNever: () => If<InvertIf<I, IsNever<T>>, PASS, FAIL<FailMsgs['isNotNever']>>;
+  toBeNever: () => If<InvertIf<I, IsNever<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
 
   /** Type should be "null" */
-  toBeNull: () => If<InvertIf<I, IsNull<T>>, PASS, FAIL<FailMsgs['isNotUndefined']>>;
+  toBeNull: () => If<InvertIf<I, IsNull<T>>, PASS, FAIL<FailMsgs<I>['null']>>;
 
   /** Type should be "undefined" */
-  toBeUndefined: () => If<InvertIf<I, IsUndefined<T>>, PASS, FAIL<FailMsgs['isNotUndefined']>>;
+  toBeUndefined: () => If<InvertIf<I, IsUndefined<T>>, PASS, FAIL<FailMsgs<I>['undefined']>>;
 
   /** Type should be "never" */
   toBeAny: () => never;
 
   /** Type should extends of Object, Array or Function */
-  toBeObject: () => If<InvertIf<I, IsObject<T>>, PASS, FAIL<FailMsgs['isNotObject']>>;
+  toBeObject: () => If<InvertIf<I, IsObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
 
   /** Type should extends only of Objects */
-  toBeStrictObject: () => If<InvertIf<I, IsStrictObject<T>>, PASS, FAIL<FailMsgs['isNotObject']>>;
+  toBeStrictObject: () => If<InvertIf<I, IsStrictObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
 
   toBeFunction: () => never;
 
