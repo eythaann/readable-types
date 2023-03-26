@@ -18,17 +18,21 @@ import {
   IsPromise,
   Not,
   IsUnknown,
+  IsTuple,
+  And,
 } from '../utils';
 import { FailMsgs } from './messages';
-import { AnyFunction } from '../constants';
 
 type InferredType = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
+type Returned<Type> = Type extends (() => infer K) ? K : never;
 
 export interface IValidations<T, I extends boolean = false> {
-  not: IValidations<T, true>;
+  not: IValidations<T, Not<I>>;
 
   awaited: IValidations<Awaited<T>, I>;
+
+  returned: IValidations<Returned<T>, I>;
 
   /** asserting type should be the same type as the expected */
   equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs<I>['equal']>>;
@@ -63,11 +67,12 @@ export interface IValidations<T, I extends boolean = false> {
   /** Type should be a array */
   toBeArray: () => If<InvertIf<I, IsArray<T>>, PASS, FAIL<FailMsgs<I>['array']>>;
 
-  toBeTuple: () => never;
+  /** Type should be a tuple */
+  toBeTuple: () => If<InvertIf<I, IsTuple<T>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
 
-  toBeTupleContaining: () => never;
-
-  BeTupleWithLength: <U>(v?: U) => never;
+  /** Type should be a tuple of passed length */
+  // @ts-ignore
+  BeTupleWithLength: <U extends Readonly<number>>(v?: U) => If<InvertIf<I, And<[IsTuple<T>, Equals<U, T['lenght']>]>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
 
   /** Type should be a string */
   toBeString: () => If<InvertIf<I, IsString<T>>, PASS, FAIL<FailMsgs<I>['string']>>;
@@ -86,8 +91,7 @@ export interface IValidations<T, I extends boolean = false> {
   toHaveProperty: <U extends Readonly<string>>(v?: U) => If<InvertIf<I, Not<IsUnknown<T[U]>>>, PASS, FAIL<FailMsgs<I>['property']>>;
 }
 
-export type IValidationsFn<T extends AnyFunction> = IValidations<T> & { returned: IValidations<ReturnType<T>> };
-export type AssertType = <T>() => [T] extends [AnyFunction] ? IValidationsFn<T> : IValidations<T>;
+export type AssertType = <T>() => IValidations<T>;
 
 export type AssertsCollection = { [testName: string]: PASS } | PASS[];
 

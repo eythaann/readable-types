@@ -8,7 +8,7 @@ type n = 'is not';
 type has = 'has';
 type hasNot = 'does not have';
 
-type have<T> = T extends true ? hasNot : has ;
+type have<T> = T extends true ? has : hasNot;
 type be<T> = T extends true ? p : n;
 
 export type FailMsgs<T extends boolean = false> = {
@@ -21,6 +21,7 @@ export type FailMsgs<T extends boolean = false> = {
   number: `${expect} ${be<T>} type function`;
   string: `${expect} ${be<T>} type function`;
   array: `${expect} ${be<T>} type array`;
+  tuple: `${expect} ${be<T>} type tuple`;
   any: `${expect} ${be<T>} type any`;
   boolean: `${expect} ${be<T>} type boolean`;
   promise: `${expect} ${be<T>} type boolean`;
