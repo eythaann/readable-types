@@ -8,7 +8,7 @@ import { NotIf as InvertIf } from '../utils/booleans';
 import { AnyFunction } from '../constants';
 
 type InferredType = string | number | boolean | object | undefined | null;
-
+type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
 export interface IValidations<T, I extends boolean = false> {
   not: IValidations<T, true>;
 
@@ -63,7 +63,7 @@ export interface IValidations<T, I extends boolean = false> {
 }
 
 export type IValidationsFn<T extends AnyFunction> = IValidations<T> & { returned: IValidations<ReturnType<T>> };
-export type AssertType = <T>() => T extends AnyFunction ? IValidationsFn<T> : IValidations<T>;
+export type AssertType = <T>() => [T] extends [AnyFunction] ? IValidationsFn<T> : IValidations<T>;
 
 export type AssertsCollection = { [testName: string]: PASS } | PASS[];
 
