@@ -11,3 +11,5 @@ export * from './booleans';
 export * from './conditions';
 export * from './utils';
 export * from './functions';
+export * from './arrays';
+export * from './promises';

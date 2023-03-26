@@ -1,14 +1,30 @@
-import { If } from '../utils/conditions';
-import { IsNever } from '../utils/never';
+import {
+  If,
+  IsFunction,
+  IsArray,
+  NotIf as InvertIf,
+  IsObject,
+  IsStrictObject,
+  IsNull,
+  IsUndefined,
+  Equals,
+  IsSubType,
+  IsSuperType,
+  IsNever,
+  IsString,
+  IsNumber,
+  IsBoolean,
+  IsAny,
+  IsPromise,
+  Not,
+  IsUnknown,
+} from '../utils';
 import { FailMsgs } from './messages';
-import { Equals, IsSubType, IsSuperType } from '../utils/comparison';
-import { IsNull, IsUndefined } from '../utils/undefined';
-import { IsObject, IsStrictObject } from '../utils/objects';
-import { NotIf as InvertIf } from '../utils/booleans';
 import { AnyFunction } from '../constants';
 
 type InferredType = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
+
 export interface IValidations<T, I extends boolean = false> {
   not: IValidations<T, true>;
 
@@ -32,8 +48,8 @@ export interface IValidations<T, I extends boolean = false> {
   /** Type should be "undefined" */
   toBeUndefined: () => If<InvertIf<I, IsUndefined<T>>, PASS, FAIL<FailMsgs<I>['undefined']>>;
 
-  /** Type should be "never" */
-  toBeAny: () => never;
+  /** Type should be "any" */
+  toBeAny: () => If<InvertIf<I, IsAny<T>>, PASS, FAIL<FailMsgs<I>['any']>>;
 
   /** Type should extends of Object, Array or Function */
   toBeObject: () => If<InvertIf<I, IsObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
@@ -41,9 +57,11 @@ export interface IValidations<T, I extends boolean = false> {
   /** Type should extends only of Objects */
   toBeStrictObject: () => If<InvertIf<I, IsStrictObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
 
-  toBeFunction: () => never;
+  /** Type should extends of function */
+  toBeFunction: () => If<InvertIf<I, IsFunction<T>>, PASS, FAIL<FailMsgs<I>['function']>>;
 
-  toBeArray: () => never;
+  /** Type should be a array */
+  toBeArray: () => If<InvertIf<I, IsArray<T>>, PASS, FAIL<FailMsgs<I>['array']>>;
 
   toBeTuple: () => never;
 
@@ -51,15 +69,21 @@ export interface IValidations<T, I extends boolean = false> {
 
   BeTupleWithLength: <U>(v?: U) => never;
 
-  toBeString: () => never;
+  /** Type should be a string */
+  toBeString: () => If<InvertIf<I, IsString<T>>, PASS, FAIL<FailMsgs<I>['string']>>;
 
-  toBeNumber: () => never;
+  /** Type should be a number */
+  toBeNumber: () => If<InvertIf<I, IsNumber<T>>, PASS, FAIL<FailMsgs<I>['number']>>;
 
-  toBeBoolean: () => never;
+  /** Type should be true | false */
+  toBeBoolean: () => If<InvertIf<I, IsBoolean<T>>, PASS, FAIL<FailMsgs<I>['boolean']>>;
 
-  toBePromise: () => never;
+  /** Type should be a promise */
+  toBePromise: () => If<InvertIf<I, IsPromise<T>>, PASS, FAIL<FailMsgs<I>['promise']>>;
 
-  toHaveProperty: () => never;
+  /** Type should has the property passed */
+  // @ts-ignore
+  toHaveProperty: <U extends Readonly<string>>(v?: U) => If<InvertIf<I, Not<IsUnknown<T[U]>>>, PASS, FAIL<FailMsgs<I>['property']>>;
 }
 
 export type IValidationsFn<T extends AnyFunction> = IValidations<T> & { returned: IValidations<ReturnType<T>> };

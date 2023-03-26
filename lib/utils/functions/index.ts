@@ -1,2 +1,3 @@
+import { AnyFunction } from '../../constants';
 
-export {};
+export type IsFunction<T> = T extends AnyFunction ? true : false;

@@ -41,6 +41,7 @@ describeType('IsStrictObject', () => {
     assertType<IsStrictObject<any[]>>().equals(false),
     assertType<IsStrictObject<never[]>>().equals(false),
     assertType<IsStrictObject<AnyFunction>>().equals(false),
+    assertType<IsStrictObject<AnyFunction>>().equals(false),
   ]);
 
   testType('Should return true if type is of type object', [
@@ -66,7 +67,9 @@ describeType('IsStrictObject', () => {
 
     validator([
       assertType<Modify<Base, { newProp: boolean }>>().equals<expected>(),
+      assertType<Modify<Base, { newProp: boolean }>>().not.equals<Base>(),
       assertType<Modify<Base, { newProp: boolean }>>().isSupertypeOf(expected),
+      assertType<Modify<Base, { newProp: boolean }>>().toHaveProperty('newProp'),
     ]);
   });
 });

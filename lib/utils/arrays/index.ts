@@ -1,2 +1,2 @@
 
-export type isArray<T> = T extends unknown[] ? true : false;
+export type IsArray<T> = T extends unknown[] ? true : false;
