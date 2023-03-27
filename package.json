@@ -17,9 +17,16 @@
     "lib": "lib"
   },
   "keywords": [
-    "typescript",
-    "utils",
-    "library"
+    "typeScript",
+    "utility",
+    "library",
+    "testing",
+    "validation",
+    "types",
+    "interfaces",
+    "development",
+    "code quality",
+    "automation"
   ],
   "scripts": {
     "typeChecking": "tsc --incremental",
