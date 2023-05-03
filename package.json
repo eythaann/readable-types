@@ -12,6 +12,7 @@
     "url": "https://github.com/Eythaann/readable-types/issues"
   },
   "main": "./lib/index.ts",
+  "types": "./lib/index.ts",
   "directories": {
     "lib": "lib"
   },
