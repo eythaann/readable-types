@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/Eythaann/readable-types/issues"
   },
-  "types": "/lib/index.ts",
+  "main": "./lib/index.ts",
   "directories": {
     "lib": "lib"
   },
