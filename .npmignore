@@ -21,3 +21,6 @@ tsconfig.tsbuildinfo
 # tests
 *spec-types.ts
 *test-types.ts
+
+# media
+/blob

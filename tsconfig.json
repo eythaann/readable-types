@@ -8,7 +8,7 @@
     "strictFunctionTypes": true,
     "noEmit": true,
   },
-  "exclude": [
-    "node_modules",
+  "include": [
+    "./lib",
   ]
 }
