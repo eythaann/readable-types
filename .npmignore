@@ -15,8 +15,9 @@
 # commitlint
 commitlint.config.ts
 
-# temp files
+# ts files
 tsconfig.tsbuildinfo
+tsconfig.json
 
 # tests
 *spec-types.ts
