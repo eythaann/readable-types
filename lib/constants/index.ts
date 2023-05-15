@@ -1,3 +1,3 @@
 
-export * from './Object';
-export * from './Function';
+export * from './object';
+export * from './function';

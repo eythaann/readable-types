@@ -9,7 +9,7 @@ export * from './undefined';
 export * from './unknow';
 export * from './booleans';
 export * from './conditions';
-export * from './utils';
+export * from './generals';
 export * from './functions';
 export * from './arrays';
 export * from './promises';

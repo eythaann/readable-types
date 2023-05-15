@@ -50,7 +50,7 @@ describeType('IsStrictObject', () => {
   ]);
 });
 
-describeType('IsStrictObject', () => {
+describeType('Modify', () => {
   testType('Should modify the object', (validator) => {
     type Base = {
       prop1: string;
@@ -63,13 +63,10 @@ describeType('IsStrictObject', () => {
       newProp: boolean;
     };
 
-    const expected = { prop1: '123', prop2: 123, newProp: true, newProp2: '123' };
-
     validator([
+      assertType<Modify<Base, { newProp: never }>>().not.equals<Base>(),
       assertType<Modify<Base, { newProp: boolean }>>().equals<expected>(),
-      assertType<Modify<Base, { newProp: boolean }>>().not.equals<Base>(),
-      assertType<Modify<Base, { newProp: boolean }>>().isSupertypeOf(expected),
-      assertType<Modify<Base, { newProp: boolean }>>().toHaveProperty('newProp'),
+      assertType<Modify<Base, { newProp1: boolean }>>().toHaveProperty('newProp1'),
     ]);
   });
 });

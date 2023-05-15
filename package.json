@@ -1,23 +1,23 @@
 {
   "name": "readable-types",
-  "description": "Utils for typescript language",
-  "author": "eythaann",
   "version": "0.9.8",
-  "license": "MIT",
+  "description": "Utils for typescript language",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typeChecking": "tsc --incremental --noEmit",
+    "lint": "eslint \"./lib/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --fix",
+    "prepare": "husky install",
+    "postversion": "git push && git push --tags"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Eythaann/readable-types"
   },
-  "bugs": {
-    "url": "https://github.com/Eythaann/readable-types/issues"
-  },
-  "main": "./lib/index.ts",
-  "types": "./lib/index.ts",
-  "directories": {
-    "lib": "lib"
-  },
   "keywords": [
-    "typeScript",
+    "typescript",
     "utility",
     "library",
     "testing",
@@ -28,12 +28,10 @@
     "code quality",
     "automation"
   ],
-  "scripts": {
-    "typeChecking": "tsc --incremental --noEmit",
-    "lint": "eslint \"./lib/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --fix",
-    "prepare": "husky install",
-    "postversion": "git push && git push --tags"
+  "author": "eythaann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Eythaann/readable-types/issues"
   },
   "dependencies": {
     "typescript": "^4.2"
@@ -45,5 +43,12 @@
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
     "husky": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "dist": "dist"
   }
 }

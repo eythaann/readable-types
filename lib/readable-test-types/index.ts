@@ -55,6 +55,9 @@ export interface IValidations<T, I extends boolean = false> {
   /** Type should be "any" */
   toBeAny: () => If<InvertIf<I, IsAny<T>>, PASS, FAIL<FailMsgs<I>['any']>>;
 
+  /** Type should be "unknow" */
+  toBeUnknow: () => If<InvertIf<I, IsUnknown<T>>, PASS, FAIL<FailMsgs<I>['equal']>>;
+
   /** Type should extends of Object, Array or Function */
   toBeObject: () => If<InvertIf<I, IsObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
 
@@ -72,7 +75,7 @@ export interface IValidations<T, I extends boolean = false> {
 
   /** Type should be a tuple of passed length */
   // @ts-ignore
-  BeTupleWithLength: <U extends Readonly<number>>(v?: U) => If<InvertIf<I, And<[IsTuple<T>, Equals<U, T['lenght']>]>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
+  toBeTupleWithLength: <U extends Readonly<number>>(v?: U) => If<InvertIf<I, And<[IsTuple<T>, Equals<U, T['lenght']>]>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
 
   /** Type should be a string */
   toBeString: () => If<InvertIf<I, IsString<T>>, PASS, FAIL<FailMsgs<I>['string']>>;
