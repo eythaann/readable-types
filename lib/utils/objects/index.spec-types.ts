@@ -1,4 +1,4 @@
-import { IsObject, IsStrictObject, Modify } from '.';
+import { IsObject, IsStrictObject, Modify, Prettify } from '.';
 import { AnyFunction, AnyObject } from '../../constants';
 
 describeType('IsObject', () => {
@@ -69,4 +69,10 @@ describeType('Modify', () => {
       assertType<Modify<Base, { newProp1: boolean }>>().toHaveProperty('newProp1'),
     ]);
   });
+});
+
+describeType('Prettify', () => {
+  testType('Should return the same type in a simplified form', [
+    assertType<Prettify<{ a: string; b: number; c: boolean }>>().equals<{ a: string; b: number; c: boolean }>(),
+  ]);
 });

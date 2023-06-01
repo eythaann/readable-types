@@ -29,3 +29,11 @@ export type Modify<T, U> = IsStrictObject<T> extends true
     ? Omit<T, keyof U> & U
     : T
   : T;
+
+/**
+ * Recreate complex types for readability.
+ * Do not change nothing, return the same type.
+ */
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};

@@ -31,6 +31,16 @@ yarn add readable-types
 ## Usage
 Our library provides a comprehensive set of TypeScript utility functions that are ready to use out of the box. Simply import the library into your project or file, and its all!.
 
+Here's a quick example of how you might use Readable-Types in your project:
+
+```typescript
+import { IsString, IsNumber } from 'readable-types';
+
+type A = { a: string, b: number }
+type B = Modify<A, { a: number, c: object }>
+//   ^? { a: number, b: number, c: object }
+```
+
 ## Testing
 To test with our library, we use the TypeScript compiler (`tsc`) to transpile our code. However, to prevent our test and spec files from being included in the final build add the next in your `tsconfig.json`:
 ```json
@@ -44,6 +54,15 @@ For "run" the test you need to ejecute:
 tsc --noEmit *.(spec|test)-types.ts
 ```
 Additionally, we recommend adding this command to your Husky pre-commit hook to ensure that any changes to these files are caught before they are committed to the repository.
+
+## Compatibility
+Readable-Types is compatible with TypeScript versions 4.2 and above.
+
+## Roadmap
+We're always working to improve and expand Readable-Types. Here's a sneak peek at what's coming up in future versions:
+* More type utilities for common use cases
+* Enhanced testing capabilities
+
 ## License
 [MIT](https://github.com/Eythaann/readable-types/blob/master/LICENSE.txt)
 

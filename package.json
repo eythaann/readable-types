@@ -2,8 +2,8 @@
   "name": "readable-types",
   "version": "0.9.9",
   "description": "Utils for typescript language",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.ts",
+  "types": "./lib/index.ts",
   "scripts": {
     "build": "tsc",
     "typeChecking": "tsc --incremental --noEmit",
