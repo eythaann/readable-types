@@ -17,6 +17,10 @@ In addition to making type creation more manageable, Readable Types also include
 
 Get started with Readable Types today and take the first step toward a more readable, reliable, and maintainable codebase!
 
+<br/>
+<hr>
+<br/>
+
 ## Installation
 To add the library to your project just need to run:
 ### npm
@@ -28,20 +32,107 @@ npm install readable-types
 yarn add readable-types
 ```
 
+<br/>
+<hr>
+<br/>
+
 ## Usage
 Our library provides a comprehensive set of TypeScript utility functions that are ready to use out of the box. Simply import the library into your project or file, and its all!.
 
 Here's a quick example of how you might use Readable-Types in your project:
 
 ```typescript
-import { IsString, IsNumber } from 'readable-types';
+import { IsString, IsNumber, Modify } from 'readable-types';
 
 type A = { a: string, b: number }
+
+type isNumber = IsNumber<A['b']>;
+//   ^? true
+type isString = IsString<A['b']>;
+//   ^? false
+
 type B = Modify<A, { a: number, c: object }>
 //   ^? { a: number, b: number, c: object }
 ```
 
-## Testing
+<br/>
+<hr>
+<br/>
+
+## Testing with Readable-Types
+In order to verify that your types are functioning as expected, it's essential to implement testing. Readable-Types provides a suite of utilities to aid in this process. You can write your tests in several different ways based on your preferences and requirements.
+
+Here's how to do it:
+
+### 1. Basic Syntax
+
+The simplest way to create tests is by using the `testType` function inside a `describeType` block:
+
+```tsx
+describeType('MyType', () => {
+  testType('Should behave as expected', [
+    assertType<MyType>().equals<ExpectedType>(),
+    assertType<MyType>().not.equals<UnexpectedType>(),
+    // More assertions...
+  ]);
+});
+```
+
+### 2. Using a Validator Function
+You can use a validator function to help organize your tests:
+```tsx
+describeType('MyType', () => {
+  testType('Should behave as expected', (validator) => {
+    type MyType = /* Your type here... */;
+    type ExpectedType = /* Expected result here... */;
+    // More types...
+
+    validator([
+      assertType<MyType>().equals<ExpectedType>(),
+      // More assertions...
+    ]);
+  });
+});
+```
+### 3. Returning an Array of Assertions
+Instead of passing assertions to the `validator` function, you can also return them directly from the `testType` callback:
+
+```tsx
+describeType('MyType', () => {
+  testType('Should behave as expected', () => {
+    type MyType = /* Your type here... */;
+    type ExpectedType = /* Expected result here... */;
+    // More types...
+
+    return [
+      assertType<MyType>().equals<ExpectedType>(),
+      // More assertions...
+    ];
+  });
+});
+```
+
+### 4. Returning an Object of Assertions
+To give each of your assertions a descriptive label, you can return an object from the `testType` callback:
+```tsx
+describeType('MyType', () => {
+  testType('Should behave as expected', () => {
+    type MyType = /* Your type here... */;
+    type ExpectedType = /* Expected result here... */;
+    // More types...
+
+    return {
+      'test1': assertType<MyType>().equals<ExpectedType>(),
+      'test2': assertType<MyType>().equals<ExpectedType>(),
+      'MyType should equal ExpectedType': assertType<MyType>().equals<ExpectedType>(),
+      'really any text': assertType<MyType>().equals<ExpectedType>(),
+      // More labeled assertions...
+    };
+  });
+});
+```
+This enhances readability and makes it easier to identify which tests have passed and which ones have failed.
+### Execute Test
 To test with our library, we use the TypeScript compiler (`tsc`) to transpile our code. However, to prevent our test and spec files from being included in the final build add the next in your `tsconfig.json`:
 ```json
 "exclude": [
@@ -54,6 +145,12 @@ For "run" the test you need to ejecute:
 tsc --noEmit *.(spec|test)-types.ts
 ```
 Additionally, we recommend adding this command to your Husky pre-commit hook to ensure that any changes to these files are caught before they are committed to the repository.
+
+These are the basic ways to create type tests with Readable-Types. Remember, testing your types is crucial to maintain robust and bug-free TypeScript code. Happy testing!
+
+<br/>
+<hr>
+<br/>
 
 ## Compatibility
 Readable-Types is compatible with TypeScript versions 4.2 and above.
