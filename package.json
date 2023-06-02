@@ -1,6 +1,6 @@
 {
   "name": "readable-types",
-  "version": "0.9.11",
+  "version": "1.0.0",
   "description": "Utils for typescript language",
   "main": "./lib/index.ts",
   "types": "./lib/index.ts",
