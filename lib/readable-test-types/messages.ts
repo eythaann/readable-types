@@ -1,5 +1,5 @@
 
-type expect = '\'Tested type\'';
+type expect = 'Tested type';
 type expected = '\'expected\'';
 
 type p = 'is';

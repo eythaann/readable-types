@@ -1,4 +1,4 @@
-import { IsObject, IsStrictObject, Modify, Prettify } from '.';
+import { IsObject, IsStrictObject, Modify, PickByValue, Prettify } from '.';
 import { AnyFunction, AnyObject } from '../../constants';
 
 describeType('IsObject', () => {
@@ -75,4 +75,23 @@ describeType('Prettify', () => {
   testType('Should return the same type in a simplified form', [
     assertType<Prettify<{ a: string; b: number; c: boolean }>>().equals<{ a: string; b: number; c: boolean }>(),
   ]);
+});
+
+describeType('PickByValue', () => {
+  testType('Should pick properties whose value types match any in the ValuesToPick array', (validator) => {
+    type T1 = { a: string; b: number; c: string | number };
+    type T2 = { d: boolean; e: null; f: undefined; g: any; h: never };
+    type T3 = { i: { j: string }; k: [number, string] };
+    type T4 = { l: symbol; m: bigint };
+    type T5 = {};
+
+    validator([
+      assertType<PickByValue<T1, [string, number]>>().equals<{ a: string; b: number }>(),
+      assertType<PickByValue<T1, [string | number]>>().equals<{ c: string | number }>(),
+      assertType<PickByValue<T2, [boolean, null, undefined, any, never]>>().equals<{ d: boolean; e: null; f: undefined; g: any; h: never }>(),
+      assertType<PickByValue<T3, [{ j: string }, [number, string]]>>().equals<{ i: { j: string }; k: [number, string] }>(),
+      assertType<PickByValue<T4, [symbol, bigint]>>().equals<{ l: symbol; m: bigint }>(),
+      assertType<PickByValue<T5, [string]>>().equals<{}>(),
+    ]);
+  });
 });

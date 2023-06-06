@@ -96,10 +96,11 @@ describeType('MyType', () => {
 ```
 ### 3. Returning an Array of Assertions
 Instead of passing assertions to the `validator` function, you can also return them directly from the `testType` callback:
+note: in returning case is important put `AssertsCollection` as the return type of callback for debuging.
 
 ```tsx
 describeType('MyType', () => {
-  testType('Should behave as expected', () => {
+  testType('Should behave as expected', (): AssertsCollection => {
     type MyType = /* Your type here... */;
     type ExpectedType = /* Expected result here... */;
     // More types...
@@ -114,16 +115,17 @@ describeType('MyType', () => {
 
 ### 4. Returning an Object of Assertions
 To give each of your assertions a descriptive label, you can return an object from the `testType` callback:
+note: in returning case is important put `AssertsCollection` as the return type of callback for debuging.
 ```tsx
 describeType('MyType', () => {
-  testType('Should behave as expected', () => {
+  testType('Should behave as expected', (): AssertsCollection => {
     type MyType = /* Your type here... */;
     type ExpectedType = /* Expected result here... */;
     // More types...
 
     return {
-      'test1': assertType<MyType>().equals<ExpectedType>(),
-      'test2': assertType<MyType>().equals<ExpectedType>(),
+      test1: assertType<MyType>().equals<ExpectedType>(),
+      test2: assertType<MyType>().equals<ExpectedType>(),
       'MyType should equal ExpectedType': assertType<MyType>().equals<ExpectedType>(),
       'really any text': assertType<MyType>().equals<ExpectedType>(),
       // More labeled assertions...

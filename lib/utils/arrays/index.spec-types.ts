@@ -1,4 +1,4 @@
-import { IsArray, IsTuple, Tuple } from '.';
+import { IsArray, IsEmptyArray, IsTuple, Tuple } from '.';
 
 describeType('IsArray', () => {
   testType('Should return true for array types', [
@@ -39,5 +39,19 @@ describeType('Tuple', () => {
     assertType<Tuple<any, 2>>().equals<[any, any]>(),
     assertType<Tuple<unknown, 1>>().equals<[unknown]>(),
     assertType<Tuple<never, 0>>().equals<[]>(),
+  ]);
+});
+
+describeType('IsEmptyArray', () => {
+  testType('Should return true for empty arrays and false for non-empty arrays', [
+    assertType<IsEmptyArray<[]>>().equals<true>(),
+    assertType<IsEmptyArray<[1, 2, 3]>>().equals<false>(),
+    assertType<IsEmptyArray<string[]>>().equals<false>(),
+    assertType<IsEmptyArray<unknown[]>>().equals<false>(),
+    assertType<IsEmptyArray<[unknown]>>().equals<false>(),
+    assertType<IsEmptyArray<never[]>>().equals<false>(),
+    assertType<IsEmptyArray<[never]>>().equals<false>(),
+    assertType<IsEmptyArray<any[]>>().equals<false>(),
+    assertType<IsEmptyArray<[any]>>().equals<false>(),
   ]);
 });

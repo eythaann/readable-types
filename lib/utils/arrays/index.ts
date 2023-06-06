@@ -17,6 +17,18 @@ import { IsNever } from '../never';
 export type IsArray<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, T extends any[] ? true : false>;
 
 /**
+ * A utility type that checks whether a given array is empty.
+ * Returns 'true' if the array is empty, and 'false' otherwise.
+ *
+ * @example
+ * ```
+ * type Result1 = IsEmptyArray<[]>; //   ^? true
+ * type Result2 = IsEmptyArray<[1, 2, 3]>; //   ^? false
+ * ```
+ */
+export type IsEmptyArray<T extends unknown[]> = T extends [] ? true : false;
+
+/**
  * Evaluates if the specified type is a tuple.
  *
  * @example
