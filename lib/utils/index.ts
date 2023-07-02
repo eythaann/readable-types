@@ -1,4 +1,3 @@
-
 export * from './any';
 export * from './comparison';
 export * from './never';

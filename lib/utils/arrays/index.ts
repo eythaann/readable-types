@@ -1,7 +1,9 @@
+import { TupleType } from 'typescript';
 import { IsAny } from '../any';
 import { Or } from '../booleans';
 import { If } from '../conditions';
 import { IsNever } from '../never';
+import { stringToNumber } from '../numbers';
 
 /**
  * Evaluates if the specified type is an array.
@@ -48,6 +50,6 @@ export type IsTuple<T> = If<IsArray<T>, T extends [infer _A, ...(infer _B)] ? tr
  * type A = Tuple<number, 3>;
  * //   ^? [number, number, number]
  */
-export type Tuple<Type, Length extends number, _Tuple extends unknown[] = []> = _Tuple['length'] extends Length
+export type Tuple<Type, Length extends number | string, _Tuple extends unknown[] = []> = `${_Tuple['length']}` extends `${Length}`
   ? _Tuple
-  : Tuple<Type, Length, [Type, ..._Tuple]>;
+  : [...Tuple<Type, Length, [Type, ..._Tuple]>];

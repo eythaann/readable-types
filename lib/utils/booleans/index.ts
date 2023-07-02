@@ -1,5 +1,6 @@
 import { IsAny } from '../any';
 import { If } from '../conditions';
+import { _Cast } from '../generals/HTK';
 import { IsNever } from '../never';
 
 /**
@@ -25,13 +26,7 @@ export type IsBoolean<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [bo
  * type B = And<[true, false, true]>;
  * //   ^? false
  */
-export type And<T extends boolean[]> = If<IsNever<Extract<T[number], false>>, true, false> ;
-
-/** @alias And */
-export type All<T extends boolean[]> = And<T>;
-
-/** @alias And */
-export type Every<T extends boolean[]> = And<T>;
+export type And<T extends boolean[]> = If<IsNever<Extract<T[number], false>>, true, false>;
 
 /**
  * Performs a logical OR operation on a tuple of boolean values.
@@ -43,10 +38,12 @@ export type Every<T extends boolean[]> = And<T>;
  * type B = Or<[false, false, false]>;
  * //   ^? false
  */
-export type Or<T extends boolean[]> = If<IsNever<Extract<T[number], true>>, false, true> ;
+export type Or<T extends boolean[]> = If<IsNever<Extract<T[number], true>>, false, true>;
 
-/** @alias Or */
-export type Some<T extends boolean[]> = Or<T>;
+/**
+ * Performs a XOR operation on an array of boolean values.
+ */
+export type XOR<T extends boolean[]> = And<[Or<T>, Not<And<T>>]>;
 
 /**
  * Performs a logical NOT operation on a boolean value.
@@ -74,3 +71,24 @@ export type Not<T extends boolean> = T extends true ? false : true;
  * //   ^? false
  */
 export type NotIf<Condition extends boolean, T extends boolean> = If<Condition, Not<T>, T>;
+
+/*
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  ---- ALIASES ZONE ----
+*/
+
+/** @alias And */
+export type All<T extends boolean[]> = And<T>;
+
+/** @alias And */
+export type Every<T extends boolean[]> = And<T>;
+
+/** @alias Or */
+export type Some<T extends boolean[]> = Or<T>;
