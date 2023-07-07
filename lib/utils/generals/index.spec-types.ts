@@ -1,4 +1,4 @@
-import { KeysOfUnion, UnionToIntersection, ValueOf } from '.';
+import { Cast, KeysOfUnion, UnionToIntersection, ValueOf } from '.';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [
@@ -21,5 +21,24 @@ describeType('UnionToIntersection', () => {
     assertType<UnionToIntersection<{ a: number; b: string } | { a: string; c: boolean }>>().equals<{ a: number | string; b: string; c: boolean }>(),
     assertType<UnionToIntersection<{ a: any } | { b: unknown }>>().equals<{ a: any; b: unknown }>(),
     assertType<UnionToIntersection<{ a: never } | { b: never }>>().equals<{ a: never; b: never }>(),
+  ]);
+});
+
+describeType('Cast', () => {
+  testType('Should cast T to U if T is not a subtype of U', [
+    assertType<Cast<string, number>>().equals<number>(),
+  ]);
+
+  testType('Should return T if T is a subtype of U', [
+    assertType<Cast<'a', string>>().equals<'a'>(),
+    assertType<Cast<5, number>>().equals<5>(),
+  ]);
+
+  testType('Should allow casting to union types', [
+    assertType<Cast<number, number | string>>().equals<number>(),
+  ]);
+
+  testType('Should cast arrays to broader array types', [
+    assertType<Cast<number[], any[]>>().equals<number[]>(),
   ]);
 });
