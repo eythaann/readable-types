@@ -1,9 +1,7 @@
-import { TupleType } from 'typescript';
 import { IsAny } from '../any';
 import { Or } from '../booleans';
 import { If } from '../conditions';
 import { IsNever } from '../never';
-import { stringToNumber } from '../numbers';
 
 /**
  * Evaluates if the specified type is an array.

@@ -1,10 +1,10 @@
-import { IsEmptyArray, TupleToString } from '../arrays';
+import { IsEmptyArray } from '../arrays';
 import { And } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';
 import { Cast } from '../generals';
 import { IsNever } from '../never';
-import { splitReverce } from '../strings';
+import { TupleToString, SplitReverce, Stringtify } from '../strings';
 
 type decimals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 type decimal = decimals[number];
@@ -90,4 +90,4 @@ type ResultOfSum<
 export type Add<
   A extends string | number,
   B extends string | number,
-> = TupleToString<ResultOfSum<splitReverce<A>, splitReverce<B>>>;
+> = TupleToString<ResultOfSum<SplitReverce<Stringtify<A>>, SplitReverce<Stringtify<B>>>>;
