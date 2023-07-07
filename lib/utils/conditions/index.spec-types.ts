@@ -20,12 +20,12 @@ describeType('If', () => {
   ]);
 
   testType('Should use condition object (variant 1)', [
-    assertType<If<{condition: true, type: string, elseType: number}>>().equals<string>(),
-    assertType<If<{condition: false, type: string, elseType: number}>>().equals<number>(),
+    assertType<If<{ condition: true; type: string; elseType: number }>>().equals<string>(),
+    assertType<If<{ condition: false; type: string; elseType: number }>>().equals<number>(),
   ]);
 
   testType('Should use condition object (variant 2)', [
-    assertType<If<{condition: true, trueType: string, falseType: number}>>().equals<string>(),
-    assertType<If<{condition: false, trueType: string, falseType: number}>>().equals<number>(),
+    assertType<If<{ condition: true; trueType: string; falseType: number }>>().equals<string>(),
+    assertType<If<{ condition: false; trueType: string; falseType: number }>>().equals<number>(),
   ]);
 });

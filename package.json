@@ -7,8 +7,8 @@
   "scripts": {
     "build": "tsc",
     "typeChecking": "tsc --incremental --noEmit",
-    "lint": "eslint \"./lib/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --fix",
+    "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
+    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
     "prepare": "husky install",
     "postversion": "git push && git push --tags"
   },

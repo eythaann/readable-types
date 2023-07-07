@@ -1,16 +1,15 @@
 
-type Condition1 = { 
+type Condition1 = {
   condition: boolean;
   type: unknown;
   elseType: unknown;
-}
+};
 
 type Condition2 = {
   condition: boolean;
   trueType: unknown;
   falseType: unknown;
-}
-
+};
 
 /**
  * Conditional type that selects one of two possible types based on a boolean condition or a condition object.
@@ -38,7 +37,7 @@ type Condition2 = {
  * //   ^ Type G = number
  * ```
  */
-export type If<Condition extends boolean | Condition1 | Condition2, TrueCase = never, FalseCase = never> = 
+export type If<Condition extends boolean | Condition1 | Condition2, TrueCase = never, FalseCase = never> =
 Condition extends boolean ? Condition extends true ? TrueCase : FalseCase
-: Condition extends Condition1 ? Condition['condition'] extends true ? Condition['type'] : Condition['elseType']
-: Condition extends Condition2 ? Condition['condition'] extends true ? Condition['trueType'] : Condition['falseType'] : never
+  : Condition extends Condition1 ? Condition['condition'] extends true ? Condition['type'] : Condition['elseType']
+    : Condition extends Condition2 ? Condition['condition'] extends true ? Condition['trueType'] : Condition['falseType'] : never;
