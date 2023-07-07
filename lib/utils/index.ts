@@ -2,6 +2,7 @@ export * from './any';
 export * from './comparison';
 export * from './never';
 export * from './numbers';
+export * from './numbers/math';
 export * from './objects';
 export * from './strings';
 export * from './undefined';
