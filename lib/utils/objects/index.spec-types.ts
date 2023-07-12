@@ -1,4 +1,4 @@
-import { IsObject, IsStrictObject, Modify, PickByValue, Prettify } from '.';
+import { IsObject, IsStrictObject, Modify, ModifyByKey, PickByValue, Prettify } from '.';
 import { AnyFunction, AnyObject } from '../../constants';
 
 describeType('IsObject', () => {
@@ -93,5 +93,21 @@ describeType('PickByValue', () => {
       assertType<PickByValue<T4, [symbol, bigint]>>().equals<{ l: symbol; m: bigint }>(),
       assertType<PickByValue<T5, [string]>>().equals<{}>(),
     ]);
+  });
+});
+
+describeType('ModifyByKey', () => {
+  testType('Should create the union type with the keys', () => {
+    type mainType = {};
+
+    type overrides = {
+      'override1': {};
+      'override2': {};
+      'override3': {};
+    };
+
+    type expected = { t?: undefined } | { t?: 'override1' } | { t?: 'override2' } | { t?: 'override3' };
+
+    return assertType<ModifyByKey<mainType, overrides, 't'>>().equals<expected>();
   });
 });

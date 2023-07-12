@@ -2,7 +2,7 @@
 type caseMap = {
   'true': 'type';
   'false': 'else';
-  'boolean': 'type' | 'else';
+  //'boolean': 'type' | 'else';
 };
 
 type binaryCaseMap = {
@@ -11,10 +11,11 @@ type binaryCaseMap = {
 };
 
 declare namespace internal {
+  // TODO improve inference of types for generics
   // @ts-ignore
   type IfObject<Condition> = Condition[caseMap[`${Condition['condition']}`]];
 
-  type IfSingleLine<Condition, T, F> = [Condition] extends [true] ? T : F;
+  type IfSingleLine<Condition, T, F = never> = [Condition] extends [true] ? T : F;
 }
 
 declare namespace internal.Binary {

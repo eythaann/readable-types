@@ -1,14 +1,10 @@
-import { TupleType } from 'typescript';
-import { AnyFunction, AnyObject } from '../../constants';
+import { AnyFunction, AnyObject, KeyOfObject } from '../../constants';
 import { IsAny } from '../any';
-import { IsEmptyArray, IsTuple } from '../arrays';
-import { And, Not, Or } from '../booleans';
-import { Equals } from '../comparison';
+import { And, Not } from '../booleans';
 import { If } from '../conditions';
-import { ValueOf } from '../generals';
-import { _Cast } from '../generals/HTK';
 import { IsNever } from '../never';
 import { IsUnknown } from '../unknow';
+import * as internal from './_index';
 
 /**
  * Return true if type is of type object array or function
@@ -22,6 +18,7 @@ export type IsObject<T> = IsAny<T> extends true ? false
 /**
  * Return true if type is of type object ignoring arrays.
 */
+//! WARNING: this type have a internal version please update it if you change this implementation
 export type IsStrictObject<T> = IsAny<T> extends true ? false
   : IsNever<T> extends true ? false
     : IsUnknown<T> extends true ? false
@@ -29,7 +26,7 @@ export type IsStrictObject<T> = IsAny<T> extends true ? false
         : false;
 
 /**
- * Allow modify interfaces or object types without the restrictions of use extends or & operator
+ * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.
  */
 export type Modify<T, U> = IsStrictObject<T> extends true
   ? IsStrictObject<U> extends true
@@ -37,48 +34,22 @@ export type Modify<T, U> = IsStrictObject<T> extends true
     : T
   : T;
 
-export type ModifyByKey<T, U> = If<And<[IsStrictObject<T>, IsStrictObject<U>]>, Prettify<
-{ __key?: undefined } & T
-| { [Key in keyof U]: { __key?: Key } & Modify<T, U[Key]> }[keyof U]
->, T>;
-
-export type ExtractByKey<T extends { __key?: string }, U extends unknown[]> = {
-  [i in U['length']]: i;
-};
-
-type t = ModifyByKey<{
-  prop1: '1';
-  prop2: 1;
-  prop3: null;
-}, {
-  ['feature1']: {
-    prop1: 'overrided in 1';
-    prop2: 'overrided in 1';
-    prop3: 'overrided in 1';
-    prop_for_1: 'newProp for 1';
-  };
-  ['feature2']: {
-    prop1: 'overrided in 2';
-    prop2: 'overrided in 2';
-    prop3: 'overrided in 2';
-    prop_for_2: 'newProp for 2';
-  };
+/**
+ * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
+ * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
+ */
+export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<{
+  condition: And<[IsStrictObject<T>, IsStrictObject<U>]>;
+  type: Prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]?: Key } & Modify<T, U[Key]> }[keyof U]>;
+  else: T;
 }>;
 
-type t2 = ModifyByKey<{
-  prop1: '1';
-  prop2: 1;
-  prop3: null;
-}, {
-  ['feature1']: {
-    otherProp: '1';
-    otherProp2: '1';
-    otherProp3: '1';
-    prop1: 'overrided in t2 f1';
-  };
-}>;
-
-type t3 = ExtractByKey<t, ['feature1', 'feature2']>;
+/**
+ * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
+ * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object
+ * Also create the combinations of override the mainType with two or more types in the overrides.
+ */
+export type ModifyByKeyPlusCombinations<T, U> = internal.ModifyByKeyPlusCombinations<T, U>;
 
 /**
  * Recreate complex types for readability.
@@ -91,7 +62,7 @@ export type Prettify<T> = {
 /**
  * Pick properties from an object type `T` whose values match any of the types specified in `ValuesToPick`.
  *
- * @template T - The original type to pick properties from.
+ * @template Type - The original type to pick properties from.
  * @template ValuesToPick - A tuple of the types of the values you want to pick.
  *
  * @example
@@ -101,14 +72,34 @@ export type Prettify<T> = {
  * type R2 = PickByValue<T1, [string | number]>;
  * //   ^? { c: string | number; }
  */
-export type PickByValue<
-  T,
-  ValuesToPick extends unknown[],
-  _result = {},
-> = Or<[Not<IsTuple<ValuesToPick>>, IsEmptyArray<ValuesToPick>]> extends true
-  ? Prettify<_result>
-  : ValuesToPick extends [infer X, ...infer Rest]
-    ? PickByValue<T, Rest, _result & {
-      [Key in keyof T as If<Equals<T[Key], X>, Key>]: T[Key]
-    }>
-    : never;
+export type PickByValue<Type, ValuesToPick extends unknown[]> = internal.PickByValue<Type, ValuesToPick>;
+
+/**
+ * Returns if the object can be `{}`
+ * @example
+ * type A = CanBeEmptyObject<{ a?: 'a'; b?: 'b';}>
+ * //   ^? true
+ * type B = CanBeEmptyObject<{ a?: 'a'; b: 'b';}>
+ * //   ^? false b is required.
+ */
+export type CanBeEmptyObject<Type> = {} extends Type ? true : false;
+
+/**
+ * Returns the required keys of an object
+ * @example
+ * type U = RequiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>
+ * //   ^? "b" | "c"
+ */
+export type RequiredKeys<Type> = {
+  [Key in keyof Type]-?: If<Not<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>>, Key>
+}[keyof Type];
+
+/**
+ * Returns the optional  keys of an object
+ * @example
+ * type U = OptionalKeys<{ a?: 'a'; b?: 'b'; c: 'a' }>
+ * //   ^? "a" | "b"
+ */
+export type OptionalKeys<Type> = {
+  [Key in keyof Type]-?: If<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>, Key>
+}[keyof Type];

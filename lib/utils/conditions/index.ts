@@ -25,4 +25,4 @@ export type If<
   Condition extends boolean | Condition1,
   TrueCase = never,
   FalseCase = never
-> = Condition extends Condition1 ? internal.IfObject<Condition> : internal.IfSingleLine<Condition, TrueCase, FalseCase>;
+> = Condition extends boolean ? internal.IfSingleLine<Condition, TrueCase, FalseCase> : internal.IfObject<Condition>;
