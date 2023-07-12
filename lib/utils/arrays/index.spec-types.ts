@@ -1,4 +1,4 @@
-import { IsArray, IsEmptyArray, IsTuple, Tuple } from '.';
+import { IsArray, IsEmptyArray, IsTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, UnionToTupleCombination } from '.';
 
 describeType('IsArray', () => {
   testType('Should return true for array types', [
@@ -53,5 +53,39 @@ describeType('IsEmptyArray', () => {
     assertType<IsEmptyArray<[never]>>().equals<false>(),
     assertType<IsEmptyArray<any[]>>().equals<false>(),
     assertType<IsEmptyArray<[any]>>().equals<false>(),
+  ]);
+});
+
+describeType('Shift', () => {
+  testType('Should shift tuple', [
+    assertType<Shift<[1, 2, 3]>>().equals<[2, 3]>(),
+    assertType<Shift<[2, 3]>>().equals<[3]>(),
+    assertType<Shift<[3]>>().equals<[]>(),
+  ]);
+});
+
+describeType('Pop', () => {
+  testType('Should pop tuple', [
+    assertType<Pop<[1, 2, 3]>>().equals<[1, 2]>(),
+    assertType<Pop<[1, 2]>>().equals<[1]>(),
+    assertType<Pop<[1]>>().equals<[]>(),
+  ]);
+});
+
+describeType('ShiftRecursive', () => {
+  testType('Should shift tuple recursively', [
+    assertType<ShiftRecursive<[1, 2, 3], 0>>().equals<[] | [2, 3] | [3]>(),
+  ]);
+});
+
+describeType('PopRecursive', () => {
+  testType('Should pop tuple recursively', [
+    assertType<PopRecursive<[1, 2, 3], 0>>().equals<[1, 2] | [1] | []>(),
+  ]);
+});
+
+describeType('UnionToTupleCombination', () => {
+  testType('Should convert union to tuple', [
+    assertType<UnionToTupleCombination<'a' | 'b'>>().equals<['a', 'b'] | ['b', 'a']>(),
   ]);
 });
