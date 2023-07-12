@@ -42,4 +42,12 @@ module.exports = {
     '@typescript-eslint/type-annotation-spacing': ['error'],
     '@typescript-eslint/no-var-requires': ['off'],
   },
+  overrides: [
+    {
+      files: '**/*.d.ts',
+      rules: {
+        '@typescript-eslint/no-unused-vars': 0,
+      },
+    },
+  ],
 };
