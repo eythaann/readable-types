@@ -17,6 +17,16 @@ import { IsNever } from '../never';
 export type IsBoolean<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [boolean] ? true : false>;
 
 /**
+ * Evaluates if the specified type is a `true`.
+ */
+export type IsTrue<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [true] ? true : false>;
+
+/**
+ * Evaluates if the specified type is `false`.
+ */
+export type IsFalse<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [false] ? true : false>;
+
+/**
  * Performs a logical AND operation on a tuple of boolean values.
  * It returns true only when all values in the tuple are true.
  *

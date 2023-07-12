@@ -1,10 +1,25 @@
-import { IsAny } from '../any';
-import { And, Or } from '../booleans';
+type _EqualsObject<X, Y> = (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2) ? true : false;
+type _Equals<
+  A,
+  B,
+  AIsAny extends 0 | 1 = internal.Binary.IsAny<A>,
+  BIsAny extends 0 | 1 = internal.Binary.IsAny<B>,
+> = internal.Binary.If<{
+  condition: internal.Binary.OR[AIsAny][BIsAny];
+  type: internal.Binary.toBoolean[internal.Binary.AND[AIsAny][BIsAny]];
+  else: internal.Binary.If<{
+    condition: internal.Binary.AND[internal.Binary.IsStrictObject<A>][internal.Binary.IsStrictObject<B>];
+    type: _EqualsObject<A, B>;
+    else: internal.Binary.toBoolean[
+      internal.Binary.AND[internal.Binary.IsSubType<A, B>][internal.Binary.IsSuperType<A, B>]
+    ];
+  }>;
+}>;
 
 /**
  * Determines if two types are equal.
  *
- * @example
+ * @examples
  * type A = Equals<string, string>;
  * //   ^? true
  * type B = Equals<string, number>;
@@ -14,9 +29,7 @@ import { And, Or } from '../booleans';
  * type D = Equals<any, any>;
  * //   ^? true
  */
-export type Equals<T, U> = Or<[IsAny<T>, IsAny<U>]> extends true
-  ? And<[IsAny<T>, IsAny<U>]>
-  : [T] extends [U] ? [U] extends [T] ? true : false : false;
+export type Equals<A, B> = _Equals<A, B>;
 
 /**
  * Determines if type A is a supertype of type B.
