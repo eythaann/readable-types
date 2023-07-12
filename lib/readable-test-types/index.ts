@@ -40,10 +40,10 @@ interface IValidationsPublic<T, I extends boolean = false> {
   equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs<I>['equal']>>;
 
   /** expected type should be extended of asserting type*/
-  isSupertypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSuperType<T, U>>, PASS, FAIL>;
+  isSuperTypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSuperType<T, U>>, PASS, FAIL>;
 
   /** asserting type should be extended of expected type */
-  isSubtypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSubType<T, U>>, PASS, FAIL>;
+  isSubTypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSubType<T, U>>, PASS, FAIL>;
 
   /** Type should be `true` */
   toBeTrue: () => If<InvertIf<I, IsTrue<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
