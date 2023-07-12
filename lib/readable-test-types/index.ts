@@ -20,6 +20,8 @@ import {
   IsUnknown,
   IsTuple,
   And,
+  IsTrue,
+  IsFalse,
 } from '../utils';
 import { FailMsgs } from './messages';
 
@@ -27,12 +29,12 @@ type InferredType = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
 type Returned<Type> = Type extends (() => infer K) ? K : never;
 
-export interface IValidations<T, I extends boolean = false> {
-  not: IValidations<T, Not<I>>;
+interface IValidationsPublic<T, I extends boolean = false> {
+  not: IValidationsPublic<T, Not<I>>;
 
-  awaited: IValidations<Awaited<T>, I>;
+  awaited: IValidationsPublic<Awaited<T>, I>;
 
-  returned: IValidations<Returned<T>, I>;
+  returned: IValidationsPublic<Returned<T>, I>;
 
   /** asserting type should be the same type as the expected */
   equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs<I>['equal']>>;
@@ -42,6 +44,12 @@ export interface IValidations<T, I extends boolean = false> {
 
   /** asserting type should be extended of expected type */
   isSubtypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSubType<T, U>>, PASS, FAIL>;
+
+  /** Type should be `true` */
+  toBeTrue: () => If<InvertIf<I, IsTrue<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
+
+  /** Type should be `false` */
+  toBeFalse: () => If<InvertIf<I, IsFalse<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
 
   /** Type should be "never" */
   toBeNever: () => If<InvertIf<I, IsNever<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
@@ -94,8 +102,18 @@ export interface IValidations<T, I extends boolean = false> {
   toHaveProperty: <U extends Readonly<string>>(v?: U) => If<InvertIf<I, Not<IsUnknown<T[U]>>>, PASS, FAIL<FailMsgs<I>['property']>>;
 }
 
+type IValidationsInternal<T> = IValidationsPublic<T> & {
+  __internal: {
+    shouldBe: (a: T) => PASS;
+  };
+};
+
+export type IValidations<T> = RT_DEVELOPMENT extends true
+  ? IValidationsInternal<T>
+  : IValidationsPublic<T>;
+
 export type AssertType = <T>() => IValidations<T>;
 
 export type AssertsCollection = { [testName: string]: PASS } | PASS[];
 
-export type TestsCallback = (validator: (asserts: AssertsCollection) => never) => void | AssertsCollection;
+export type TestsCallback = (validator: (asserts: AssertsCollection) => never) => void | AssertsCollection | PASS;

@@ -15,4 +15,6 @@ declare global {
   function describeType(description: string, cb: () => void): void;
   function testType(description: string, tests: AssertsCollection | TestsCallback): void;
   var assertType: AssertType;
+
+  type RT_DEVELOPMENT = unknown;
 }
