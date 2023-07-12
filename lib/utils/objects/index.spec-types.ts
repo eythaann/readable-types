@@ -1,4 +1,4 @@
-import { IsObject, IsStrictObject, Modify, ModifyByKey, PickByValue, Prettify } from '.';
+import { CanBeEmptyObject, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys } from '.';
 import { AnyFunction, AnyObject } from '../../constants';
 
 describeType('IsObject', () => {
@@ -94,6 +94,33 @@ describeType('PickByValue', () => {
       assertType<PickByValue<T5, [string]>>().equals<{}>(),
     ]);
   });
+});
+
+describeType('CanBeEmptyObject', () => {
+  testType('Should handle optional and required properties', [
+    assertType<CanBeEmptyObject<{ a?: 'a'; b?: 'b' }>>().equals<true>(),
+    assertType<CanBeEmptyObject<{ a?: 'a'; b: 'b' }>>().equals<false>(),
+    assertType<CanBeEmptyObject<{}>>().equals<true>(),
+    assertType<CanBeEmptyObject<{ a: 'a' }>>().equals<false>(),
+  ]);
+});
+
+describeType('RequiredKeys', () => {
+  testType('Should get the required keys of an object', [
+    assertType<RequiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>>().equals<'b' | 'c'>(),
+    assertType<RequiredKeys<{}>>().equals<never>(),
+    assertType<RequiredKeys<{ a: 'a' }>>().equals<'a'>(),
+    assertType<RequiredKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<never>(),
+  ]);
+});
+
+describeType('OptionalKeys', () => {
+  testType('Should get the optional keys of an object', [
+    assertType<OptionalKeys<{ a?: 'a'; b?: 'b'; c: 'a' }>>().equals<'a' | 'b'>(),
+    assertType<OptionalKeys<{}>>().equals<never>(),
+    assertType<OptionalKeys<{ a: 'a' }>>().equals<never>(),
+    assertType<OptionalKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<'a' | 'b' | 'c'>(),
+  ]);
 });
 
 describeType('ModifyByKey', () => {
