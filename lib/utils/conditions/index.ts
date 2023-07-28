@@ -1,10 +1,3 @@
-
-type Condition1 = {
-  condition: boolean;
-  type: unknown;
-  else: unknown;
-};
-
 /**
  * Conditional type that selects one of two possible types based on a boolean condition or a condition object.
  *
@@ -22,7 +15,9 @@ type Condition1 = {
   If you are modifying this method, ensure to also update its corresponding internal implementation.
 */
 export type If<
-  Condition extends boolean | Condition1,
+  Condition extends boolean | RT_INTERNAL.ConditionObject,
   TrueCase = never,
   FalseCase = never
-> = Condition extends boolean ? RT_INTERNAL.IfSingleLine<Condition, TrueCase, FalseCase> : RT_INTERNAL.IfObject<Condition>;
+> = Condition extends RT_INTERNAL.ConditionObject
+  ? Condition[RT_INTERNAL.ConditionCaseMap[`${Condition['condition']}`]]
+  : Condition extends true ? TrueCase : FalseCase;
