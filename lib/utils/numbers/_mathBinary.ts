@@ -39,8 +39,8 @@ type sumBit<
   CarryIn extends Bit,
   A extends Bit = StringToBit[Cast<_A, BitString>],
   B extends Bit = StringToBit[Cast<_B, BitString>],
-  Sum extends Bit = internal.Binary.XOR[internal.Binary.XOR[A][B]][CarryIn],
-  CarryOut extends Bit = internal.Binary.OR[internal.Binary.AND[A][B]][internal.Binary.AND[CarryIn][internal.Binary.XOR[A][B]]],
+  Sum extends Bit = RT_INTERNAL.Binary.XOR[RT_INTERNAL.Binary.XOR[A][B]][CarryIn],
+  CarryOut extends Bit = RT_INTERNAL.Binary.OR[RT_INTERNAL.Binary.AND[A][B]][RT_INTERNAL.Binary.AND[CarryIn][RT_INTERNAL.Binary.XOR[A][B]]],
 > = {
   sum: Sum;
   carryOut: CarryOut;

@@ -1,7 +1,7 @@
 import { AnyFunction, AnyObject } from '../../constants';
 
 declare global {
-  namespace internal.Binary {
+  namespace RT_INTERNAL.Binary {
     type IsStrictObject<T> = IsAny<T> extends 1
       ? 0
       : IsNever<T> extends 1

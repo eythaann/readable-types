@@ -4,7 +4,7 @@ import { And, Not } from '../booleans';
 import { If } from '../conditions';
 import { IsNever } from '../never';
 import { IsUnknown } from '../unknow';
-import * as internal from './_index';
+import * as abstractions from './abstractions';
 
 /**
  * Return true if type is of type object array or function
@@ -49,7 +49,7 @@ export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> =
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object
  * Also create the combinations of override the mainType with two or more types in the overrides.
  */
-export type ModifyByKeyPlusCombinations<T, U> = internal.ModifyByKeyPlusCombinations<T, U>;
+export type ModifyByKeyPlusCombinations<T, U> = abstractions.ModifyByKeyPlusCombinations<T, U>;
 
 /**
  * Recreate complex types for readability.
@@ -72,7 +72,7 @@ export type Prettify<T> = {
  * type R2 = PickByValue<T1, [string | number]>;
  * //   ^? { c: string | number; }
  */
-export type PickByValue<Type, ValuesToPick extends unknown[]> = internal.PickByValue<Type, ValuesToPick>;
+export type PickByValue<Type, ValuesToPick extends unknown[]> = abstractions.PickByValue<Type, ValuesToPick>;
 
 /**
  * Returns if the object can be `{}`

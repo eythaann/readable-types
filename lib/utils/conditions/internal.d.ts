@@ -10,7 +10,7 @@ type binaryCaseMap = {
   0: 'else';
 };
 
-declare namespace internal {
+declare namespace RT_INTERNAL {
   // TODO improve inference of types for generics
   // @ts-ignore
   type IfObject<Condition> = Condition[caseMap[`${Condition['condition']}`]];
@@ -18,7 +18,7 @@ declare namespace internal {
   type IfSingleLine<Condition, T, F = never> = [Condition] extends [true] ? T : F;
 }
 
-declare namespace internal.Binary {
+declare namespace RT_INTERNAL.Binary {
   // @ts-ignore
   type If<Condition> = Condition[binaryCaseMap[Condition['condition']]];
 }

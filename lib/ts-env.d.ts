@@ -1,1 +1,1 @@
-declare type RT_DEVELOPMENT = unknown;
+declare type RT_DEVELOPMENT = true;
