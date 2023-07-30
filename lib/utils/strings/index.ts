@@ -1,7 +1,3 @@
-import { IsAny } from '../any';
-import { Or } from '../booleans';
-import { If } from '../conditions';
-import { IsNever } from '../never';
 import { IsEmptyArray } from '../arrays';
 
 type stringtifible = string | number | bigint | boolean | null | undefined;
@@ -17,7 +13,7 @@ type stringtifible = string | number | bigint | boolean | null | undefined;
  * type C = IsString<never>;
  * //   ^? false
  */
-export type IsString<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [string] ? true : false>;
+export type IsString<T> = RT_INTERNAL.IsType<T, string>;
 
 /**
  * `Stringtify` is a TypeScript utility type that takes a value (T) and transforms it into a string representation.

@@ -5,3 +5,4 @@ import './conditions/internal';
 import './never/internal';
 import './objects/internal';
 import './unknow/internal';
+import './generals/internal';

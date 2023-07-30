@@ -14,7 +14,7 @@ import { IsNever } from '../never';
  * type C = IsArray<never>;
  * //   ^? false
  */
-export type IsArray<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, T extends any[] ? true : false>;
+export type IsArray<T> = RT_INTERNAL.IsType<T, any[]>;
 
 /**
  * A utility type that checks whether a given array is empty.

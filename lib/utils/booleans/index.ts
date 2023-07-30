@@ -1,4 +1,3 @@
-import { IsAny } from '../any';
 import { If } from '../conditions';
 import { Cast } from '../generals';
 import { IsNever } from '../never';
@@ -14,17 +13,17 @@ import { IsNever } from '../never';
  * type C = IsBoolean<boolean | never>;
  * //   ^? true
  */
-export type IsBoolean<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [boolean] ? true : false>;
+export type IsBoolean<T> = RT_INTERNAL.IsType<T, boolean>;
 
 /**
  * Evaluates if the specified type is a `true`.
  */
-export type IsTrue<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [true] ? true : false>;
+export type IsTrue<T> = RT_INTERNAL.IsType<T, true>;
 
 /**
  * Evaluates if the specified type is `false`.
  */
-export type IsFalse<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [false] ? true : false>;
+export type IsFalse<T> = RT_INTERNAL.IsType<T, false>;
 
 /**
  * Performs a logical AND operation on a tuple of boolean values.

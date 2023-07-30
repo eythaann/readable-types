@@ -1,8 +1,3 @@
-import { IsAny } from '../any';
-import { Or } from '../booleans';
-import { If } from '../conditions';
-import { IsNever } from '../never';
-
 /**
  * Evaluates if the specified type is `undefined`.
  *
@@ -18,7 +13,7 @@ import { IsNever } from '../never';
  * //   ^? false
  * ```
  */
-export type IsUndefined<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [undefined] ? true : false>;
+export type IsUndefined<T> = RT_INTERNAL.IsType<T, undefined>;
 
 /**
  * Evaluates if the specified type is `null`.
@@ -35,4 +30,4 @@ export type IsUndefined<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [
  * //   ^? false
  * ```
  */
-export type IsNull<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [null] ? true : false>;
+export type IsNull<T> = RT_INTERNAL.IsType<T, null>;
