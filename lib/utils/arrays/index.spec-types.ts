@@ -30,6 +30,8 @@ describeType('IsTuple', () => {
     assertType<IsTuple<any[]>>().equals<false>(),
     assertType<IsTuple<unknown[]>>().equals<false>(),
     assertType<IsTuple<never[]>>().equals<false>(),
+    assertType<IsTuple<never>>().equals<false>(),
+    assertType<IsTuple<any>>().equals<false>(),
   ]);
 });
 

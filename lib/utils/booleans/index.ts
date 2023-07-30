@@ -36,7 +36,7 @@ export type IsFalse<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, [T] extends [fals
  * type B = And<[true, false, true]>;
  * //   ^? false
  */
-export type And<T extends boolean[]> = If<IsNever<Extract<T[number], false>>, true, false>;
+export type And<T extends boolean[]> = IsNever<Extract<T[number], false>>;
 
 /**
  * Performs a logical OR operation on a tuple of boolean values.
@@ -48,7 +48,7 @@ export type And<T extends boolean[]> = If<IsNever<Extract<T[number], false>>, tr
  * type B = Or<[false, false, false]>;
  * //   ^? false
  */
-export type Or<T extends boolean[]> = If<IsNever<Extract<T[number], true>>, false, true>;
+export type Or<T extends boolean[]> = Not<IsNever<Extract<T[number], true>>>;
 
 /**
  * Performs a XOR operation on an array of boolean values.
