@@ -9,5 +9,7 @@ describeType('Add', () => {
     assertType<Add<50, 50>>().equals<'100'>(),
     assertType<Add<99, 1>>().equals<'100'>(),
     assertType<Add<1, 99>>().equals<'100'>(),
+    assertType<Add<'1', '99'>>().equals<'100'>(),
+    assertType<Add<'1ff', '99'>>().equals<'199'>(),
   ]);
 });

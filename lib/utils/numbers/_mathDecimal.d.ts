@@ -1,6 +1,7 @@
 import { And, Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';
+import { Cast } from '../generals';
 import { IsNever } from '../never';
 import { TupleToString, Split } from '../strings';
 import { IsUnknown } from '../unknow';
@@ -21,8 +22,6 @@ interface CarryOn {
   9: this[8] | 1;
 }
 
-type getCarry<A extends decimal, B> = B extends CarryOn[A] ? 1 : 0;
-
 type generateSumMapOf<
   Number extends decimal,
   Result extends unknown[] = decimals
@@ -32,6 +31,8 @@ type generateSumMapOf<
 
 type SumMap = { [A in decimal]: generateSumMapOf<A> };
 
+// @ts-ignore
+type getCarry<A, B> = B extends CarryOn[A] ? 1 : 0;
 // @ts-ignore
 type GetSum<A, B> = SumMap[A][B];
 // @ts-ignore
@@ -50,8 +51,8 @@ type sumDecimal<
 };
 
 interface SUM {
-  sum: decimal;
-  carryOut: 0 | 1;
+  sum: any;
+  carryOut: any;
 }
 
 type TupleResult<
