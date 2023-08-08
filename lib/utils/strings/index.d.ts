@@ -43,11 +43,9 @@ export type Stringtify<T> = T extends stringtifible ? `${T}` : '[object Object]'
 * type F = TupleToString<[42, true, null, undefined, {a: 1, b: 2}]>;
 * //   ^? "42truenullundefined[object Object]"
 */
-export type TupleToString<T extends unknown[], Result extends string = ''> = IsEmptyArray<T> extends true
-  ? Result
-  : T extends [infer X, ...infer Rest]
-    ? TupleToString<Rest, `${Result}${Stringtify<X>}`>
-    : never;
+export type TupleToString<T extends unknown[], Result extends string = ''> = T extends [infer X, ...infer Rest]
+  ? TupleToString<Rest, `${Result}${Stringtify<X>}`>
+  : Result;
 
 /**
  * `Split` is a TypeScript utility type that takes a string (T) and transforms it into a tuple,

@@ -1,15 +1,14 @@
-import { IsEmptyArray } from '../arrays';
-import { And } from '../booleans';
+import { And, Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';
-import { Cast } from '../generals';
 import { IsNever } from '../never';
-import { TupleToString, SplitReverce, Stringtify } from '../strings';
+import { TupleToString, Split } from '../strings';
+import { IsUnknown } from '../unknow';
 
 type decimals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 type decimal = decimals[number];
 
-interface Carry {
+interface CarryOn {
   0: never;
   1: 9;
   2: this[1] | 8;
@@ -22,72 +21,57 @@ interface Carry {
   9: this[8] | 1;
 }
 
-type getCarry<
-  A extends decimal,
-  B extends decimal,
-  T = Carry[A],
-  R = T extends B ? 1 : never
-> = If<IsNever<R>, 0, 1>;
+type getCarry<A extends decimal, B> = B extends CarryOn[A] ? 1 : 0;
 
-type generateSumMap<
-  T extends number,
-  U extends unknown[] = decimals
-> = U[0] extends T ? U : (U extends [infer X, ...infer R] ? generateSumMap<T, [...R, X]> : never);
+type generateSumMapOf<
+  Number extends decimal,
+  Result extends unknown[] = decimals
+> = Result[0] extends Number
+  ? Result
+  : (Result extends [infer X, ...infer R] ? generateSumMapOf<Number, [...R, X]> : never);
 
-type SumMap = {
-  // @ts-ignore
-  [A in decimal]: { [B in decimal]: generateSumMap<A>[B] }
-};
+type SumMap = { [A in decimal]: generateSumMapOf<A> };
 
-type stringToDecimal = SumMap[0];
+// @ts-ignore
+type GetSum<A, B> = SumMap[A][B];
+// @ts-ignore
+type ToDecimal<T, U = decimals[T]> = RT_INTERNAL.IfSingleLine<Or<[IsNever<T>, IsUnknown<U>]>, 0, U>;
 
 type sumDecimal<
-  _A = 0,
-  _B = 0,
-  CarryIn extends 0 | 1 = 0,
+  A = 0,
+  B = 0,
+  CarryIn extends 1 | 0 = 0,
 
-  // @ts-ignore
-  A extends decimal = stringToDecimal[_A],
-  // @ts-ignore
-  B extends decimal = stringToDecimal[_B],
-
-  Sum = SumMap[Cast<SumMap[A][B], decimal>][CarryIn],
-  CarryOut = If<And<[Equals<CarryIn, 1>, Equals<A, 9>]>, 1, getCarry<Cast<SumMap[A][CarryIn], decimal>, B>>
+  Sum = GetSum<GetSum<A, B>, CarryIn>,
+  CarryOut = If<And<[Equals<CarryIn, 1>, Equals<A, 9>]>, 1, getCarry<GetSum<A, CarryIn>, B>>
 > = {
   sum: Sum;
   carryOut: CarryOut;
 };
 
 interface SUM {
-  sum: any;
-  carryOut: any;
+  sum: decimal;
+  carryOut: 0 | 1;
 }
 
-interface unShiftedTuple {
-  extracted: unknown;
-  rest: unknown[];
-}
-
-type unShiftTuple<T extends unknown[]> = {
-  extracted: T extends [infer T0, ...infer _] ? T0 : 0;
-  rest: T extends [infer _, ...infer R] ? R : [];
-};
-
-type ResultOfSum<
+type TupleResult<
   A extends unknown[],
   B extends unknown[],
-  Result extends SUM[] = [],
-  ActualCarry extends 0 | 1 = 0,
+  Result extends decimal[] = [],
+  CarryIn extends 0 | 1 = 0,
 
-  _A extends unShiftedTuple = unShiftTuple<A>,
-  _B extends unShiftedTuple = unShiftTuple<B>,
+  _A extends RT_INTERNAL.Array.shiftedTuple = RT_INTERNAL.Array.Pop<A>,
+  _B extends RT_INTERNAL.Array.shiftedTuple = RT_INTERNAL.Array.Pop<B>,
 
-  _ActualSum extends SUM = sumDecimal<_A['extracted'], _B['extracted'], ActualCarry>
-> = And<[IsEmptyArray<A>, IsEmptyArray<B>]> extends true
-  ? ActualCarry extends 0 ? Result : [ActualCarry, ...Result]
-  : ResultOfSum<_A['rest'], _B['rest'], [_ActualSum['sum'], ...Result], _ActualSum['carryOut']>;
+  _ActualSum extends SUM = sumDecimal<ToDecimal<_A['extracted']>, ToDecimal<_B['extracted']>, CarryIn>
+
+> = A extends []
+  ? B extends []
+    ? CarryIn extends 0 ? Result : [CarryIn, ...Result]
+    : TupleResult<_A['rest'], _B['rest'], [_ActualSum['sum'], ...Result], _ActualSum['carryOut']>
+  : TupleResult<_A['rest'], _B['rest'], [_ActualSum['sum'], ...Result], _ActualSum['carryOut']>;
 
 export type Add<
   A extends string | number,
   B extends string | number,
-> = TupleToString<ResultOfSum<SplitReverce<Stringtify<A>>, SplitReverce<Stringtify<B>>>>;
+> = TupleToString<TupleResult<Split<`${A}`>, Split<`${B}`>>>;

@@ -13,4 +13,4 @@ import { Add as AddDecimal } from './_mathDecimal';
  * type AnotherResult = Add<2, 3>;
  * //   ^? AnotherResult = "5"
  */
-export type Add<A extends number, B extends number> = AddDecimal<A, B>;
+export type Add<A extends string | number, B extends string | number> = AddDecimal<A, B>;
