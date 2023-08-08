@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "Running type checking on min supported version."
+echo "Running type checking on min supported version...\n"
 npx tsc --incremental --noEmit
 
-echo "Running type checking on latest version."
+echo "Running type checking on latest version...\n"
 npx -p typescript@latest tsc --incremental --noEmit
