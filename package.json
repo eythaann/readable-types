@@ -9,7 +9,7 @@
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
     "prepare": "husky install",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags --no-verify"
   },
   "repository": {
     "type": "git",
