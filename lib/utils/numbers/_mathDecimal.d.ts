@@ -1,7 +1,6 @@
 import { And, Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';
-import { Cast } from '../generals';
 import { IsNever } from '../never';
 import { TupleToString, Split } from '../strings';
 import { IsUnknown } from '../unknow';

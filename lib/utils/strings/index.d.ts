@@ -1,5 +1,3 @@
-import { IsEmptyArray } from '../arrays';
-
 type stringtifible = string | number | bigint | boolean | null | undefined;
 
 /**

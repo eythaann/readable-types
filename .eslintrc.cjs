@@ -44,7 +44,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: '**/*.d.ts',
+      files: '**/*internal.d.ts',
       rules: {
         '@typescript-eslint/no-unused-vars': 0,
       },
