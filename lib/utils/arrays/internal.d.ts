@@ -4,12 +4,12 @@ declare namespace RT_INTERNAL.Array {
     rest: T[];
   }
 
-  type Shift<T extends unknown[]> = {
+  type Shift<T> = {
     extracted: T extends [infer R, ...infer _] ? R : never;
     rest: T extends [infer _, ...infer R] ? R : [];
   };
 
-  type Pop<T extends unknown[]> = {
+  type Pop<T> = {
     extracted: T extends [...infer _, infer R] ? R : never;
     rest: T extends [...infer R, infer _] ? R : [];
   };

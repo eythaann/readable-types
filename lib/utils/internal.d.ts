@@ -7,3 +7,4 @@ import './objects/internal';
 import './unknow/internal';
 import './generals/internal';
 import './arrays/internal';
+import './strings/internal';

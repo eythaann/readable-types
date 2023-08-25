@@ -16,4 +16,9 @@ declare global {
                 : 1
             : 0;
   }
+
+  namespace RT_INTERNAL {
+    // @ts-ignore
+    type ForceExtract<T, Prop> = T[Prop];
+  }
 }
