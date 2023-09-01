@@ -65,3 +65,12 @@ export type Split<T extends string, _Result extends unknown[] = []> = T extends 
  * //   ^? ["o", "l", "l", "e", "H"]
  */
 export type SplitReverce<T extends string, _Result extends unknown[] = []> = T extends '' ? _Result : T extends `${infer X}${infer R}` ? SplitReverce<R, [X, ..._Result]> : never;
+
+/**
+ * Determines if a string type `T` starts with another string type `S`.
+ *
+ * @example
+ * type Result1 = startsWith<'hello', 'h'>;
+ * //   ^? true
+ */
+export type startsWith<T extends string, S extends string> = T extends `${infer X}${infer _}` ? X extends S ? true : false : false;

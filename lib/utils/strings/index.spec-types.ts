@@ -1,4 +1,4 @@
-import { IsString, Split, SplitReverce, Stringtify, TupleToString } from '.';
+import { IsString, Split, SplitReverce, Stringtify, TupleToString, startsWith } from '.';
 
 describeType('IsString', () => {
   testType('Should return true only for string', [
@@ -55,5 +55,16 @@ describeType('SplitReverce', () => {
     assertType<SplitReverce<'TypeScript'>>().equals<['t', 'p', 'i', 'r', 'c', 'S', 'e', 'p', 'y', 'T']>(),
     assertType<SplitReverce<'12345'>>().equals<['5', '4', '3', '2', '1']>(),
     assertType<SplitReverce<''>>().equals<[]>(),
+  ]);
+});
+
+describeType('startsWith', () => {
+  testType('Should determine if one string starts with another', [
+    assertType<startsWith<'hello', 'h'>>().toBeTrue(),
+    assertType<startsWith<'hello', 'H'>>().toBeFalse(), // Case sensitive
+    assertType<startsWith<'hello', 'he'>>().toBeFalse(), // Only checks the first character
+    assertType<startsWith<'', 'h'>>().toBeFalse(), // Edge case: empty string
+    assertType<startsWith<'h', ''>>().toBeFalse(), // Edge case: prefix empty string
+    assertType<startsWith<'', ''>>().toBeFalse(), // Edge case: both empty strings
   ]);
 });
