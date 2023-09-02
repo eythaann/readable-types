@@ -133,7 +133,7 @@ describeType('ModifyByKey', () => {
       'override3': {};
     };
 
-    type expected = { t?: undefined } | { t?: 'override1' } | { t?: 'override2' } | { t?: 'override3' };
+    type expected = { t?: undefined } | { t: 'override1' } | { t: 'override2' } | { t: 'override3' };
 
     return assertType<ModifyByKey<mainType, overrides, 't'>>().equals<expected>();
   });

@@ -1,10 +1,14 @@
 import { AnyFunction, AnyObject, KeyOfObject } from '../../constants';
 import { IsAny } from '../any';
-import { And, Not } from '../booleans';
+import { IsEmptyArray, IsTuple } from '../arrays';
+import { And, Not, Or } from '../booleans';
+import { Equals } from '../comparison';
 import { If } from '../conditions';
 import { IsNever } from '../never';
 import { IsUnknown } from '../unknow';
-import * as abstractions from './abstractions';
+
+export * from './ModifyPlusOrderedCombinations';
+export * from './ModifyPlusCombinations';
 
 /**
  * Return true if type is of type object array or function
@@ -40,16 +44,9 @@ export type Modify<T, U> = IsStrictObject<T> extends true
  */
 export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<{
   condition: And<[IsStrictObject<T>, IsStrictObject<U>]>;
-  type: Prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]?: Key } & Modify<T, U[Key]> }[keyof U]>;
+  type: Prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & Modify<T, U[Key]> }[keyof U]>;
   else: T;
 }>;
-
-/**
- * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
- * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object
- * Also create the combinations of override the mainType with two or more types in the overrides.
- */
-export type ModifyByKeyPlusCombinations<T, U> = abstractions.ModifyByKeyPlusCombinations<T, U>;
 
 /**
  * Recreate complex types for readability.
@@ -72,7 +69,17 @@ export type Prettify<T> = {
  * type R2 = PickByValue<T1, [string | number]>;
  * //   ^? { c: string | number; }
  */
-export type PickByValue<Type, ValuesToPick extends unknown[]> = abstractions.PickByValue<Type, ValuesToPick>;
+export type PickByValue<
+  Type,
+  ValuesToPick extends unknown[],
+  _result = {},
+> = Or<[Not<IsTuple<ValuesToPick>>, IsEmptyArray<ValuesToPick>]> extends true
+  ? Prettify<_result>
+  : ValuesToPick extends [infer X, ...infer Rest]
+    ? PickByValue<Type, Rest, _result & {
+      [Key in keyof Type as RT_INTERNAL.IfSingleLine<Equals<Type[Key], X>, Key>]: Type[Key]
+    }>
+    : never;
 
 /**
  * Returns if the object can be `{}`
