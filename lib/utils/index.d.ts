@@ -13,3 +13,4 @@ export * from './promises';
 export * from './strings';
 export * from './undefined';
 export * from './unknow';
+export * from './iterators';
