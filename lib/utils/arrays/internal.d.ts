@@ -13,4 +13,7 @@ declare namespace RT_INTERNAL.Array {
     extracted: T extends [...infer _, infer R] ? R : never;
     rest: T extends [...infer R, infer _] ? R : [];
   };
+
+  // @ts-ignore
+  type forceConcat<T1, T2> = [...T1, ...T2];
 }

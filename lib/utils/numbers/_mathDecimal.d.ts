@@ -103,7 +103,7 @@ export namespace Substraction {
     ? Result
     : _next<RT_INTERNAL.Array.Pop<A>, RT_INTERNAL.Array.Pop<B>, Result, CarryIn>;
 
-  type _substract<A_Tuple, B_Tuple> = BiggerThan<A_Tuple, B_Tuple> extends true
+  type _substract<A_Tuple, B_Tuple> = __beta__BiggerThan<A_Tuple, B_Tuple> extends true
     ? TupleToString<MakeSubstractOnTuple<A_Tuple, B_Tuple>>
     : `-${TupleToString<MakeSubstractOnTuple<B_Tuple, A_Tuple>>}`;
 
@@ -123,7 +123,7 @@ interface BiggerTable {
   9: this[8] | 8;
 }
 
-type BiggerThan<
+export type __beta__BiggerThan<
   A_Tuple,
   B_Tuple,
   A_Length = RT_INTERNAL.ForceExtract<A_Tuple, 'length'>,
@@ -135,5 +135,5 @@ type BiggerThan<
     : ToDecimal<B_Tuple[0]> extends BiggerTable[ToDecimal<A_Tuple[0]>]
       ? true
       //@ts-ignore
-      : BiggerThan<Shift<A_Tuple>, Shift<B_Tuple>>
-  : BiggerThan<Split<RT_INTERNAL.ForceToString<A_Length>>, Split<RT_INTERNAL.ForceToString<B_Length>>>;
+      : __beta__BiggerThan<Shift<A_Tuple>, Shift<B_Tuple>>
+  : __beta__BiggerThan<Split<RT_INTERNAL.ForceToString<A_Length>>, Split<RT_INTERNAL.ForceToString<B_Length>>>;
