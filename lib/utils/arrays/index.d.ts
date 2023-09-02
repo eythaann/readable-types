@@ -2,6 +2,8 @@ import { IsAny } from '../any';
 import { Or } from '../booleans';
 import { If } from '../conditions';
 import { IsNever } from '../never';
+import { Substract } from '../numbers/math';
+import { startsWith } from '../strings';
 
 /**
  * Evaluates if the specified type is an array.
@@ -70,6 +72,12 @@ export type Shift<T extends unknown[]> = T extends [infer _, ...infer Result] ? 
  */
 export type Pop<T extends unknown[]> = T extends [...infer Result, infer _] ? Result : [];
 
+// @ts-ignore
+export type __beta__At<T extends unknown[], I extends number> = T[startsWith<`${I}`, '-'> extends true
+  ? Substract<T['length'], `${I}` extends `${infer _}${infer num}` ? num : never>
+  : I
+];
+
 /**
  * `ShiftRecursive` recursively generates all possible subsets of a tuple by successively excluding
  * the first element in each iteration until the length of the tuple is equal to a specified minimum length.
@@ -121,3 +129,16 @@ export type UnionToTupleCombination<
   : T extends infer ActualKey
     ? UnionToTupleCombination<Exclude<TCopy, ActualKey>, [..._Result, ActualKey]>
     : never;
+
+/**
+ * Extracts the indexes of a tuple type `T` and returns them as a union type.
+ * It excludes the extra keys present on Array objects, isolating only the actual
+ * tuple indexes.
+ *
+ * @example
+ * type Indices = TupleIndexes<[string, number, boolean]>;
+ * //   ^? "0" | "1" | "2"
+ * type Empty = TupleIndexes<[]>;
+ * //   ^? never
+ */
+export type TupleIndexes<T> = Exclude<keyof T, keyof []>;
