@@ -1,4 +1,4 @@
-import { IsArray, IsEmptyArray, IsTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, TupleIndexes, UnionToTupleCombination } from '.';
+import { IsArray, IsEmptyArray, IsTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, getTupleIndexes, UnionToTupleCombination } from '.';
 
 describeType('IsArray', () => {
   testType('Should return true for array types', [
@@ -92,19 +92,19 @@ describeType('UnionToTupleCombination', () => {
   ]);
 });
 
-describeType('TupleIndexes', () => {
+describeType('getTupleIndexes', () => {
   testType('Should correctly extract indexes from a tuple of known length', () => {
-    type indices = TupleIndexes<[string, number, boolean]>;
+    type indices = getTupleIndexes<[string, number, boolean]>;
     return assertType<indices>().equals<'0' | '1' | '2'>();
   });
 
   testType('Should return never for an empty tuple', () => {
-    type indices = TupleIndexes<[]>;
+    type indices = getTupleIndexes<[]>;
     return assertType<indices>().equals<never>();
   });
 
   testType('Should correctly extract indexes from a mixed type tuple', () => {
-    type indices = TupleIndexes<[string, number, boolean, ...string[]]>;
+    type indices = getTupleIndexes<[string, number, boolean, ...string[]]>;
     return assertType<indices>().equals<'0' | '1' | '2'>();
   });
 });

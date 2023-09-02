@@ -136,9 +136,9 @@ export type UnionToTupleCombination<
  * tuple indexes.
  *
  * @example
- * type Indices = TupleIndexes<[string, number, boolean]>;
+ * type Indices = getTupleIndexes<[string, number, boolean]>;
  * //   ^? "0" | "1" | "2"
- * type Empty = TupleIndexes<[]>;
+ * type Empty = getTupleIndexes<[]>;
  * //   ^? never
  */
-export type TupleIndexes<T> = Exclude<keyof T, keyof []>;
+export type getTupleIndexes<T> = Exclude<keyof T, keyof []>;
