@@ -1,4 +1,5 @@
-import { AnyFunction, AnyObject } from '../../constants';
+import { AnyFunction } from '../functions';
+import { AnyObject } from './types';
 
 declare global {
   namespace _RT.Binary {

@@ -1,4 +1,5 @@
-import { AnyFunction } from '../../constants';
+/** The min type of "what a function is", extensible for any function type. */
+export type AnyFunction = (...args: any[]) => any;
 
 /**
  * Evaluates if the specified type is a function.

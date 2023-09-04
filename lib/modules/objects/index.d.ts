@@ -1,4 +1,4 @@
-import { AnyFunction, AnyObject, KeyOfObject } from '../../constants';
+import { AnyObject, KeyOfObject } from './types';
 import { IsAny } from '../any';
 import { IsEmptyArray, IsTuple } from '../arrays';
 import { And, Not, Or } from '../booleans';
@@ -6,9 +6,11 @@ import { Equals } from '../comparison';
 import { If } from '../conditions';
 import { IsNever } from '../never';
 import { IsUnknown } from '../unknow';
+import { AnyFunction } from '../functions';
 
 export * from './ModifyPlusOrderedCombinations';
 export * from './ModifyPlusCombinations';
+export * from './types';
 
 /**
  * Return true if type is of type object array or function

@@ -1,5 +1,4 @@
-import { Modify, Prettify } from '.';
-import { KeyOfObject } from '../../constants';
+import { KeyOfObject, Modify, Prettify } from '.';
 import { ShiftRecursive, UnionToTupleCombination } from '../arrays';
 import { Cast } from '../generals';
 

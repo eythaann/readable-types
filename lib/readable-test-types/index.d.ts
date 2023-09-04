@@ -22,7 +22,7 @@ import {
   And,
   IsTrue,
   IsFalse,
-} from '../utils';
+} from '../modules';
 import { FailMsgs } from './messages';
 
 type PASS = {

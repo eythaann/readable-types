@@ -1,5 +1,5 @@
-import { CanBeEmptyObject, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys } from '.';
-import { AnyFunction, AnyObject } from '../../constants';
+import { AnyObject, CanBeEmptyObject, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys } from '.';
+import { AnyFunction } from '../functions';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
