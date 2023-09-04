@@ -91,8 +91,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBeTuple: () => If<InvertIf<I, IsTuple<T>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
 
   /** Type should be a tuple of passed length */
-  // @ts-ignore
-  toBeTupleWithLength: <U extends Readonly<number>>(v?: U) => If<InvertIf<I, And<[IsTuple<T>, Equals<U, T['lenght']>]>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
+  toBeTupleWithLength: <U extends Readonly<number>>(v?: U) => If<InvertIf<I, And<[IsTuple<T>, Equals<U, _RT.ForceExtract<T, 'lenght'>>]>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
 
   /** Type should be a string */
   toBeString: () => If<InvertIf<I, IsString<T>>, PASS, FAIL<FailMsgs<I>['string']>>;
@@ -107,8 +106,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBePromise: () => If<InvertIf<I, IsPromise<T>>, PASS, FAIL<FailMsgs<I>['promise']>>;
 
   /** Type should has the property passed */
-  // @ts-ignore
-  toHaveProperty: <U extends Readonly<string>>(v?: U) => If<InvertIf<I, Not<IsUnknown<T[U]>>>, PASS, FAIL<FailMsgs<I>['property']>>;
+  toHaveProperty: <U extends Readonly<string>>(v?: U) => If<InvertIf<I, Not<IsUnknown<_RT.ForceExtract<T, U>>>>, PASS, FAIL<FailMsgs<I>['property']>>;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {
