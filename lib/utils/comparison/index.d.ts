@@ -2,16 +2,16 @@ type _EqualsObject<X, Y> = (<T>() => T extends X ? 1 : 2) extends (<T>() => T ex
 type _Equals<
   A,
   B,
-  AIsAny extends 0 | 1 = RT_INTERNAL.Binary.IsAny<A>,
-  BIsAny extends 0 | 1 = RT_INTERNAL.Binary.IsAny<B>,
-> = RT_INTERNAL.Binary.If<{
-  condition: RT_INTERNAL.Binary.OR[AIsAny][BIsAny];
-  type: RT_INTERNAL.Binary.toBoolean[RT_INTERNAL.Binary.AND[AIsAny][BIsAny]];
-  else: RT_INTERNAL.Binary.If<{
-    condition: RT_INTERNAL.Binary.AND[RT_INTERNAL.Binary.IsStrictObject<A>][RT_INTERNAL.Binary.IsStrictObject<B>];
+  AIsAny extends 0 | 1 = _RT.Binary.IsAny<A>,
+  BIsAny extends 0 | 1 = _RT.Binary.IsAny<B>,
+> = _RT.Binary.If<{
+  condition: _RT.Binary.OR[AIsAny][BIsAny];
+  type: _RT.Binary.toBoolean[_RT.Binary.AND[AIsAny][BIsAny]];
+  else: _RT.Binary.If<{
+    condition: _RT.Binary.AND[_RT.Binary.IsStrictObject<A>][_RT.Binary.IsStrictObject<B>];
     type: _EqualsObject<A, B>;
-    else: RT_INTERNAL.Binary.toBoolean[
-      RT_INTERNAL.Binary.AND[RT_INTERNAL.Binary.IsSubType<A, B>][RT_INTERNAL.Binary.IsSuperType<A, B>]
+    else: _RT.Binary.toBoolean[
+      _RT.Binary.AND[_RT.Binary.IsSubType<A, B>][_RT.Binary.IsSuperType<A, B>]
     ];
   }>;
 }>;

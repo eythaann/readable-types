@@ -16,7 +16,7 @@ import { startsWith } from '../strings';
  * type C = IsArray<never>;
  * //   ^? false
  */
-export type IsArray<T> = RT_INTERNAL.IsType<T, any[]>;
+export type IsArray<T> = _RT.IsType<T, any[]>;
 
 /**
  * A utility type that checks whether a given array is empty.

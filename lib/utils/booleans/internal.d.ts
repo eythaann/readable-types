@@ -1,4 +1,4 @@
-declare namespace RT_INTERNAL.Binary {
+declare namespace _RT.Binary {
   interface XOR {
     0: {
       1: 1;

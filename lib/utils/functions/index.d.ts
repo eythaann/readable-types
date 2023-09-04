@@ -13,4 +13,4 @@ import { AnyFunction } from '../../constants';
  * type C = IsFunction<() => void | never>;
  * //   ^? true
  */
-export type IsFunction<T> = RT_INTERNAL.IsType<T, AnyFunction>;
+export type IsFunction<T> = _RT.IsType<T, AnyFunction>;

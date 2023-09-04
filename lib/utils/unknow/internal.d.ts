@@ -3,6 +3,6 @@ type binaryMap<T> = {
   0: unknown extends T ? true : false;
 };
 
-declare namespace RT_INTERNAL.Binary {
+declare namespace _RT.Binary {
   type IsUnknown<T> = binaryMap<T>[IsAny<T>];
 }

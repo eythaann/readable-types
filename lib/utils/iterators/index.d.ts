@@ -22,7 +22,7 @@ type _TupleMapHTK<
   V extends IteratorHKT.Tuple,
   index extends number | string = 0,
   lastResult = [],
-  result = RT_INTERNAL.Array.forceConcat<lastResult, [(V & { index: index; current: RT_INTERNAL.ForceExtract<T, index> })['return']]>,
+  result = _RT.Array.forceConcat<lastResult, [(V & { index: index; current: _RT.ForceExtract<T, index> })['return']]>,
 > = Add<index, 1> extends `${T['length']}` ? result : _TupleMapHTK<T, V, Add<index, 1>, result>;
 
 export type TupleMapHTK<T extends unknown[], V extends IteratorHKT.Tuple> = _TupleMapHTK<T, V>;
@@ -39,7 +39,7 @@ export type TupleToUnionMapHTK<
   V extends IteratorHKT.Tuple,
   index extends number | string = 0,
   lastResult = never,
-  result = lastResult | (V & { index: index; current: RT_INTERNAL.ForceExtract<T, index> })['return'],
+  result = lastResult | (V & { index: index; current: _RT.ForceExtract<T, index> })['return'],
 > = Add<index, 1> extends `${T['length']}` ? result : TupleToUnionMapHTK<T, V, Add<index, 1>, result>;
 
 /* type T1 = TupleToUnionMapHTK<['a', 'b', 'c'], cb>; */
@@ -49,7 +49,7 @@ export type TupleReduceHTK<
   V extends IteratorHKT.Tuple,
   acc = V['initialAcc'],
   index extends number | string = 0,
-  result = (V & { index: index; current: RT_INTERNAL.ForceExtract<T, index>; acc: acc })['return'],
+  result = (V & { index: index; current: _RT.ForceExtract<T, index>; acc: acc })['return'],
 > = Add<index, 1> extends `${T['length']}` ? result : TupleReduceHTK<T, V, result, Add<index, 1>>;
 
 /* interface cb2 extends IteratorHKT.Tuple<string> {

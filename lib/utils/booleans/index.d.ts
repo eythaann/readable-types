@@ -13,17 +13,17 @@ import { IsNever } from '../never';
  * type C = IsBoolean<boolean | never>;
  * //   ^? true
  */
-export type IsBoolean<T> = RT_INTERNAL.IsType<T, boolean>;
+export type IsBoolean<T> = _RT.IsType<T, boolean>;
 
 /**
  * Evaluates if the specified type is a `true`.
  */
-export type IsTrue<T> = RT_INTERNAL.IsType<T, true>;
+export type IsTrue<T> = _RT.IsType<T, true>;
 
 /**
  * Evaluates if the specified type is `false`.
  */
-export type IsFalse<T> = RT_INTERNAL.IsType<T, false>;
+export type IsFalse<T> = _RT.IsType<T, false>;
 
 /**
  * Performs a logical AND operation on a tuple of boolean values.

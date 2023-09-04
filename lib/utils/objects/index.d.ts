@@ -77,7 +77,7 @@ export type PickByValue<
   ? Prettify<_result>
   : ValuesToPick extends [infer X, ...infer Rest]
     ? PickByValue<Type, Rest, _result & {
-      [Key in keyof Type as RT_INTERNAL.IfSingleLine<Equals<Type[Key], X>, Key>]: Type[Key]
+      [Key in keyof Type as _RT.IfSingleLine<Equals<Type[Key], X>, Key>]: Type[Key]
     }>
     : never;
 

@@ -26,7 +26,7 @@ type DecimalHashMap = {
   0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 };
 
-type ToDecimal<str, strNumber = RT_INTERNAL.ForceExtract<DecimalHashMap[0], str>> = RT_INTERNAL.IfSingleLine<Or<[IsNever<str>, IsUnknown<strNumber>]>, 0, strNumber>;
+type ToDecimal<str, strNumber = _RT.ForceExtract<DecimalHashMap[0], str>> = _RT.IfSingleLine<Or<[IsNever<str>, IsUnknown<strNumber>]>, 0, strNumber>;
 
 interface CarryOn {
   0: never;
@@ -42,23 +42,23 @@ interface CarryOn {
 }
 
 export namespace Addition {
-  type GetSum<A, B> = RT_INTERNAL.ForceExtract<RT_INTERNAL.ForceExtract<DecimalHashMap, A>, B>;
+  type GetSum<A, B> = _RT.ForceExtract<_RT.ForceExtract<DecimalHashMap, A>, B>;
 
-  type GetSumCarry<A, B> = B extends RT_INTERNAL.ForceExtract<CarryOn, A> ? 1 : 0;
+  type GetSumCarry<A, B> = B extends _RT.ForceExtract<CarryOn, A> ? 1 : 0;
 
   type sumDecimal<A, B, CarryIn> = {
     result: GetSum<GetSum<A, B>, CarryIn>;
     carryOut: If<And<[Equals<CarryIn, 1>, Equals<A, 9>]>, 1, GetSumCarry<GetSum<A, CarryIn>, B>>;
   };
 
-  type _AdditionOnShifted<A, B, CarryIn = 0> = sumDecimal<ToDecimal<RT_INTERNAL.ForceExtract<A, 'extracted'>>, ToDecimal<RT_INTERNAL.ForceExtract<B, 'extracted'>>, CarryIn>;
+  type _AdditionOnShifted<A, B, CarryIn = 0> = sumDecimal<ToDecimal<_RT.ForceExtract<A, 'extracted'>>, ToDecimal<_RT.ForceExtract<B, 'extracted'>>, CarryIn>;
 
   type _next<A, B, lastIncompleteResult, lastCarryOut, _actualSum = _AdditionOnShifted<A, B, lastCarryOut>> = MakeAdditionOnTuple<
-  RT_INTERNAL.ForceExtract<A, 'rest'>,
-  RT_INTERNAL.ForceExtract<B, 'rest'>,
+  _RT.ForceExtract<A, 'rest'>,
+  _RT.ForceExtract<B, 'rest'>,
   // @ts-ignore
-  [RT_INTERNAL.ForceExtract<_actualSum, 'result'>, ...lastIncompleteResult],
-  RT_INTERNAL.ForceExtract<_actualSum, 'carryOut'>
+  [_RT.ForceExtract<_actualSum, 'result'>, ...lastIncompleteResult],
+  _RT.ForceExtract<_actualSum, 'carryOut'>
   >;
 
   type MakeAdditionOnTuple<
@@ -70,44 +70,44 @@ export namespace Addition {
     ? B extends []
       // @ts-ignore
       ? lastCarryOut extends 0 ? lastIncompleteResult : [lastCarryOut, ...lastIncompleteResult]
-      : _next<RT_INTERNAL.Array.Pop<A>, RT_INTERNAL.Array.Pop<B>, lastIncompleteResult, lastCarryOut>
-    : _next<RT_INTERNAL.Array.Pop<A>, RT_INTERNAL.Array.Pop<B>, lastIncompleteResult, lastCarryOut>;
+      : _next<_RT.Array.Pop<A>, _RT.Array.Pop<B>, lastIncompleteResult, lastCarryOut>
+    : _next<_RT.Array.Pop<A>, _RT.Array.Pop<B>, lastIncompleteResult, lastCarryOut>;
 
-  export type Add<A, B> = TupleToString<MakeAdditionOnTuple<Split<RT_INTERNAL.ForceToString<A>>, Split<RT_INTERNAL.ForceToString<B>>>>;
+  export type Add<A, B> = TupleToString<MakeAdditionOnTuple<Split<_RT.ForceToString<A>>, Split<_RT.ForceToString<B>>>>;
 }
 
 export namespace Substraction {
   type substractMap = [0, 9, 8, 7, 6, 5, 4, 3, 2, 1];
   type substractMapForCarry = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
-  type GetSustract<A, B> = RT_INTERNAL.ForceExtract<RT_INTERNAL.ForceExtract<DecimalHashMap, A>, RT_INTERNAL.ForceExtract<substractMap, B>>;
+  type GetSustract<A, B> = _RT.ForceExtract<_RT.ForceExtract<DecimalHashMap, A>, _RT.ForceExtract<substractMap, B>>;
 
-  type getSustractCarry<A, B> = B extends RT_INTERNAL.ForceExtract<CarryOn, RT_INTERNAL.ForceExtract<substractMapForCarry, A>> ? 1 : 0;
+  type getSustractCarry<A, B> = B extends _RT.ForceExtract<CarryOn, _RT.ForceExtract<substractMapForCarry, A>> ? 1 : 0;
 
   type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>, B>> = {
     result: Result;
     carryOut: If<And<[Equals<CarryIn, 1>, Equals<B, 9>]>, 1, getSustractCarry<A, Result>>;
   };
 
-  type _SubstractOnShifted<A, B, CarryIn = 0> = sustractDecimal<ToDecimal<RT_INTERNAL.ForceExtract<A, 'extracted'>>, ToDecimal<RT_INTERNAL.ForceExtract<B, 'extracted'>>, CarryIn>;
+  type _SubstractOnShifted<A, B, CarryIn = 0> = sustractDecimal<ToDecimal<_RT.ForceExtract<A, 'extracted'>>, ToDecimal<_RT.ForceExtract<B, 'extracted'>>, CarryIn>;
 
   type _next<A, B, lastIncompleteResult, lastCarryOut, actualSustract = _SubstractOnShifted<A, B, lastCarryOut>> = MakeSubstractOnTuple<
-  RT_INTERNAL.ForceExtract<A, 'rest'>,
-  RT_INTERNAL.ForceExtract<B, 'rest'>,
+  _RT.ForceExtract<A, 'rest'>,
+  _RT.ForceExtract<B, 'rest'>,
   // @ts-ignore
-  [RT_INTERNAL.ForceExtract<actualSustract, 'result'>, ...lastIncompleteResult],
-  RT_INTERNAL.ForceExtract<actualSustract, 'carryOut'>
+  [_RT.ForceExtract<actualSustract, 'result'>, ...lastIncompleteResult],
+  _RT.ForceExtract<actualSustract, 'carryOut'>
   >;
 
   type MakeSubstractOnTuple<A, B, Result = [], CarryIn = 0> = A extends []
     ? Result
-    : _next<RT_INTERNAL.Array.Pop<A>, RT_INTERNAL.Array.Pop<B>, Result, CarryIn>;
+    : _next<_RT.Array.Pop<A>, _RT.Array.Pop<B>, Result, CarryIn>;
 
   type _substract<A_Tuple, B_Tuple> = __beta__BiggerThan<A_Tuple, B_Tuple> extends true
     ? TupleToString<MakeSubstractOnTuple<A_Tuple, B_Tuple>>
     : `-${TupleToString<MakeSubstractOnTuple<B_Tuple, A_Tuple>>}`;
 
-  export type Substract<A, B> = _substract<Split<RT_INTERNAL.ForceToString<A>>, Split<RT_INTERNAL.ForceToString<B>>>;
+  export type Substract<A, B> = _substract<Split<_RT.ForceToString<A>>, Split<_RT.ForceToString<B>>>;
 }
 
 interface BiggerTable {
@@ -126,8 +126,8 @@ interface BiggerTable {
 export type __beta__BiggerThan<
   A_Tuple,
   B_Tuple,
-  A_Length = RT_INTERNAL.ForceExtract<A_Tuple, 'length'>,
-  B_Length = RT_INTERNAL.ForceExtract<B_Tuple, 'length'>,
+  A_Length = _RT.ForceExtract<A_Tuple, 'length'>,
+  B_Length = _RT.ForceExtract<B_Tuple, 'length'>,
 > = Equals<A_Length, B_Length> extends true
   ? A_Length extends 0
     ? false
@@ -136,4 +136,4 @@ export type __beta__BiggerThan<
       ? true
       //@ts-ignore
       : __beta__BiggerThan<Shift<A_Tuple>, Shift<B_Tuple>>
-  : __beta__BiggerThan<Split<RT_INTERNAL.ForceToString<A_Length>>, Split<RT_INTERNAL.ForceToString<B_Length>>>;
+  : __beta__BiggerThan<Split<_RT.ForceToString<A_Length>>, Split<_RT.ForceToString<B_Length>>>;

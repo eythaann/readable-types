@@ -13,7 +13,7 @@
  * //   ^? false
  * ```
  */
-export type IsUndefined<T> = RT_INTERNAL.IsType<T, undefined>;
+export type IsUndefined<T> = _RT.IsType<T, undefined>;
 
 /**
  * Evaluates if the specified type is `null`.
@@ -30,4 +30,4 @@ export type IsUndefined<T> = RT_INTERNAL.IsType<T, undefined>;
  * //   ^? false
  * ```
  */
-export type IsNull<T> = RT_INTERNAL.IsType<T, null>;
+export type IsNull<T> = _RT.IsType<T, null>;

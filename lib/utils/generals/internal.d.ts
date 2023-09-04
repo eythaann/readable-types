@@ -2,7 +2,7 @@ import { IsAny } from '../any';
 import { IsNever } from '../never';
 
 declare global {
-  namespace RT_INTERNAL {
+  namespace _RT {
     type IsType<
       TypeToTest,
       TypeToCast,

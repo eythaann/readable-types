@@ -4,7 +4,7 @@ type binaryCaseMap = {
   0: 'else';
 };
 
-declare namespace RT_INTERNAL {
+declare namespace _RT {
   type ConditionObject = {
     condition: boolean;
     type: unknown;
@@ -23,7 +23,7 @@ declare namespace RT_INTERNAL {
   type IfSingleLine<Condition, T, F = never> = [Condition] extends [true] ? T : F;
 }
 
-declare namespace RT_INTERNAL.Binary {
+declare namespace _RT.Binary {
   // @ts-ignore
   type If<Condition> = Condition[binaryCaseMap[Condition['condition']]];
 }

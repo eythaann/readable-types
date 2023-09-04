@@ -9,4 +9,4 @@
  * type C = IsNumber<number | never>;
  * //   ^? true
  */
-export type IsNumber<T> = RT_INTERNAL.IsType<T, number>;
+export type IsNumber<T> = _RT.IsType<T, number>;

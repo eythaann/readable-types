@@ -29,8 +29,8 @@ interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends Ite
   initialAcc: mainObj & { [_ in K]: [] };
   return: Modify<
   this['acc'],
-  RT_INTERNAL.ForceExtract<RT_INTERNAL.ForceExtract<U, this['current']>, 1> & {
-    readonly [_ in K]: RT_INTERNAL.Array.forceConcat<RT_INTERNAL.ForceExtract<this['acc'], K>, [RT_INTERNAL.ForceExtract<RT_INTERNAL.ForceExtract<U, this['current']>, 0>]>
+  _RT.ForceExtract<_RT.ForceExtract<U, this['current']>, 1> & {
+    readonly [_ in K]: _RT.Array.forceConcat<_RT.ForceExtract<this['acc'], K>, [_RT.ForceExtract<_RT.ForceExtract<U, this['current']>, 0>]>
   }>;
 }
 

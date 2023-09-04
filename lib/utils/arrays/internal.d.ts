@@ -1,4 +1,4 @@
-declare namespace RT_INTERNAL.Array {
+declare namespace _RT.Array {
   interface shiftedTuple<T = unknown> {
     extracted: T;
     rest: T[];
