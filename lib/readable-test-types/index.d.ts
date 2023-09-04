@@ -25,6 +25,15 @@ import {
 } from '../utils';
 import { FailMsgs } from './messages';
 
+type PASS = {
+  status: 'PASS';
+};
+
+type FAIL<_T extends string = 'No Message'> = {
+  status: 'FAIL';
+  msg: string;
+};
+
 type InferredType = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
 type Returned<Type> = Type extends (() => infer K) ? K : never;
