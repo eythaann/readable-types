@@ -1,4 +1,4 @@
-import { TestsCallback, AssertsCollection, AssertType } from './readable-test-types';
+import { TestsCallback, AssertsCollection, IValidations } from './readable-test-types';
 
 declare global {
   var PASS: PASS;
@@ -14,5 +14,5 @@ declare global {
 
   function describeType(description: string, cb: () => void): void;
   function testType(description: string, tests: AssertsCollection | TestsCallback): void;
-  var assertType: AssertType;
+  function assertType<T>(): IValidations<T>;
 }

@@ -112,8 +112,6 @@ export type IValidations<T> = RT_DEVELOPMENT extends true
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 
-export type AssertType = <T>() => IValidations<T>;
-
 export type AssertsCollection = { [testName: string]: PASS } | PASS[];
 
 export type TestsCallback = (validator: (asserts: AssertsCollection) => never) => void | AssertsCollection | PASS;
