@@ -1,1 +1,0 @@
-declare type RT_DEVELOPMENT = true;

@@ -22,21 +22,29 @@ import {
   And,
   IsTrue,
   IsFalse,
+  AnyObject,
 } from '../modules';
 import { FailMsgs } from './messages';
 
+/** @deprecated */
 type PASS = {
   status: 'PASS';
 };
 
 type FAIL<_T extends string = 'No Message'> = {
   status: 'FAIL';
-  msg: string;
+  msg: _T;
 };
 
 type InferredType = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
 type Returned<Type> = Type extends (() => infer K) ? K : never;
+
+type propertyCallableOnPass<
+  Result extends boolean,
+  Invert extends boolean,
+  keyToErrorsMsg extends keyof FailMsgs
+> = If<InvertIf<Invert, Result>, () => void, FAIL<FailMsgs<Invert>[keyToErrorsMsg]>>;
 
 interface IValidationsPublic<T, I extends boolean = false> {
   not: IValidationsPublic<T, Not<I>>;
@@ -46,79 +54,77 @@ interface IValidationsPublic<T, I extends boolean = false> {
   returned: IValidationsPublic<Returned<T>, I>;
 
   /** asserting type should be the same type as the expected */
-  equals: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, Equals<T, U>>, PASS, FAIL<FailMsgs<I>['equal']>>;
+  equals: <U extends InvertIf<I, Equals<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['equal']>>(v?: U) => void;
 
   /** expected type should be extended of asserting type*/
-  isSuperTypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSuperType<T, U>>, PASS, FAIL>;
+  isSuperTypeOf: <U extends InvertIf<I, IsSuperType<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['supertype']>>(v?: U) => void;
 
   /** asserting type should be extended of expected type */
-  isSubTypeOf: <U extends Readonly<InferredType>>(v?: U) => If<InvertIf<I, IsSubType<T, U>>, PASS, FAIL>;
+  isSubTypeOf: <U extends InvertIf<I, IsSubType<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['subtype']>>(v?: U) => void;
 
   /** Type should be `true` */
-  toBeTrue: () => If<InvertIf<I, IsTrue<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
+  toBeTrue: propertyCallableOnPass<IsTrue<T>, I, 'truly'>;
 
   /** Type should be `false` */
-  toBeFalse: () => If<InvertIf<I, IsFalse<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
+  toBeFalse: propertyCallableOnPass<IsFalse<T>, I, 'falsy'>;
 
   /** Type should be "never" */
-  toBeNever: () => If<InvertIf<I, IsNever<T>>, PASS, FAIL<FailMsgs<I>['never']>>;
+  toBeNever: propertyCallableOnPass<IsNever<T>, I, 'never'>;
 
   /** Type should be "null" */
-  toBeNull: () => If<InvertIf<I, IsNull<T>>, PASS, FAIL<FailMsgs<I>['null']>>;
+  toBeNull: propertyCallableOnPass<IsNull<T>, I, 'null'>;
 
   /** Type should be "undefined" */
-  toBeUndefined: () => If<InvertIf<I, IsUndefined<T>>, PASS, FAIL<FailMsgs<I>['undefined']>>;
+  toBeUndefined: propertyCallableOnPass<IsUndefined<T>, I, 'undefined'>;
 
   /** Type should be "any" */
-  toBeAny: () => If<InvertIf<I, IsAny<T>>, PASS, FAIL<FailMsgs<I>['any']>>;
+  toBeAny: propertyCallableOnPass<IsAny<T>, I, 'any'>;
 
   /** Type should be "unknow" */
-  toBeUnknow: () => If<InvertIf<I, IsUnknown<T>>, PASS, FAIL<FailMsgs<I>['equal']>>;
+  toBeUnknow: propertyCallableOnPass<IsUnknown<T>, I, 'unknow'>;
 
   /** Type should extends of Object, Array or Function */
-  toBeObject: () => If<InvertIf<I, IsObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
+  toBeObject: propertyCallableOnPass<IsObject<T>, I, 'object'>;
 
   /** Type should extends only of Objects */
-  toBeStrictObject: () => If<InvertIf<I, IsStrictObject<T>>, PASS, FAIL<FailMsgs<I>['object']>>;
+  toBeStrictObject: propertyCallableOnPass<IsStrictObject<T>, I, 'object'>;
 
   /** Type should extends of function */
-  toBeFunction: () => If<InvertIf<I, IsFunction<T>>, PASS, FAIL<FailMsgs<I>['function']>>;
+  toBeFunction: propertyCallableOnPass<IsFunction<T>, I, 'function'>;
 
   /** Type should be a array */
-  toBeArray: () => If<InvertIf<I, IsArray<T>>, PASS, FAIL<FailMsgs<I>['array']>>;
+  toBeArray: propertyCallableOnPass<IsArray<T>, I, 'array'>;
 
   /** Type should be a tuple */
-  toBeTuple: () => If<InvertIf<I, IsTuple<T>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
+  toBeTuple: propertyCallableOnPass<IsTuple<T>, I, 'tuple'>;
 
   /** Type should be a tuple of passed length */
-  toBeTupleWithLength: <U extends Readonly<number>>(v?: U) => If<InvertIf<I, And<[IsTuple<T>, Equals<U, _RT.ForceExtract<T, 'lenght'>>]>>, PASS, FAIL<FailMsgs<I>['tuple']>>;
+  toBeTupleWithLength: <U extends InvertIf<I, And<[IsTuple<T>, Equals<U, _RT.ForceExtract<T, 'lenght'>>]>> extends true ? Readonly<number> : FAIL<FailMsgs<I>['tuple']>>(v?: U) => void;
 
   /** Type should be a string */
-  toBeString: () => If<InvertIf<I, IsString<T>>, PASS, FAIL<FailMsgs<I>['string']>>;
+  toBeString: propertyCallableOnPass<IsString<T>, I, 'string'>;
 
   /** Type should be a number */
-  toBeNumber: () => If<InvertIf<I, IsNumber<T>>, PASS, FAIL<FailMsgs<I>['number']>>;
+  toBeNumber: propertyCallableOnPass<IsNumber<T>, I, 'number'>;
 
   /** Type should be true | false */
-  toBeBoolean: () => If<InvertIf<I, IsBoolean<T>>, PASS, FAIL<FailMsgs<I>['boolean']>>;
+  toBeBoolean: propertyCallableOnPass<IsBoolean<T>, I, 'boolean'>;
 
   /** Type should be a promise */
-  toBePromise: () => If<InvertIf<I, IsPromise<T>>, PASS, FAIL<FailMsgs<I>['promise']>>;
+  toBePromise: propertyCallableOnPass<IsPromise<T>, I, 'promise'>;
 
   /** Type should has the property passed */
-  toHaveProperty: <U extends Readonly<string>>(v?: U) => If<InvertIf<I, Not<IsUnknown<_RT.ForceExtract<T, U>>>>, PASS, FAIL<FailMsgs<I>['property']>>;
+  toHaveProperty: <U extends InvertIf<I, Not<IsUnknown<_RT.ForceExtract<T, U>>>> extends true ? Readonly<string> : FAIL<FailMsgs<I>['property']>>(v?: U) => void;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {
   __internal: {
-    shouldBe: (a: T) => PASS;
+    shouldBe: (a: T) => void;
   };
 };
 
-export type IValidations<T> = RT_DEVELOPMENT extends true
+export type IValidations<T> = IsTrue<_RT.ForceExtract<RT_CONFIG, 'development'>> extends true
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 
-export type AssertsCollection = { [testName: string]: PASS } | PASS[];
-
-export type TestsCallback = (validator: (asserts: AssertsCollection) => never) => void | AssertsCollection | PASS;
+export type TestsCallback = (validator: (asserts: AnyObject) => void) => AnyObject | void;
