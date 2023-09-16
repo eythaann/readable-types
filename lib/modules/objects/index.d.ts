@@ -16,10 +16,10 @@ export * from './types';
  * Return true if type is of type object array or function
  * if you are searching for only object use IsStrictObject instead.Som
 */
-export type IsObject<T> = IsAny<T> extends true ? any
-  : IsNever<T> extends true ? any
-    : T extends AnyObject ? any
-      : any;
+export type IsObject<T> = IsAny<T> extends true ? false
+  : IsNever<T> extends true ? false
+    : T extends AnyObject ? true
+      : false;
 
 /**
  * Return true if type is of type object ignoring arrays.
