@@ -1,4 +1,4 @@
-import { IsNull, IsUndefined } from '.';
+import { IsNull, IsUndefined, NonNull, NonUndefined } from '.';
 
 describeType('IsUndefined', () => {
   testType('Should return true only for undefined', [
@@ -38,4 +38,56 @@ describeType('IsNull', () => {
     assertType<IsNull<bigint>>().equals<false>(),
     assertType<IsNull<null | number>>().equals<false>(),
   ]);
+});
+
+describeType('NonUndefined', () => {
+  testType('Should remove undefined from a union type that includes it', () => {
+    type TestType = string | number | undefined;
+    type ExpectedType = string | number;
+    assertType<NonUndefined<TestType>>().equals<ExpectedType>();
+  });
+
+  testType('Should not modify a type that is already non-undefined', () => {
+    type TestType = string | number;
+    type ExpectedType = string | number;
+    assertType<NonUndefined<TestType>>().equals<ExpectedType>();
+  });
+
+  testType('Should return never when the type is strictly undefined', () => {
+    type TestType = undefined;
+    type ExpectedType = never;
+    assertType<NonUndefined<TestType>>().equals<ExpectedType>();
+  });
+
+  testType('Should remove undefined from complex types', () => {
+    type TestType = { a: number; b?: string } | undefined;
+    type ExpectedType = { a: number; b?: string };
+    assertType<NonUndefined<TestType>>().equals<ExpectedType>();
+  });
+});
+
+describeType('NonNull', () => {
+  testType('Should remove null from a union type that includes it', () => {
+    type TestType = string | number | null;
+    type ExpectedType = string | number;
+    assertType<NonNull<TestType>>().equals<ExpectedType>();
+  });
+
+  testType('Should not modify a type that is already non-null', () => {
+    type TestType = string | number;
+    type ExpectedType = string | number;
+    assertType<NonNull<TestType>>().equals<ExpectedType>();
+  });
+
+  testType('Should return never when the type is strictly null', () => {
+    type TestType = null;
+    type ExpectedType = never;
+    assertType<NonNull<TestType>>().equals<ExpectedType>();
+  });
+
+  testType('Should remove null from complex types', () => {
+    type TestType = { a: number; b?: string } | null;
+    type ExpectedType = { a: number; b?: string };
+    assertType<NonNull<TestType>>().equals<ExpectedType>();
+  });
 });
