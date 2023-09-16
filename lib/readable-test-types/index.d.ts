@@ -53,7 +53,11 @@ interface IValidationsPublic<T, I extends boolean = false> {
 
   returned: IValidationsPublic<Returned<T>, I>;
 
-  /** asserting type should be the same type as the expected */
+  /**
+   * asserting type should be the same type as the expected
+   *
+   * !WARNING: avoid use `equals` to compare with `any` or `never` instead use `toBeAny` and `toBeNever`.
+  */
   equals: <U extends InvertIf<I, Equals<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['equal']>>(v?: U) => void;
 
   /** expected type should be extended of asserting type*/

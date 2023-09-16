@@ -1,4 +1,4 @@
-import { AnyObject, CanBeEmptyObject, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys } from '.';
+import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys } from '.';
 import { AnyFunction } from '../functions';
 
 describeType('IsObject', () => {
@@ -136,5 +136,18 @@ describeType('ModifyByKey', () => {
     type expected = { t?: undefined } | { t: 'override1' } | { t: 'override2' } | { t: 'override3' };
 
     return assertType<ModifyByKey<mainType, overrides, 't'>>().equals<expected>();
+  });
+});
+
+describeType('HasProperty', () => {
+  testType('Should return true when the object has the specified property', () => {
+    type TestType = { a: 'a'; b: 'b' };
+    assertType<HasProperty<TestType, 'a'>>().equals<true>();
+    assertType<HasProperty<TestType, 'b'>>().equals<true>();
+  });
+
+  testType('Should return false when the object does not have the specified property', () => {
+    type TestType = { a: 'a'; b: 'b' };
+    assertType<HasProperty<TestType, 'c'>>().equals<false>();
   });
 });

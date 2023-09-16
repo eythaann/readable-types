@@ -7,6 +7,7 @@ import { If } from '../conditions';
 import { IsNever } from '../never';
 import { IsUnknown } from '../unknow';
 import { AnyFunction } from '../functions';
+import { KeysOfUnion } from '../generals';
 
 export * from './ModifyPlusOrderedCombinations';
 export * from './ModifyPlusCombinations';
@@ -112,3 +113,11 @@ export type RequiredKeys<Type> = {
 export type OptionalKeys<Type> = {
   [Key in keyof Type]-?: If<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>, Key>
 }[keyof Type];
+
+/**
+ * Return if the object have a specifit property.
+ * @example
+ * type U = HasProperty<{ a?: 'a'; b?: 'b'; c: 'c' }, 'c'>
+ * //   ^? true
+ */
+export type HasProperty<T, K extends KeyOfObject> = K extends KeysOfUnion<T> ? true : false;

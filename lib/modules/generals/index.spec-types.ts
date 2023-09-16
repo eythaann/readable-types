@@ -3,8 +3,8 @@ import { Cast, KeysOfUnion, UnionToIntersection, ValueOf } from '.';
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [
     assertType<ValueOf<{ a: number; b: string }>>().equals<number | string>(),
-    assertType<ValueOf<{ a: any; b: unknown }>>().equals<any>(),
-    assertType<ValueOf<{ a: never; b: never }>>().equals<never>(),
+    assertType<ValueOf<{ a: any; b: unknown }>>().toBeAny(),
+    assertType<ValueOf<{ a: never; b: never }>>().toBeNever(),
   ]);
 });
 
