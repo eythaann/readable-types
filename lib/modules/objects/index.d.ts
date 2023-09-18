@@ -8,6 +8,7 @@ import { IsNever } from '../never';
 import { IsUnknown } from '../unknow';
 import { AnyFunction } from '../functions';
 import { KeysOfUnion } from '../generals';
+import { NonUndefined } from '../undefined';
 
 export * from './ModifyPlusOrderedCombinations';
 export * from './ModifyPlusCombinations';
@@ -121,3 +122,27 @@ export type OptionalKeys<Type> = {
  * //   ^? true
  */
 export type HasProperty<T, K extends KeyOfObject> = K extends KeysOfUnion<T> ? true : false;
+
+/**
+ * Convert specific properties of an object `T` to readonly.
+ * @example
+ * type U = SomeToReadonly<{ a: 'a'; b: 'b' }, 'a'>
+ * //   ^? { readonly a: 'a', b: 'b' }
+ */
+export type SomeToReadonly<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
+
+/**
+ * Convert specific properties of an object `T` to optional.
+ * @example
+ * type U = SomeToPartial<{ a: 'a'; b: 'b' }, 'a'>
+ * //   ^? { a?: 'a', b: 'b' }
+ */
+export type SomeToPartial<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { [key in K]?: T[K] }>;
+
+/**
+ * Make specific properties of an object `T` required.
+ * @example
+ * type U = SomeToRequired<{ a?: 'a'; b?: 'b' }, 'a'>
+ * //   ^? { a: 'a', b: 'b' }
+ */
+export type SomeToRequired<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { [key in K]-?: NonUndefined<T[K]> }>;

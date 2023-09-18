@@ -1,4 +1,4 @@
-import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys } from '.';
+import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired } from '.';
 import { AnyFunction } from '../functions';
 
 describeType('IsObject', () => {
@@ -149,5 +149,25 @@ describeType('HasProperty', () => {
   testType('Should return false when the object does not have the specified property', () => {
     type TestType = { a: 'a'; b: 'b' };
     assertType<HasProperty<TestType, 'c'>>().equals<false>();
+  });
+});
+
+describeType('Type Modifiers', () => {
+  testType('SomeToReadonly should make specified keys readonly', () => {
+    type TestType = { a: number; b: string; c: boolean };
+    type expected = { readonly a: number; b: string; c: boolean };
+    assertType<SomeToReadonly<TestType, 'a'>>().equals<expected>();
+  });
+
+  testType('SomeToPartial should make specified keys optional', () => {
+    type TestType = { a: number; b: string; c: boolean };
+    type expected = { a?: number; b: string; c: boolean };
+    assertType<SomeToPartial<TestType, 'a'>>().equals<expected>();
+  });
+
+  testType('SomeToRequired should make specified keys required', () => {
+    type TestType = { a?: number; b: string; c?: boolean };
+    type expected = { a: number; b: string; c?: boolean };
+    assertType<SomeToRequired<TestType, 'a'>>().equals<expected>();
   });
 });
