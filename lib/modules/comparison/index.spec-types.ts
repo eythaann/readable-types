@@ -152,6 +152,7 @@ describeType('Equals', () => {
     assertType<Equals<{ prop1?: undefined }, { prop1?: undefined }>>().toBeTrue(),
     assertType<Equals<{ prop1?: string } | { readonly prop1?: number }, { prop1?: string } | { readonly prop1?: number }>>().toBeTrue(),
     assertType<Equals<Record<'x', 'x'>, { x: 'x' }>>().toBeTrue(),
+    assertType<Equals<{ a: 'a' } & { b: 'b' }, { a: 'a'; b: 'b' }>>().toBeTrue(),
   ]);
 
   testType('functions', () => {

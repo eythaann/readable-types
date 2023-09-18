@@ -1,4 +1,8 @@
-type _EqualsObject<X, Y> = (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2) ? true : false;
+import { Prettify } from '../objects';
+
+type _EqualsObject<_A, _B, A = Prettify<_A>, B = Prettify<_B>> =
+  (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? true : false;
+
 type _Equals<
   A,
   B,
