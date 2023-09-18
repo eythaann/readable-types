@@ -1,3 +1,4 @@
+import { Cast } from '../generals';
 import { Add } from '../numbers/math';
 
 export namespace IteratorHKT {
@@ -7,56 +8,57 @@ export namespace IteratorHKT {
     return: unknown;
   }
 
-  export interface Tuple<T = unknown> {
-    current: T;
+  export interface Tuple<CurrentSupertype = unknown, AccSuperType = unknown> {
+    __current: unknown;
+    __acc: unknown;
+    current: Cast<this['__current'], CurrentSupertype>;
     index: number | string;
-    tuple: unknown;
+    tuple: unknown[];
+    acc: Cast<this['__acc'], AccSuperType>;
     return: unknown;
-    acc: unknown;
     initialAcc: unknown;
   }
 }
 
-type _TupleMapHTK<
+/**
+ *
+ *
+ *
+ */
+type DoMap<
   T extends unknown[],
   V extends IteratorHKT.Tuple,
   index extends number | string = 0,
   lastResult = [],
-  result = _RT.Array.forceConcat<lastResult, [(V & { index: index; current: _RT.ForceExtract<T, index> })['return']]>,
-> = Add<index, 1> extends `${T['length']}` ? result : _TupleMapHTK<T, V, Add<index, 1>, result>;
+  result = _RT.Array.forceConcat<lastResult, [(V & { index: index; __current: _RT.ForceExtract<T, index> })['return']]>,
+> = Add<index, 1> extends `${T['length']}` ? result : DoMap<T, V, Add<index, 1>, result>;
 
-export type TupleMapHTK<T extends unknown[], V extends IteratorHKT.Tuple> = _TupleMapHTK<T, V>;
+export type TupleMapHKT<T extends unknown[], V extends IteratorHKT.Tuple> = T extends [] ? [] : DoMap<T, V>;
 
-/*
-interface cb extends iteratorHKT {
-  return: this['index'] extends 0 ? never : `--${this['current']}--`;
-}
-
-type T0 = TupleMapHTK<['a', 'b', 'c'], cb>; */
-
-export type TupleToUnionMapHTK<
+/**
+ *
+ *
+ *
+ */
+type DoReduce<
   T extends unknown[],
   V extends IteratorHKT.Tuple,
+  acc,
   index extends number | string = 0,
-  lastResult = never,
-  result = lastResult | (V & { index: index; current: _RT.ForceExtract<T, index> })['return'],
-> = Add<index, 1> extends `${T['length']}` ? result : TupleToUnionMapHTK<T, V, Add<index, 1>, result>;
+  result = (V & { index: index; __current: _RT.ForceExtract<T, index>; __acc: acc })['return'],
+> = Add<index, 1> extends `${T['length']}` ? result : DoReduce<T, V, result, Add<index, 1>>;
 
-/* type T1 = TupleToUnionMapHTK<['a', 'b', 'c'], cb>; */
+export type TupleReduceHKT<Tuple extends unknown[], Iterator extends IteratorHKT.Tuple, InitialAcc = Iterator['initialAcc']> = Tuple extends [] ? [] : DoReduce<Tuple, Iterator, InitialAcc>;
 
-export type TupleReduceHTK<
-  T extends unknown[],
-  V extends IteratorHKT.Tuple,
-  acc = V['initialAcc'],
-  index extends number | string = 0,
-  result = (V & { index: index; current: _RT.ForceExtract<T, index>; acc: acc })['return'],
-> = Add<index, 1> extends `${T['length']}` ? result : TupleReduceHTK<T, V, result, Add<index, 1>>;
+/**
+ *
+ *
+ *
+ */
+export type UnionMapHKT<T, V extends IteratorHKT.Union, TCopy = T> = T extends T ? (V & { all: TCopy; current: T })['return'] : never;
 
-/* interface cb2 extends IteratorHKT.Tuple<string> {
-  initialAcc: [];
-  return: [...this['acc'], this['index']];
+interface cb2 extends IteratorHKT.Tuple<string, unknown[]> {
+  return: [...this['acc'], `++${this['current']}++`];
 }
 
-type T2 = TupleReduceHTK<['a', 'b', 'c', 'd'], cb2>; */
-
-export type UnionMapHTK<T, V extends IteratorHKT.Union, TC = T> = T extends T ? (V & { all: TC; current: T })['return'] : never;
+type T2 = TupleReduceHKT<['a', 'b', 'c', 'd'], cb2, []>;

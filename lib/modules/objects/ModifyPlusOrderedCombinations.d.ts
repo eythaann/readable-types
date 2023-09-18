@@ -1,6 +1,6 @@
 import { Modify, Prettify } from '.';
 import { getTupleIndexes } from '../arrays';
-import { TupleReduceHTK, UnionMapHTK, IteratorHKT } from '../iterators';
+import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
 import { IsNever } from '../never';
 import { __beta__BiggerThan } from '../numbers/_mathDecimal';
 import { Add } from '../numbers/math';
@@ -16,7 +16,7 @@ type GetUnionGroupByNumericOrder<
   L,
   Result extends unknown[] = [],
   lastKey = 0,
-> = `${Result['length']}` extends L ? Result : UnionMapHTK<T, createGroup<L, Result, lastKey>>;
+> = `${Result['length']}` extends L ? Result : UnionMapHKT<T, createGroup<L, Result, lastKey>>;
 
 type GetAllPosibleGroupsByNumericOrder<
   T,
@@ -35,7 +35,7 @@ interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends Ite
 }
 
 interface CreateAllAcumulativeModifiedHTK<T, U, K extends string> extends IteratorHKT.Union<string[]> {
-  return: TupleReduceHTK<this['current'], CreateAcumulativeModifiedHTK<T, U, K>>;
+  return: TupleReduceHKT<this['current'], CreateAcumulativeModifiedHTK<T, U, K>>;
 }
 
 /**
@@ -59,7 +59,7 @@ export type ModifyByKeyPlusOrderedCombinations<
   mainObj,
   overrides extends [string, any][],
   keyToDiscrimitate extends string = '__key'
-> = Prettify<mainObj & { [_ in keyToDiscrimitate]?: undefined } | UnionMapHTK<
+> = Prettify<mainObj & { [_ in keyToDiscrimitate]?: undefined } | UnionMapHKT<
 GetAllPosibleGroupsByNumericOrder<getTupleIndexes<overrides>>,
 CreateAllAcumulativeModifiedHTK<mainObj, overrides, keyToDiscrimitate>
 >>;
