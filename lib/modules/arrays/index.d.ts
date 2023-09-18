@@ -24,10 +24,10 @@ export type IsArray<T> = _RT.IsType<T, any[]>;
  * Returns 'true' if the array is empty, and 'false' otherwise.
  *
  * @example
- * ```
- * type Result1 = IsEmptyArray<[]>; //   ^? true
- * type Result2 = IsEmptyArray<[1, 2, 3]>; //   ^? false
- * ```
+ * type Result1 = IsEmptyArray<[]>;
+ * //   ^? true
+ * type Result2 = IsEmptyArray<[1, 2, 3]>;
+ * //   ^? false
  */
 export type IsEmptyArray<T extends unknown[]> = T extends [] ? true : false;
 
