@@ -1,5 +1,6 @@
 import { IsAny } from '../any';
 import { Or } from '../booleans';
+import { Equals } from '../comparison';
 import { If } from '../conditions';
 import { IsNever } from '../never';
 import { Substract } from '../numbers/math';
@@ -42,6 +43,20 @@ export type IsEmptyArray<T extends unknown[]> = T extends [] ? true : false;
  * //   ^? false
  */
 export type IsTuple<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, T extends [infer _A, ...(infer _B)] ? true : false> ;
+
+/**
+ * Checks if a tuple `T` includes a specific type `TypeToSearch`.
+ * @example
+ * type Result = TupleIncludes<[number, string, boolean], string>;
+ * //   ^? true
+ * type Result2 = TupleIncludes<[number, string, boolean], object>;
+ * //   ^? false
+ */
+export type TupleIncludes<T, TypeToSearch> = T extends [infer Current, ...infer Rest]
+  ? Equals<Current, TypeToSearch> extends true
+    ? true
+    : TupleIncludes<Rest, TypeToSearch>
+  : false;
 
 /**
  * Generates a tuple type with the specified length and type.
