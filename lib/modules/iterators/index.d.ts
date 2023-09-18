@@ -48,7 +48,11 @@ type DoReduce<
   result = (V & { index: index; __current: _RT.ForceExtract<T, index>; __acc: acc })['return'],
 > = Add<index, 1> extends `${T['length']}` ? result : DoReduce<T, V, result, Add<index, 1>>;
 
-export type TupleReduceHKT<Tuple extends unknown[], Iterator extends IteratorHKT.Tuple, InitialAcc = Iterator['initialAcc']> = Tuple extends [] ? [] : DoReduce<Tuple, Iterator, InitialAcc>;
+export type TupleReduceHKT<
+  Tuple extends unknown[],
+  Iterator extends IteratorHKT.Tuple,
+  InitialAcc = Iterator['initialAcc']
+> = Tuple extends [] ? InitialAcc : DoReduce<Tuple, Iterator, InitialAcc>;
 
 /**
  *
