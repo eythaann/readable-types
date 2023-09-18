@@ -121,3 +121,9 @@ export type OptionalKeys<Type> = {
  * //   ^? true
  */
 export type HasProperty<T, K extends KeyOfObject> = K extends KeysOfUnion<T> ? true : false;
+
+export type SomeToReadonly<T, K extends KeysOfUnion<T>> = Omit<T, K> & { readonly [key in K]: T[K] };
+
+export type SomeToPartial<T, K extends KeysOfUnion<T>> = Omit<T, K> & { [key in K]?: T[K] };
+
+export type SomeToRequired<T, K extends KeysOfUnion<T>> = Omit<T, K> & { [key in K]-?: T[K] };
