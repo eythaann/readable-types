@@ -1,4 +1,4 @@
-import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired } from '.';
+import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired, SomeToWritable } from '.';
 import { AnyFunction } from '../functions';
 
 describeType('IsObject', () => {
@@ -157,6 +157,12 @@ describeType('Type Modifiers', () => {
     type TestType = { a: number; b: string; c: boolean };
     type expected = { readonly a: number; b: string; c: boolean };
     assertType<SomeToReadonly<TestType, 'a'>>().equals<expected>();
+  });
+
+  testType('SomeToWritable should make specified keys writable', () => {
+    type TestType = { readonly a: number; b: string; readonly c: boolean };
+    type expected = { a: number; b: string; readonly c: boolean };
+    assertType<SomeToWritable<TestType, 'a'>>().equals<expected>();
   });
 
   testType('SomeToPartial should make specified keys optional', () => {

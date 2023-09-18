@@ -132,6 +132,14 @@ export type HasProperty<T, K extends KeyOfObject> = K extends KeysOfUnion<T> ? t
 export type SomeToReadonly<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
 
 /**
+ * Remove readonly to specific properties of an object `T`.
+ * @example
+ * type U = SomeToWritable<{ readonly a: 'a'; readonly b: 'b' }, 'a'>
+ * //   ^? { a: 'a', readonly b: 'b' }
+ */
+export type SomeToWritable<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { -readonly [key in K]: T[K] }>;
+
+/**
  * Convert specific properties of an object `T` to optional.
  * @example
  * type U = SomeToPartial<{ a: 'a'; b: 'b' }, 'a'>
