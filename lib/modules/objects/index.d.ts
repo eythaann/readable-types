@@ -96,6 +96,32 @@ export type PickByValue<
 export type CanBeEmptyObject<Type> = {} extends Type ? true : false;
 
 /**
+ * Returns the keys of an object which are `readonly`.
+ * @example
+ * type U = ReadonlyKeys<{ a: number, readonly b: string }>;
+ * //   ^? "b"
+ */
+export type ReadonlyKeys<Type> = {
+  [Key in keyof Type]-?: If<Equals<
+  { readonly [_ in Key]: Type[Key] },
+  { [_ in Key]: Type[Key] }
+  >, Key>
+}[keyof Type];
+
+/**
+ * Returns the keys of an object which are not `readonly`.
+ * @example
+ * type U = NoReadonlyKeys<{ a: number, readonly b: string }>;
+ * //   ^? "a"
+ */
+export type NoReadonlyKeys<Type> = {
+  [Key in keyof Type]-?: If<Equals<
+  { -readonly [_ in Key]: Type[Key] },
+  { [_ in Key]: Type[Key] }
+  >, Key>
+}[keyof Type];
+
+/**
  * Returns the required keys of an object
  * @example
  * type U = RequiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>

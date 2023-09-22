@@ -1,4 +1,4 @@
-import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, OptionalKeys, PickByValue, Prettify, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired, SomeToWritable } from '.';
+import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, NoReadonlyKeys, OptionalKeys, PickByValue, Prettify, ReadonlyKeys, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired, SomeToWritable } from '.';
 import { AnyFunction } from '../functions';
 
 describeType('IsObject', () => {
@@ -175,5 +175,29 @@ describeType('Type Modifiers', () => {
     type TestType = { a?: number; b: string; c?: boolean };
     type expected = { a: number; b: string; c?: boolean };
     assertType<SomeToRequired<TestType, 'a'>>().equals<expected>();
+  });
+});
+
+describeType('ReadonlyKeys', () => {
+  testType('Should return readonly keys', () => {
+    type TestObj = { a: number; readonly b: string; readonly c: boolean };
+    assertType<ReadonlyKeys<TestObj>>().equals<'b' | 'c'>();
+  });
+
+  testType('Should return empty union for objects with all non-readonly properties', () => {
+    type TestObj = { a: number; b: string };
+    assertType<ReadonlyKeys<TestObj>>().equals<never>();
+  });
+});
+
+describeType('NoReadonlyKeys', () => {
+  testType('Should return keys that are not readonly', () => {
+    type TestObj = { a: number; readonly b: string; readonly c: boolean };
+    assertType<NoReadonlyKeys<TestObj>>().equals<'a'>();
+  });
+
+  testType('Should return empty union for objects with all readonly properties', () => {
+    type TestObj = { readonly a: number; readonly b: string };
+    assertType<NoReadonlyKeys<TestObj>>().equals<never>();
   });
 });
