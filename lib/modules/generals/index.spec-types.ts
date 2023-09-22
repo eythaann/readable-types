@@ -1,4 +1,4 @@
-import { Cast, KeysOfUnion, UnionToIntersection, ValueOf } from '.';
+import { Cast, KeysOfUnion, Opaque, UnionToIntersection, ValueOf } from '.';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [
@@ -41,4 +41,28 @@ describeType('Cast', () => {
   testType('Should cast arrays to broader array types', [
     assertType<Cast<number[], any[]>>().equals<number[]>(),
   ]);
+});
+
+describeType('Opaque', () => {
+  testType('Should support basic opaque type creation and usage', () => {
+    type UserID = Opaque<number, 'UserID'>;
+
+    const userId: UserID = 123 as UserID;
+    const notUserId: number = 123;
+
+    assertType<UserID>().equals<typeof userId>();
+    assertType<typeof notUserId>().isSuperTypeOf<UserID>();
+    assertType<typeof notUserId>().not.isSubTypeOf<UserID>();
+  });
+
+  testType('Should differentiate between different opaque types', () => {
+    type UserID = Opaque<number, 'UserID'>;
+    type OrderID = Opaque<number, 'OrderID'>;
+
+    const userId: UserID = 123 as UserID;
+    const orderId: OrderID = 123 as OrderID;
+
+    assertType<typeof userId>().not.equals<OrderID>();
+    assertType<typeof orderId>().not.equals<UserID>();
+  });
 });
