@@ -1,4 +1,4 @@
-import { Modify, Prettify } from '.';
+import { Modify } from '.';
 import { getTupleIndexes } from '../arrays';
 import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
 import { IsNever } from '../never';
@@ -59,7 +59,8 @@ export type ModifyByKeyPlusOrderedCombinations<
   mainObj,
   overrides extends [string, any][],
   keyToDiscrimitate extends string = '__key'
-> = Prettify<mainObj & { [_ in keyToDiscrimitate]?: undefined } | UnionMapHKT<
+> = (mainObj & { [_ in keyToDiscrimitate]?: undefined })
+| UnionMapHKT<
 GetAllPosibleGroupsByNumericOrder<getTupleIndexes<overrides>>,
 CreateAllAcumulativeModifiedHTK<mainObj, overrides, keyToDiscrimitate>
->>;
+>;

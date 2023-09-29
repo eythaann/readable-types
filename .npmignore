@@ -26,4 +26,5 @@ tsconfig.json
 # media
 /blob
 
+#env files
 /lib/rt.config.d.ts
