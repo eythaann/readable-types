@@ -30,7 +30,7 @@ type DoMap<
   V extends IteratorHKT.Tuple,
   index extends number | string = 0,
   lastResult = [],
-  result = _RT.Array.forceConcat<lastResult, [(V & { index: index; __current: _RT.ForceExtract<T, index> })['return']]>,
+  result = _RT.Array.forceConcat<lastResult, [(V & { index: index; tuple: T; __current: _RT.ForceExtract<T, index> })['return']]>,
 > = Add<index, 1> extends `${T['length']}` ? result : DoMap<T, V, Add<index, 1>, result>;
 
 export type TupleMapHKT<T extends unknown[], V extends IteratorHKT.Tuple> = T extends [] ? [] : DoMap<T, V>;
@@ -45,7 +45,7 @@ type DoReduce<
   V extends IteratorHKT.Tuple,
   acc,
   index extends number | string = 0,
-  result = (V & { index: index; __current: _RT.ForceExtract<T, index>; __acc: acc })['return'],
+  result = (V & { index: index; tuple: T; __current: _RT.ForceExtract<T, index>; __acc: acc })['return'],
 > = Add<index, 1> extends `${T['length']}` ? result : DoReduce<T, V, result, Add<index, 1>>;
 
 export type TupleReduceHKT<
