@@ -65,9 +65,21 @@ In order to verify that your types are functioning as expected, it's essential t
 Here's how to do it:
 
 ### 1. Basic Syntax
-
 The simplest way to create tests is by using the `testType` function inside a `describeType` block:
+```tsx
+describeType('MyType', () => {
+  testType('Should behave as expected', () => {
+    type MyType = /* Your type here... */;
+    type ExpectedType = /* Expected result here... */;
+    // More types...
 
+    assertType<MyType>().equals<ExpectedType>(),
+    // More assertions...
+  });
+});
+```
+
+### 2. Using Array
 ```tsx
 describeType('MyType', () => {
   testType('Should behave as expected', [
@@ -78,62 +90,19 @@ describeType('MyType', () => {
 });
 ```
 
-### 2. Using a Validator Function
-You can use a validator function to help organize your tests:
+### 3. Using Object
 ```tsx
 describeType('MyType', () => {
-  testType('Should behave as expected', (validator) => {
-    type MyType = /* Your type here... */;
-    type ExpectedType = /* Expected result here... */;
-    // More types...
-
-    validator([
-      assertType<MyType>().equals<ExpectedType>(),
-      // More assertions...
-    ]);
-  });
-});
-```
-### 3. Returning an Array of Assertions
-Instead of passing assertions to the `validator` function, you can also return them directly from the `testType` callback:
-note: in returning case is important put `AssertsCollection` as the return type of callback for debuging.
-
-```tsx
-describeType('MyType', () => {
-  testType('Should behave as expected', (): AssertsCollection => {
-    type MyType = /* Your type here... */;
-    type ExpectedType = /* Expected result here... */;
-    // More types...
-
-    return [
-      assertType<MyType>().equals<ExpectedType>(),
-      // More assertions...
-    ];
+  testType('Should behave as expected', {
+    test1: assertType<MyType>().equals<ExpectedType>(),
+    test2: assertType<MyType>().equals<ExpectedType>(),
+    'MyType should equal ExpectedType': assertType<MyType>().equals<ExpectedType>(),
+    'really any text': assertType<MyType>().equals<ExpectedType>(),
+    // More labeled assertions...
   });
 });
 ```
 
-### 4. Returning an Object of Assertions
-To give each of your assertions a descriptive label, you can return an object from the `testType` callback:
-note: in returning case is important put `AssertsCollection` as the return type of callback for debuging.
-```tsx
-describeType('MyType', () => {
-  testType('Should behave as expected', (): AssertsCollection => {
-    type MyType = /* Your type here... */;
-    type ExpectedType = /* Expected result here... */;
-    // More types...
-
-    return {
-      test1: assertType<MyType>().equals<ExpectedType>(),
-      test2: assertType<MyType>().equals<ExpectedType>(),
-      'MyType should equal ExpectedType': assertType<MyType>().equals<ExpectedType>(),
-      'really any text': assertType<MyType>().equals<ExpectedType>(),
-      // More labeled assertions...
-    };
-  });
-});
-```
-This enhances readability and makes it easier to identify which tests have passed and which ones have failed.
 ### Execute Test
 To test with our library, we use the TypeScript compiler (`tsc`) to transpile our code. However, to prevent our test and spec files from being included in the final build add the next in your `tsconfig.json`:
 ```json

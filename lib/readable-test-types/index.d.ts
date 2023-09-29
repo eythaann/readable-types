@@ -36,7 +36,7 @@ type FAIL<_T extends string = 'No Message'> = {
   msg: _T;
 };
 
-type InferredType = string | number | boolean | object | undefined | null;
+type InferrableTypes = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
 type Returned<Type> = Type extends (() => infer K) ? K : never;
 
@@ -58,13 +58,13 @@ interface IValidationsPublic<T, I extends boolean = false> {
    *
    * !WARNING: avoid use `equals` to compare with `any` or `never` instead use `toBeAny` and `toBeNever`.
   */
-  equals: <U extends InvertIf<I, Equals<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['equal']>>(v?: U) => void;
+  equals: <U extends InvertIf<I, Equals<T, U>> extends true ? Readonly<InferrableTypes> : FAIL<FailMsgs<I>['equal']>>(v?: U) => void;
 
   /** expected type should be extended of asserting type*/
-  isSuperTypeOf: <U extends InvertIf<I, IsSuperType<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['supertype']>>(v?: U) => void;
+  isSuperTypeOf: <U extends InvertIf<I, IsSuperType<T, U>> extends true ? Readonly<InferrableTypes> : FAIL<FailMsgs<I>['supertype']>>(v?: U) => void;
 
   /** asserting type should be extended of expected type */
-  isSubTypeOf: <U extends InvertIf<I, IsSubType<T, U>> extends true ? Readonly<InferredType> : FAIL<FailMsgs<I>['subtype']>>(v?: U) => void;
+  isSubTypeOf: <U extends InvertIf<I, IsSubType<T, U>> extends true ? Readonly<InferrableTypes> : FAIL<FailMsgs<I>['subtype']>>(v?: U) => void;
 
   /** Type should be `true` */
   toBeTrue: propertyCallableOnPass<IsTrue<T>, I, 'truly'>;
