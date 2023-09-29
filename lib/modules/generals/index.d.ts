@@ -72,3 +72,10 @@ export type WeakOpaque<BaseType, BrandType = unknown> = BaseType & {
 };
 
 declare const Brand: unique symbol;
+
+/**
+ * Allow avoid infer on generics when you predifine a type on other context.
+ *
+ * Normally this is usefull on advanced generics functions.
+ */
+export type NoInfer<T> = [T][T extends any ? 0 : never];
