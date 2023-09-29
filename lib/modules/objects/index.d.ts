@@ -1,6 +1,6 @@
 import { AnyObject, KeyOfObject } from './types';
 import { IsAny } from '../any';
-import { IsEmptyArray, IsTuple } from '../arrays';
+import { IsEmptyArray, IsTuple } from '../arrays-and-tuples';
 import { And, Not, Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';

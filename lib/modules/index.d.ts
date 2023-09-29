@@ -1,5 +1,5 @@
 export * from './any';
-export * from './arrays';
+export * from './arrays-and-tuples';
 export * from './booleans';
 export * from './comparison';
 export * from './conditions';

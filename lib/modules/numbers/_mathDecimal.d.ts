@@ -1,4 +1,4 @@
-import { Shift } from '../arrays';
+import { Shift } from '../arrays-and-tuples';
 import { And, Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';

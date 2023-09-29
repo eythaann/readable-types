@@ -1,5 +1,5 @@
 import { Modify } from '.';
-import { getTupleIndexes } from '../arrays';
+import { getTupleIndexes } from '../arrays-and-tuples';
 import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
 import { IsNever } from '../never';
 import { __beta__BiggerThan } from '../numbers/_mathDecimal';

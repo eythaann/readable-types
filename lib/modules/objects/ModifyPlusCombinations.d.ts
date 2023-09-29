@@ -1,5 +1,5 @@
 import { KeyOfObject, Modify, Prettify } from '.';
-import { ShiftRecursive, UnionToTupleCombination } from '../arrays';
+import { ShiftRecursive, UnionToTupleCombination } from '../arrays-and-tuples';
 import { Cast } from '../generals';
 
 type _ModifyByTuple<T, U, V, Result = T> = V extends []
