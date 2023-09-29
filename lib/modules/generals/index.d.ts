@@ -1,3 +1,4 @@
+
 /**
  * Extracts the types of the values of the properties of T.
  *
@@ -56,7 +57,18 @@ export type Cast<T, U> = T extends U ? T : U;
  * // Direct assignment without casting would result in a type error:
  * // const anotherUserId: UserID = 456; // Error
  */
-export type Opaque<BaseType, BrandType = unknown> = BaseType & {
-  readonly [_RT.Symbols.base]: BaseType;
-  readonly [_RT.Symbols.brand]: BrandType;
+export type Opaque<BaseType, BrandType = unknown> = (BaseType & {
+  readonly [_ in typeof Brand]: BrandType;
+}) | {
+  readonly [_ in typeof Brand]: BrandType;
 };
+
+/**
+ * Creates an brand type, ensuring that values of the base type cannot be
+ * directly assigned to the opaque type, but itseft is asignable to its base type.
+ */
+export type WeakOpaque<BaseType, BrandType = unknown> = BaseType & {
+  readonly [_ in typeof Brand]: BrandType;
+};
+
+declare const Brand: unique symbol;

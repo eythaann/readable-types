@@ -12,9 +12,4 @@ declare global {
         ? false
         : [TypeToTest] extends [TypeToCast] ? true : false;
   }
-
-  namespace _RT.Symbols {
-    export const base: unique symbol;
-    export const brand: unique symbol;
-  }
 }
