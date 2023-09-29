@@ -57,6 +57,8 @@ interface IValidationsPublic<T, I extends boolean = false> {
    * asserting type should be the same type as the expected
    *
    * !WARNING: avoid use `equals` to compare with `any` or `never` instead use `toBeAny` and `toBeNever`.
+   *
+   * Other alternative: assertType<Equals<A, B>>().toBe(True|False)();
   */
   equals: <U extends InvertIf<I, Equals<T, U>> extends true ? Readonly<InferrableTypes> : FAIL<FailMsgs<I>['equal']>>(v?: U) => void;
 
