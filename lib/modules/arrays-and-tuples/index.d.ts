@@ -61,13 +61,26 @@ export type TupleIncludes<T, TypeToSearch> = T extends [infer Current, ...infer 
 /**
  * Generates a tuple type with the specified length and type.
  *
+ * If you do not pass a Length will return a nLenghtTuple
+ * (it works like an Array on variables declaration but differs on extends generics)
+ *
  * @example
  * type A = Tuple<number, 3>;
  * //   ^? [number, number, number]
+ * type B = Tuple<number>;
+ * //   ^? [] | [number, ...number[]]
  */
-export type Tuple<Type, Length extends number | string, _Tuple extends unknown[] = []> = `${_Tuple['length']}` extends `${Length}`
-  ? _Tuple
-  : [...Tuple<Type, Length, [Type, ..._Tuple]>];
+export type Tuple<Type, Length extends number | string = never> = IsNever<Length> extends true ? nLengthTuple<Type> : _Tuple<Type, Length>;
+
+type _Tuple<Type, Length extends number | string, result extends unknown[] = []> = `${result['length']}` extends `${Length}`
+  ? result
+  : [..._Tuple<Type, Length, [Type, ...result]>];
+
+/**
+ * Create the representation of tuple type of n length.
+ * Util for create baseType of tuple for be extended.
+ */
+export type nLengthTuple<type = unknown> = [] | [type, ...type[]];
 
 /**
  * `Shift` takes a tuple and returns a new tuple excluding the first element from the original tuple.

@@ -1,5 +1,5 @@
 import { Modify } from '.';
-import { getTupleIndexes } from '../arrays-and-tuples';
+import { getTupleIndexes, nLengthTuple } from '../arrays-and-tuples';
 import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
 import { IsNever } from '../never';
 import { __beta__BiggerThan } from '../numbers/_mathDecimal';
@@ -34,7 +34,7 @@ interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends Ite
   }>;
 }
 
-interface CreateAllAcumulativeModifiedHTK<T, U, K extends string> extends IteratorHKT.Union<string[]> {
+interface CreateAllAcumulativeModifiedHTK<T, U, K extends string> extends IteratorHKT.Union<nLengthTuple<string>> {
   return: TupleReduceHKT<this['current'], CreateAcumulativeModifiedHTK<T, U, K>>;
 }
 
