@@ -1,6 +1,6 @@
 {
   "name": "readable-types",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
   "scripts": {
