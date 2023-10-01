@@ -1,3 +1,4 @@
+import { nLengthTuple } from '../arrays-and-tuples';
 import { If } from '../conditions';
 import { Cast } from '../generals';
 import { IsNever } from '../never';
@@ -35,7 +36,7 @@ export type IsFalse<T> = _RT.IsType<T, false>;
  * type B = And<[true, false, true]>;
  * //   ^? false
  */
-export type And<T extends boolean[]> = IsNever<Extract<T[number], false>>;
+export type And<T extends nLengthTuple<boolean>> = IsNever<Extract<T[number], false>>;
 
 /**
  * Performs a logical OR operation on a tuple of boolean values.
@@ -47,7 +48,7 @@ export type And<T extends boolean[]> = IsNever<Extract<T[number], false>>;
  * type B = Or<[false, false, false]>;
  * //   ^? false
  */
-export type Or<T extends boolean[]> = Not<IsNever<Extract<T[number], true>>>;
+export type Or<T extends nLengthTuple<boolean>> = Not<IsNever<Extract<T[number], true>>>;
 
 /**
  * Performs a XOR operation on an array of boolean values.
@@ -103,10 +104,10 @@ export type NotIf<Condition extends boolean, T extends boolean> = If<Condition, 
 */
 
 /** @alias And */
-export type All<T extends boolean[]> = And<T>;
+export type All<T extends nLengthTuple<boolean>> = And<T>;
 
 /** @alias And */
-export type Every<T extends boolean[]> = And<T>;
+export type Every<T extends nLengthTuple<boolean>> = And<T>;
 
 /** @alias Or */
-export type Some<T extends boolean[]> = Or<T>;
+export type Some<T extends nLengthTuple<boolean>> = Or<T>;
