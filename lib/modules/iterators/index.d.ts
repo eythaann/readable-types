@@ -1,7 +1,7 @@
 import { nLengthTuple } from '../arrays-and-tuples';
 import { IsTrue } from '../booleans';
 import { Cast } from '../generals';
-import { Addition } from '../numbers/_mathDecimal';
+import { InternalAdd } from '../numbers/math/app/addition';
 
 export namespace IteratorHKT {
   export interface Union<T = unknown> {
@@ -33,7 +33,7 @@ type DoMap<
   currentIndex = 0,
   lastResult = [],
 
-  nextIndex = Addition.Add<currentIndex, 1>,
+  nextIndex = InternalAdd<currentIndex, 1>,
   result = _RT.Array.forceConcat<lastResult, [_RT.ForceExtract<(V & { index: currentIndex; tuple: T; __current: _RT.ForceExtract<T, currentIndex> }), 'return'>]>,
 > = nextIndex extends _RT.ForceToString<_RT.ForceExtract<T, 'length'>> ? result : DoMap<T, V, nextIndex, result>;
 
@@ -50,7 +50,7 @@ type DoReduce<
   acc,
   currentIndex = 0,
 
-  nextIndex = Addition.Add<currentIndex, 1>,
+  nextIndex = InternalAdd<currentIndex, 1>,
   result = _RT.ForceExtract<V & { index: currentIndex; tuple: T; __current: _RT.ForceExtract<T, currentIndex>; __acc: acc }, 'return'>,
 > = nextIndex extends _RT.ForceToString<_RT.ForceExtract<T, 'length'>> ? result : DoReduce<T, V, result, nextIndex>;
 
@@ -70,7 +70,7 @@ type DoFind<
   V,
   currentIndex = 0,
 
-  nextIndex = Addition.Add<currentIndex, 1>,
+  nextIndex = InternalAdd<currentIndex, 1>,
 > = IsTrue<_RT.ForceExtract<V & { index: currentIndex; tuple: T; __current: _RT.ForceExtract<T, currentIndex> }, 'return'>> extends true
   ? _RT.ForceExtract<T, currentIndex>
   : nextIndex extends _RT.ForceToString<_RT.ForceExtract<T, 'length'>>
@@ -87,4 +87,4 @@ export type TupleFindHKT<
  *
  *
  */
-export type UnionMapHKT<T, V extends IteratorHKT.Union, TCopy = T> = T extends T ? (V & { all: TCopy; current: T })['return'] : never;
+export type UnionMapHKT<T, V extends IteratorHKT.Union, TCopy = T> = T extends infer U ? (V & { all: TCopy; current: U })['return'] : never;

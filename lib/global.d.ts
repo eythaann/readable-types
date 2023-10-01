@@ -1,4 +1,4 @@
-import { AnyObject } from './modules';
+import { AnyObject } from './modules/infrastructure';
 import { IValidations, TestsCallback } from './readable-test-types';
 
 declare global {

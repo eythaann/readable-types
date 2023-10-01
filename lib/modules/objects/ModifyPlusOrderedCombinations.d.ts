@@ -2,11 +2,11 @@ import { Modify } from '.';
 import { getTupleIndexes, nLengthTuple } from '../arrays-and-tuples';
 import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
 import { IsNever } from '../never';
-import { __beta__BiggerThan } from '../numbers/_mathDecimal';
-import { Add } from '../numbers/math';
+import { InternalAdd } from '../numbers/math/app/addition';
+import { InternalBiggerThan } from '../numbers/math/app/arimetic';
 
 interface createGroup<L, Result extends unknown[], lastKey> extends IteratorHKT.Union {
-  return: __beta__BiggerThan<[lastKey], [this['current']]> extends true
+  return: InternalBiggerThan<[lastKey], [this['current']]> extends true
     ? never
     : GetUnionGroupByNumericOrder<Exclude<this['all'], this['current']>, L, [...Result, this['current']], this['current']>;
 }
@@ -16,14 +16,14 @@ type GetUnionGroupByNumericOrder<
   L,
   Result extends unknown[] = [],
   lastKey = 0,
-> = `${Result['length']}` extends L ? Result : UnionMapHKT<T, createGroup<L, Result, lastKey>>;
+> = `${Result['length']}` extends _RT.ForceToString<L> ? Result : UnionMapHKT<T, createGroup<L, Result, lastKey>>;
 
 type GetAllPosibleGroupsByNumericOrder<
   T,
   current extends number | string = '1',
   lastResult = never,
   newResult = GetUnionGroupByNumericOrder<T, current>
-> = IsNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, Add<current, 1>, lastResult | newResult>;
+> = IsNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
 
 interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends IteratorHKT.Tuple {
   initialAcc: mainObj & { [_ in K]: [] };
@@ -60,6 +60,7 @@ export type ModifyByKeyPlusOrderedCombinations<
   overrides extends [string, any][],
   keyToDiscrimitate extends string = '__key'
 > = (mainObj & { [_ in keyToDiscrimitate]?: undefined })
+// @ts-ignore
 | UnionMapHKT<
 GetAllPosibleGroupsByNumericOrder<getTupleIndexes<overrides>>,
 CreateAllAcumulativeModifiedHTK<mainObj, overrides, keyToDiscrimitate>

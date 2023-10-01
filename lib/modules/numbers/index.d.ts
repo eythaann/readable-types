@@ -10,3 +10,5 @@
  * //   ^? true
  */
 export type IsNumber<T> = _RT.IsType<T, number>;
+
+export type StrToNumber<T> = T extends `${infer X extends number}` ? X : never;

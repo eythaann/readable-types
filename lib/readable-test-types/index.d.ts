@@ -23,7 +23,7 @@ import {
   IsTrue,
   IsFalse,
   AnyObject,
-} from '../modules';
+} from '../modules/infrastructure';
 import { FailMsgs } from './messages';
 
 /** @deprecated */

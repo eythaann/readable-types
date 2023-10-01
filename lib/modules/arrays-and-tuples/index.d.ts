@@ -3,7 +3,8 @@ import { Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';
 import { IsNever } from '../never';
-import { Substract } from '../numbers/math';
+import { StrToNumber } from '../numbers';
+import { Substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings';
 
 /**
@@ -102,7 +103,7 @@ export type Pop<T extends unknown[]> = T extends [...infer Result, infer _] ? Re
 
 // @ts-ignore
 export type __beta__At<T extends unknown[], I extends number> = T[startsWith<`${I}`, '-'> extends true
-  ? Substract<T['length'], `${I}` extends `${infer _}${infer num}` ? num : never>
+  ? Substract<T['length'], `${I}` extends `${infer _}${infer num}` ? StrToNumber<num> : never>
   : I
 ];
 

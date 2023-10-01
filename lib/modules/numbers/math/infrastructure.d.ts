@@ -1,4 +1,5 @@
-import { Addition, Substraction } from './_mathDecimal';
+import { InternalAdd } from './app/addition';
+import { InternalSubstract } from './app/sustraction';
 
 /**
  * The `Add` type takes two numeric literal types and produces their sum as a string literal type.
@@ -9,7 +10,7 @@ import { Addition, Substraction } from './_mathDecimal';
  * type Result = Add<2, 3>;
  * //   ^? Result = 5
  */
-export type Add<A extends string | number, B extends string | number> = Addition.Add<A, B>;
+export type Add<A extends number, B extends number> = InternalAdd<A, B>;
 
 /**
  * The `Add` type takes two numeric literal types and produces their substraction as a string literal type.
@@ -19,4 +20,4 @@ export type Add<A extends string | number, B extends string | number> = Addition
  * type Result = Add<2, 3>;
  * //   ^? Result = -1
  */
-export type Substract<A extends string | number, B extends string | number> = Substraction.Substract<A, B>;
+export type Substract<A extends number, B extends number> = InternalSubstract<A, B>;

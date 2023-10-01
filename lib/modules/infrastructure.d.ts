@@ -7,7 +7,7 @@ export * from './functions';
 export * from './generals';
 export * from './never';
 export * from './numbers';
-export * from './numbers/math';
+export * from './numbers/math/infrastructure';
 export * from './objects';
 export * from './promises';
 export * from './strings';

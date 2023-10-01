@@ -1,18 +1,13 @@
 declare namespace _RT.Array {
-  interface shiftedTuple<T = unknown> {
-    extracted: T;
-    rest: T[];
-  }
+  type Shift<T> = T extends [infer Shifted, ...infer Rest] ? {
+    extracted: Shifted;
+    rest: Rest;
+  } : { extracted: never; rest: [] };
 
-  type Shift<T> = {
-    extracted: T extends [infer R, ...infer _] ? R : never;
-    rest: T extends [infer _, ...infer R] ? R : [];
-  };
-
-  type Pop<T> = {
-    extracted: T extends [...infer _, infer R] ? R : never;
-    rest: T extends [...infer R, infer _] ? R : [];
-  };
+  type Pop<T> = T extends [...infer Rest, infer Poped] ? {
+    extracted: Poped;
+    rest: Rest;
+  } : { extracted: 0; rest: [] };
 
   // @ts-ignore
   type forceConcat<T1, T2> = [...T1, ...T2];
