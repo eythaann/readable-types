@@ -24,16 +24,12 @@ import {
   IsTrue,
   IsFalse,
   AnyObject,
+  Opaque,
 } from '../modules/infrastructure';
 import { FailMsgs } from './messages';
 
-/** @deprecated */
-type PASS = {
-  status: 'PASS';
-};
-
 type FAIL<_T extends string = 'No Message'> = {
-  status: 'FAIL';
+  status: Opaque<string, 'FAIL'>;
   msg: _T;
 };
 
