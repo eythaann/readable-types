@@ -1,12 +1,12 @@
-import { IsAny } from '../any';
+import { IsAny } from '../any/infrastructure';
 import { IsType } from '../app';
-import { Or } from '../booleans';
-import { Equals } from '../comparison';
-import { If } from '../conditions';
-import { IsNever } from '../never';
-import { StrToNumber } from '../numbers';
+import { Or } from '../booleans/infrastructure';
+import { Equals } from '../comparison/infrastructure';
+import { If } from '../conditions/infrastructure';
+import { IsNever } from '../never/infrastructure';
+import { StrToNumber } from '../numbers/infrastructure';
 import { Substract } from '../numbers/math/infrastructure';
-import { startsWith } from '../strings';
+import { startsWith } from '../strings/infrastructure';
 
 /**
  * Evaluates if the specified type is an array.

@@ -1,4 +1,4 @@
-import { IsArray, IsEmptyArray, IsTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, getTupleIndexes, UnionToTupleCombination, TupleIncludes } from '.';
+import { IsArray, IsEmptyArray, IsTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, getTupleIndexes, UnionToTupleCombination, TupleIncludes } from './infrastructure';
 
 describeType('IsArray', () => {
   testType('Should return true for array types', [

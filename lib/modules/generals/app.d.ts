@@ -1,5 +1,5 @@
-import { IsAny } from '../any';
-import { IsNever } from '../never';
+import { IsAny } from '../any/infrastructure';
+import { IsNever } from '../never/infrastructure';
 
 export type IsType<
   TypeToTest,

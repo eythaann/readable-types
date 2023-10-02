@@ -1,4 +1,4 @@
-import { IsPromise } from '.';
+import { IsPromise } from './infrastructure';
 
 describeType('IsPromise', () => {
   testType('Should return true for Promise types', [

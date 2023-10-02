@@ -1,4 +1,4 @@
-import { Equals, IsSubType, IsSuperType } from '.';
+import { Equals, IsSubType, IsSuperType } from './infrastructure';
 
 describeType('Equals', () => {
   testType('Basic Cases', [

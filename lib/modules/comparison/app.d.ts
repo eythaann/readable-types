@@ -1,5 +1,5 @@
-import { AnyFunction } from '../functions';
-import { AnyObject } from '../objects';
+import { AnyFunction } from '../functions/infrastructure';
+import { AnyObject } from '../objects/infrastructure';
 
 export type binaryMap<T> = {
   1: false;

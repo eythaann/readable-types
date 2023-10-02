@@ -1,4 +1,4 @@
-import { Cast, KeysOfUnion, Opaque, UnionToIntersection, ValueOf, WeakOpaque } from '.';
+import { Cast, KeysOfUnion, Opaque, UnionToIntersection, ValueOf, WeakOpaque } from './infrastructure';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [

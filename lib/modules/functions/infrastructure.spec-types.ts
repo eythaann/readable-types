@@ -1,4 +1,4 @@
-import { IsFunction } from '.';
+import { IsFunction } from './infrastructure';
 
 describeType('IsFunction', () => {
   testType('Should return true only for function', [

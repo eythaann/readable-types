@@ -1,4 +1,4 @@
-import { IsAny } from '.';
+import { IsAny } from './infrastructure';
 
 describeType('IsAny', () => {
   testType('Should return true only for type any', [

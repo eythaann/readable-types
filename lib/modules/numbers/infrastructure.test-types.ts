@@ -1,6 +1,6 @@
-import { IsNumber } from '.';
-import { AnyFunction } from '../functions';
-import { AnyObject } from '../objects';
+import { IsNumber } from './infrastructure';
+import { AnyFunction } from '../functions/infrastructure';
+import { AnyObject } from '../objects/infrastructure';
 
 describeType('IsNumber', () => {
   testType('Should return false if type is not a number', [

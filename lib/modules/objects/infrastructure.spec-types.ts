@@ -1,5 +1,5 @@
-import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, NoReadonlyKeys, OptionalKeys, PickByValue, Prettify, ReadonlyKeys, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired, SomeToWritable } from '.';
-import { AnyFunction } from '../functions';
+import { AnyObject, CanBeEmptyObject, HasProperty, IsObject, IsStrictObject, Modify, ModifyByKey, NoReadonlyKeys, OptionalKeys, PickByValue, Prettify, ReadonlyKeys, RequiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired, SomeToWritable } from './infrastructure';
+import { AnyFunction } from '../functions/infrastructure';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [

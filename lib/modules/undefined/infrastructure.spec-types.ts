@@ -1,4 +1,4 @@
-import { IsNull, IsUndefined, NonNull, NonUndefined } from '.';
+import { IsNull, IsUndefined, NonNull, NonUndefined } from './infrastructure';
 
 describeType('IsUndefined', () => {
   testType('Should return true only for undefined', [

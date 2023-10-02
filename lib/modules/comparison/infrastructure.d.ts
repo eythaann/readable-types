@@ -1,5 +1,5 @@
 import { _RT } from '../..';
-import { Prettify } from '../objects';
+import { Prettify } from '../objects/infrastructure';
 import { AND, If, IsAny, IsStrictObject, IsSubTypeBinary, IsSuperTypeBinary, OR, toBoolean } from './app';
 
 type _EqualsObject<_A, _B, A = Prettify<_A>, B = Prettify<_B>> =

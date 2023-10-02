@@ -1,19 +1,19 @@
-import { AnyObject, KeyOfObject } from './types';
-import { IsAny } from '../any';
-import { IsEmptyArray, IsTuple } from '../arrays-and-tuples';
-import { And, Not, Or } from '../booleans';
-import { Equals } from '../comparison';
-import { If } from '../conditions';
-import { IsNever } from '../never';
-import { IsUnknown } from '../unknow';
-import { AnyFunction } from '../functions';
-import { KeysOfUnion } from '../generals';
-import { NonUndefined } from '../undefined';
+import { AnyObject, KeyOfObject } from './domain';
+import { IsAny } from '../any/infrastructure';
+import { IsEmptyArray, IsTuple } from '../arrays-and-tuples/infrastructure';
+import { And, Not, Or } from '../booleans/infrastructure';
+import { Equals } from '../comparison/infrastructure';
+import { If } from '../conditions/infrastructure';
+import { IsNever } from '../never/infrastructure';
+import { IsUnknown } from '../unknow/infrastructure';
+import { AnyFunction } from '../functions/infrastructure';
+import { KeysOfUnion } from '../generals/infrastructure';
+import { NonUndefined } from '../undefined/infrastructure';
 import { IfSingleLine } from '../conditions/app';
 
-export * from './ModifyPlusOrderedCombinations';
-export * from './ModifyPlusCombinations';
-export * from './types';
+export * from './app/ModifyPlusOrderedCombinations';
+export * from './app/ModifyPlusCombinations';
+export * from './domain';
 
 /**
  * Return true if type is of type object array or function

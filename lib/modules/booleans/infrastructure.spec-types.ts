@@ -1,4 +1,4 @@
-import { All, And, Every, IsBoolean, Or, Some, Not, NotIf, XOR, IsTrue, IsFalse } from '.';
+import { All, And, Every, IsBoolean, Or, Some, Not, NotIf, XOR, IsTrue, IsFalse } from './infrastructure';
 
 describeType('IsBoolean', () => {
   testType('Should return true only for boolean', [

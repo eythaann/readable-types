@@ -1,8 +1,8 @@
 import { ForceExtract, ForceToString } from '../app';
-import { nLengthTuple } from '../arrays-and-tuples';
+import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../arrays-and-tuples/app';
-import { IsTrue } from '../booleans';
-import { Cast } from '../generals';
+import { IsTrue } from '../booleans/infrastructure';
+import { Cast } from '../generals/infrastructure';
 import { InternalAdd } from '../numbers/math/app/addition';
 
 export namespace IteratorHKT {

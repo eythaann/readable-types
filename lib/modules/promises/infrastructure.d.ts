@@ -1,5 +1,5 @@
-import { If } from '../conditions';
-import { IsNever } from '../never';
+import { If } from '../conditions/infrastructure';
+import { IsNever } from '../never/infrastructure';
 
 /**
  * Evaluates if the specified type is a Promise.

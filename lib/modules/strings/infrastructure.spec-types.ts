@@ -1,4 +1,4 @@
-import { IsString, Split, SplitReverce, Stringtify, TupleToString, startsWith } from '.';
+import { IsString, Split, SplitReverce, Stringtify, TupleToString, startsWith } from './infrastructure';
 
 describeType('IsString', () => {
   testType('Should return true only for string', [

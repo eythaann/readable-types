@@ -1,11 +1,11 @@
-import { Modify } from '.';
-import { ForceExtract, ForceToString } from '../app';
-import { getTupleIndexes, nLengthTuple } from '../arrays-and-tuples';
-import { forceConcat } from '../arrays-and-tuples/app';
-import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
-import { IsNever } from '../never';
-import { InternalAdd } from '../numbers/math/app/addition';
-import { InternalBiggerThan } from '../numbers/math/app/arimetic';
+import { Modify } from '../infrastructure';
+import { ForceExtract, ForceToString } from '../../app';
+import { getTupleIndexes, nLengthTuple } from '../../arrays-and-tuples/infrastructure';
+import { forceConcat } from '../../arrays-and-tuples/app';
+import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../../iterators/infrastructure';
+import { IsNever } from '../../never/infrastructure';
+import { InternalAdd } from '../../numbers/math/app/addition';
+import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
 
 interface createGroup<L, Result extends unknown[], lastKey> extends IteratorHKT.Union {
   return: InternalBiggerThan<[lastKey], [this['current']]> extends true

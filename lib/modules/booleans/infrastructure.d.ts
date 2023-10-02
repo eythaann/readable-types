@@ -1,8 +1,8 @@
 import { IsType } from '../app';
-import { nLengthTuple } from '../arrays-and-tuples';
-import { If } from '../conditions';
-import { Cast } from '../generals';
-import { IsNever } from '../never';
+import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
+import { If } from '../conditions/infrastructure';
+import { Cast } from '../generals/infrastructure';
+import { IsNever } from '../never/infrastructure';
 
 /**
  * Evaluates if the specified type is a boolean.

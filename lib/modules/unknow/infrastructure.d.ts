@@ -1,4 +1,4 @@
-import { IsAny } from '../any';
+import { IsAny } from '../any/infrastructure';
 
 /**
  * Evaluates if the specified type is `unknown`.

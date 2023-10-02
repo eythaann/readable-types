@@ -1,4 +1,4 @@
-import { If } from '.';
+import { If } from './infrastructure';
 
 describeType('If', () => {
   testType('Should return TrueCase if Condition is true', [

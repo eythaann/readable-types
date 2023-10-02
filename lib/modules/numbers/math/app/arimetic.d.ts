@@ -1,6 +1,6 @@
 import { ForceExtract, ForceToString } from '../../../app';
-import { Shift } from '../../../arrays-and-tuples';
-import { Split } from '../../../strings';
+import { Shift } from '../../../arrays-and-tuples/infrastructure';
+import { Split } from '../../../strings/infrastructure';
 import { ToDecimal } from './addition';
 
 interface BiggerTable {

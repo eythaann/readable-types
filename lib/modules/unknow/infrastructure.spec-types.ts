@@ -1,4 +1,4 @@
-import { IsUnknown } from '.';
+import { IsUnknown } from './infrastructure';
 
 describeType('IsUnknown', () => {
   testType('Should return true only for type unknown', [

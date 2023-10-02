@@ -1,6 +1,6 @@
-import { IsNever } from '.';
-import { AnyFunction } from '../functions';
-import { AnyObject } from '../objects';
+import { IsNever } from './infrastructure';
+import { AnyFunction } from '../functions/infrastructure';
+import { AnyObject } from '../objects/infrastructure';
 
 describeType('IsNever', () => {
   describeType('Should returns false', () => {
