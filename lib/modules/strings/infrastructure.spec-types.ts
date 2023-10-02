@@ -2,22 +2,22 @@ import { IsString, Split, SplitReverce, Stringtify, TupleToString, startsWith } 
 
 describeType('IsString', () => {
   testType('Should return true only for string', [
-    assertType<IsString<string>>().equals<true>(),
-    assertType<IsString<string | never>>().equals<true>(),
+    assertType<IsString<string>>().toBeTrue(),
+    assertType<IsString<string | never>>().toBeTrue(),
   ]);
 
   testType('Should return false for all other types', [
-    assertType<IsString<any>>().equals<false>(),
-    assertType<IsString<never>>().equals<false>(),
-    assertType<IsString<number>>().equals<false>(),
-    assertType<IsString<{}>>().equals<false>(),
-    assertType<IsString<null>>().equals<false>(),
-    assertType<IsString<undefined>>().equals<false>(),
-    assertType<IsString<unknown>>().equals<false>(),
-    assertType<IsString<any[]>>().equals<false>(),
-    assertType<IsString<symbol>>().equals<false>(),
-    assertType<IsString<bigint>>().equals<false>(),
-    assertType<IsString<string | number>>().equals<false>(),
+    assertType<IsString<any>>().toBeFalse(),
+    assertType<IsString<never>>().toBeFalse(),
+    assertType<IsString<number>>().toBeFalse(),
+    assertType<IsString<{}>>().toBeFalse(),
+    assertType<IsString<null>>().toBeFalse(),
+    assertType<IsString<undefined>>().toBeFalse(),
+    assertType<IsString<unknown>>().toBeFalse(),
+    assertType<IsString<any[]>>().toBeFalse(),
+    assertType<IsString<symbol>>().toBeFalse(),
+    assertType<IsString<bigint>>().toBeFalse(),
+    assertType<IsString<string | number>>().toBeFalse(),
   ]);
 });
 

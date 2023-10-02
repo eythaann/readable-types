@@ -2,36 +2,36 @@ import { IsArray, IsEmptyArray, IsTuple, Pop, PopRecursive, Shift, ShiftRecursiv
 
 describeType('IsArray', () => {
   testType('Should return true for array types', [
-    assertType<IsArray<number[]>>().equals<true>(),
-    assertType<IsArray<any[]>>().equals<true>(),
-    assertType<IsArray<unknown[]>>().equals<true>(),
-    assertType<IsArray<never[]>>().equals<true>(),
-    assertType<IsArray<[number, string]>>().equals<true>(),
+    assertType<IsArray<number[]>>().toBeTrue(),
+    assertType<IsArray<any[]>>().toBeTrue(),
+    assertType<IsArray<unknown[]>>().toBeTrue(),
+    assertType<IsArray<never[]>>().toBeTrue(),
+    assertType<IsArray<[number, string]>>().toBeTrue(),
   ]);
 
   testType('Should return false for non-array types', [
-    assertType<IsArray<number>>().equals<false>(),
-    assertType<IsArray<any>>().equals<false>(),
-    assertType<IsArray<unknown>>().equals<false>(),
-    assertType<IsArray<never>>().equals<false>(),
+    assertType<IsArray<number>>().toBeFalse(),
+    assertType<IsArray<any>>().toBeFalse(),
+    assertType<IsArray<unknown>>().toBeFalse(),
+    assertType<IsArray<never>>().toBeFalse(),
   ]);
 });
 
 describeType('IsTuple', () => {
   testType('Should return true for tuple types', [
-    assertType<IsTuple<[number, string]>>().equals<true>(),
-    assertType<IsTuple<[any, any]>>().equals<true>(),
-    assertType<IsTuple<[unknown, unknown]>>().equals<true>(),
-    assertType<IsTuple<[never, never]>>().equals<true>(),
+    assertType<IsTuple<[number, string]>>().toBeTrue(),
+    assertType<IsTuple<[any, any]>>().toBeTrue(),
+    assertType<IsTuple<[unknown, unknown]>>().toBeTrue(),
+    assertType<IsTuple<[never, never]>>().toBeTrue(),
   ]);
 
   testType('Should return false for non-tuple types', [
-    assertType<IsTuple<number[]>>().equals<false>(),
-    assertType<IsTuple<any[]>>().equals<false>(),
-    assertType<IsTuple<unknown[]>>().equals<false>(),
-    assertType<IsTuple<never[]>>().equals<false>(),
-    assertType<IsTuple<never>>().equals<false>(),
-    assertType<IsTuple<any>>().equals<false>(),
+    assertType<IsTuple<number[]>>().toBeFalse(),
+    assertType<IsTuple<any[]>>().toBeFalse(),
+    assertType<IsTuple<unknown[]>>().toBeFalse(),
+    assertType<IsTuple<never[]>>().toBeFalse(),
+    assertType<IsTuple<never>>().toBeFalse(),
+    assertType<IsTuple<any>>().toBeFalse(),
   ]);
 });
 
@@ -46,15 +46,15 @@ describeType('Tuple', () => {
 
 describeType('IsEmptyArray', () => {
   testType('Should return true for empty arrays and false for non-empty arrays', [
-    assertType<IsEmptyArray<[]>>().equals<true>(),
-    assertType<IsEmptyArray<[1, 2, 3]>>().equals<false>(),
-    assertType<IsEmptyArray<string[]>>().equals<false>(),
-    assertType<IsEmptyArray<unknown[]>>().equals<false>(),
-    assertType<IsEmptyArray<[unknown]>>().equals<false>(),
-    assertType<IsEmptyArray<never[]>>().equals<false>(),
-    assertType<IsEmptyArray<[never]>>().equals<false>(),
-    assertType<IsEmptyArray<any[]>>().equals<false>(),
-    assertType<IsEmptyArray<[any]>>().equals<false>(),
+    assertType<IsEmptyArray<[]>>().toBeTrue(),
+    assertType<IsEmptyArray<[1, 2, 3]>>().toBeFalse(),
+    assertType<IsEmptyArray<string[]>>().toBeFalse(),
+    assertType<IsEmptyArray<unknown[]>>().toBeFalse(),
+    assertType<IsEmptyArray<[unknown]>>().toBeFalse(),
+    assertType<IsEmptyArray<never[]>>().toBeFalse(),
+    assertType<IsEmptyArray<[never]>>().toBeFalse(),
+    assertType<IsEmptyArray<any[]>>().toBeFalse(),
+    assertType<IsEmptyArray<[any]>>().toBeFalse(),
   ]);
 });
 
@@ -100,7 +100,7 @@ describeType('getTupleIndexes', () => {
 
   testType('Should return never for an empty tuple', () => {
     type indices = getTupleIndexes<[]>;
-    return assertType<indices>().equals<never>();
+    return assertType<indices>().toBeNever();
   });
 
   testType('Should correctly extract indexes from a mixed type tuple', () => {

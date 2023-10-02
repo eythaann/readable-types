@@ -3,50 +3,50 @@ import { AnyFunction } from '../functions/infrastructure';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
-    assertType<IsObject<number>>().equals(false),
-    assertType<IsObject<string>>().equals(false),
-    assertType<IsObject<'1234'>>().equals(false),
-    assertType<IsObject<1234>>().equals(false),
-    assertType<IsObject<any>>().equals(false),
-    assertType<IsObject<unknown>>().equals(false),
-    assertType<IsObject<undefined>>().equals(false),
-    assertType<IsObject<null>>().equals(false),
-    assertType<IsObject<never>>().equals(false),
-    assertType<IsObject<bigint>>().equals(false),
-    assertType<IsObject<symbol>>().equals(false),
+    assertType<IsObject<number>>().toBeFalse(),
+    assertType<IsObject<string>>().toBeFalse(),
+    assertType<IsObject<'1234'>>().toBeFalse(),
+    assertType<IsObject<1234>>().toBeFalse(),
+    assertType<IsObject<any>>().toBeFalse(),
+    assertType<IsObject<unknown>>().toBeFalse(),
+    assertType<IsObject<undefined>>().toBeFalse(),
+    assertType<IsObject<null>>().toBeFalse(),
+    assertType<IsObject<never>>().toBeFalse(),
+    assertType<IsObject<bigint>>().toBeFalse(),
+    assertType<IsObject<symbol>>().toBeFalse(),
   ]);
 
   testType('Should return true if type is of type object, array or func', [
-    assertType<IsObject<AnyObject>>().equals(true),
-    assertType<IsObject<any[]>>().equals(true),
-    assertType<IsObject<never[]>>().equals(true),
-    assertType<IsObject<AnyFunction>>().equals(true),
-    assertType<IsObject<{ prop1: string }>>().equals(true),
+    assertType<IsObject<AnyObject>>().toBeTrue(),
+    assertType<IsObject<any[]>>().toBeTrue(),
+    assertType<IsObject<never[]>>().toBeTrue(),
+    assertType<IsObject<AnyFunction>>().toBeTrue(),
+    assertType<IsObject<{ prop1: string }>>().toBeTrue(),
   ]);
 });
 
 describeType('IsStrictObject', () => {
   testType('Should return false if type is not of type object', [
-    assertType<IsStrictObject<number>>().equals(false),
-    assertType<IsStrictObject<string>>().equals(false),
-    assertType<IsStrictObject<'1234'>>().equals(false),
-    assertType<IsStrictObject<1234>>().equals(false),
-    assertType<IsStrictObject<any>>().equals(false),
-    assertType<IsStrictObject<unknown>>().equals(false),
-    assertType<IsStrictObject<undefined>>().equals(false),
-    assertType<IsStrictObject<null>>().equals(false),
-    assertType<IsStrictObject<never>>().equals(false),
-    assertType<IsStrictObject<bigint>>().equals(false),
-    assertType<IsStrictObject<symbol>>().equals(false),
-    assertType<IsStrictObject<any[]>>().equals(false),
-    assertType<IsStrictObject<never[]>>().equals(false),
-    assertType<IsStrictObject<AnyFunction>>().equals(false),
-    assertType<IsStrictObject<AnyFunction>>().equals(false),
+    assertType<IsStrictObject<number>>().toBeFalse(),
+    assertType<IsStrictObject<string>>().toBeFalse(),
+    assertType<IsStrictObject<'1234'>>().toBeFalse(),
+    assertType<IsStrictObject<1234>>().toBeFalse(),
+    assertType<IsStrictObject<any>>().toBeFalse(),
+    assertType<IsStrictObject<unknown>>().toBeFalse(),
+    assertType<IsStrictObject<undefined>>().toBeFalse(),
+    assertType<IsStrictObject<null>>().toBeFalse(),
+    assertType<IsStrictObject<never>>().toBeFalse(),
+    assertType<IsStrictObject<bigint>>().toBeFalse(),
+    assertType<IsStrictObject<symbol>>().toBeFalse(),
+    assertType<IsStrictObject<any[]>>().toBeFalse(),
+    assertType<IsStrictObject<never[]>>().toBeFalse(),
+    assertType<IsStrictObject<AnyFunction>>().toBeFalse(),
+    assertType<IsStrictObject<AnyFunction>>().toBeFalse(),
   ]);
 
   testType('Should return true if type is of type object', [
-    assertType<IsStrictObject<AnyObject>>().equals(true),
-    assertType<IsStrictObject<{ prop1: string }>>().equals(true),
+    assertType<IsStrictObject<AnyObject>>().toBeTrue(),
+    assertType<IsStrictObject<{ prop1: string }>>().toBeTrue(),
   ]);
 });
 
@@ -98,27 +98,27 @@ describeType('PickByValue', () => {
 
 describeType('CanBeEmptyObject', () => {
   testType('Should handle optional and required properties', [
-    assertType<CanBeEmptyObject<{ a?: 'a'; b?: 'b' }>>().equals<true>(),
-    assertType<CanBeEmptyObject<{ a?: 'a'; b: 'b' }>>().equals<false>(),
-    assertType<CanBeEmptyObject<{}>>().equals<true>(),
-    assertType<CanBeEmptyObject<{ a: 'a' }>>().equals<false>(),
+    assertType<CanBeEmptyObject<{ a?: 'a'; b?: 'b' }>>().toBeTrue(),
+    assertType<CanBeEmptyObject<{ a?: 'a'; b: 'b' }>>().toBeFalse(),
+    assertType<CanBeEmptyObject<{}>>().toBeTrue(),
+    assertType<CanBeEmptyObject<{ a: 'a' }>>().toBeFalse(),
   ]);
 });
 
 describeType('RequiredKeys', () => {
   testType('Should get the required keys of an object', [
     assertType<RequiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>>().equals<'b' | 'c'>(),
-    assertType<RequiredKeys<{}>>().equals<never>(),
+    assertType<RequiredKeys<{}>>().toBeNever(),
     assertType<RequiredKeys<{ a: 'a' }>>().equals<'a'>(),
-    assertType<RequiredKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<never>(),
+    assertType<RequiredKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().toBeNever(),
   ]);
 });
 
 describeType('OptionalKeys', () => {
   testType('Should get the optional keys of an object', [
     assertType<OptionalKeys<{ a?: 'a'; b?: 'b'; c: 'a' }>>().equals<'a' | 'b'>(),
-    assertType<OptionalKeys<{}>>().equals<never>(),
-    assertType<OptionalKeys<{ a: 'a' }>>().equals<never>(),
+    assertType<OptionalKeys<{}>>().toBeNever(),
+    assertType<OptionalKeys<{ a: 'a' }>>().toBeNever(),
     assertType<OptionalKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<'a' | 'b' | 'c'>(),
   ]);
 });
@@ -142,13 +142,13 @@ describeType('ModifyByKey', () => {
 describeType('HasProperty', () => {
   testType('Should return true when the object has the specified property', () => {
     type TestType = { a: 'a'; b: 'b' };
-    assertType<HasProperty<TestType, 'a'>>().equals<true>();
-    assertType<HasProperty<TestType, 'b'>>().equals<true>();
+    assertType<HasProperty<TestType, 'a'>>().toBeTrue();
+    assertType<HasProperty<TestType, 'b'>>().toBeTrue();
   });
 
   testType('Should return false when the object does not have the specified property', () => {
     type TestType = { a: 'a'; b: 'b' };
-    assertType<HasProperty<TestType, 'c'>>().equals<false>();
+    assertType<HasProperty<TestType, 'c'>>().toBeFalse();
   });
 });
 
@@ -186,7 +186,7 @@ describeType('ReadonlyKeys', () => {
 
   testType('Should return empty union for objects with all non-readonly properties', () => {
     type TestObj = { a: number; b: string };
-    assertType<ReadonlyKeys<TestObj>>().equals<never>();
+    assertType<ReadonlyKeys<TestObj>>().toBeNever();
   });
 });
 
@@ -198,6 +198,6 @@ describeType('NoReadonlyKeys', () => {
 
   testType('Should return empty union for objects with all readonly properties', () => {
     type TestObj = { readonly a: number; readonly b: string };
-    assertType<NoReadonlyKeys<TestObj>>().equals<never>();
+    assertType<NoReadonlyKeys<TestObj>>().toBeNever();
   });
 });

@@ -2,41 +2,41 @@ import { IsNull, IsUndefined, NonNull, NonUndefined } from './infrastructure';
 
 describeType('IsUndefined', () => {
   testType('Should return true only for undefined', [
-    assertType<IsUndefined<undefined>>().equals<true>(),
+    assertType<IsUndefined<undefined>>().toBeTrue(),
   ]);
 
   testType('Should return false for all other types', [
-    assertType<IsUndefined<string>>().equals<false>(),
-    assertType<IsUndefined<number>>().equals<false>(),
-    assertType<IsUndefined<{}>>().equals<false>(),
-    assertType<IsUndefined<null>>().equals<false>(),
-    assertType<IsUndefined<any>>().equals<false>(),
-    assertType<IsUndefined<unknown>>().equals<false>(),
-    assertType<IsUndefined<never>>().equals<false>(),
-    assertType<IsUndefined<any[]>>().equals<false>(),
-    assertType<IsUndefined<symbol>>().equals<false>(),
-    assertType<IsUndefined<bigint>>().equals<false>(),
-    assertType<IsUndefined<undefined | number>>().equals<false>(),
+    assertType<IsUndefined<string>>().toBeFalse(),
+    assertType<IsUndefined<number>>().toBeFalse(),
+    assertType<IsUndefined<{}>>().toBeFalse(),
+    assertType<IsUndefined<null>>().toBeFalse(),
+    assertType<IsUndefined<any>>().toBeFalse(),
+    assertType<IsUndefined<unknown>>().toBeFalse(),
+    assertType<IsUndefined<never>>().toBeFalse(),
+    assertType<IsUndefined<any[]>>().toBeFalse(),
+    assertType<IsUndefined<symbol>>().toBeFalse(),
+    assertType<IsUndefined<bigint>>().toBeFalse(),
+    assertType<IsUndefined<undefined | number>>().toBeFalse(),
   ]);
 });
 
 describeType('IsNull', () => {
   testType('Should return true only for null', [
-    assertType<IsNull<null>>().equals<true>(),
+    assertType<IsNull<null>>().toBeTrue(),
   ]);
 
   testType('Should return false for all other types', [
-    assertType<IsNull<string>>().equals<false>(),
-    assertType<IsNull<number>>().equals<false>(),
-    assertType<IsNull<{}>>().equals<false>(),
-    assertType<IsNull<undefined>>().equals<false>(),
-    assertType<IsNull<any>>().equals<false>(),
-    assertType<IsNull<unknown>>().equals<false>(),
-    assertType<IsNull<never>>().equals<false>(),
-    assertType<IsNull<any[]>>().equals<false>(),
-    assertType<IsNull<symbol>>().equals<false>(),
-    assertType<IsNull<bigint>>().equals<false>(),
-    assertType<IsNull<null | number>>().equals<false>(),
+    assertType<IsNull<string>>().toBeFalse(),
+    assertType<IsNull<number>>().toBeFalse(),
+    assertType<IsNull<{}>>().toBeFalse(),
+    assertType<IsNull<undefined>>().toBeFalse(),
+    assertType<IsNull<any>>().toBeFalse(),
+    assertType<IsNull<unknown>>().toBeFalse(),
+    assertType<IsNull<never>>().toBeFalse(),
+    assertType<IsNull<any[]>>().toBeFalse(),
+    assertType<IsNull<symbol>>().toBeFalse(),
+    assertType<IsNull<bigint>>().toBeFalse(),
+    assertType<IsNull<null | number>>().toBeFalse(),
   ]);
 });
 
