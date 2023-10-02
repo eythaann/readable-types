@@ -25,6 +25,7 @@ import {
   IsFalse,
   AnyObject,
   Opaque,
+  HasProperty,
 } from '../modules/infrastructure';
 import { FailMsgs } from './messages';
 
@@ -120,7 +121,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBePromise: propertyCallableOnPass<IsPromise<T>, I, 'promise'>;
 
   /** Type should has the property passed */
-  toHaveProperty: <U extends InvertIf<I, Not<IsUnknown<ForceExtract<T, U>>>> extends true ? Readonly<string> : FAIL<FailMsgs<I>['property']>>(v?: U) => void;
+  toHaveProperty: <U extends InvertIf<I, HasProperty<T, U>> extends true ? Readonly<string> : FAIL<FailMsgs<I>['property']>>(v?: U) => void;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {

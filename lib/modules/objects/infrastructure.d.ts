@@ -153,7 +153,7 @@ export type OptionalKeys<Type> = {
  * type U = HasProperty<{ a?: 'a'; b?: 'b'; c: 'c' }, 'c'>
  * //   ^? true
  */
-export type HasProperty<T, K extends KeyOfObject> = K extends KeysOfUnion<T> ? true : false;
+export type HasProperty<T, K> = K extends KeysOfUnion<T> ? true : false;
 
 /**
  * Convert specific properties of an object `T` to readonly.
