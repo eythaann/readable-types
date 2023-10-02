@@ -1,4 +1,6 @@
+import { _RT } from '../..';
 import { Prettify } from '../objects';
+import { AND, If, IsAny, IsStrictObject, IsSubTypeBinary, IsSuperTypeBinary, OR, toBoolean } from './app';
 
 type _EqualsObject<_A, _B, A = Prettify<_A>, B = Prettify<_B>> =
   (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? true : false;
@@ -6,16 +8,16 @@ type _EqualsObject<_A, _B, A = Prettify<_A>, B = Prettify<_B>> =
 type _Equals<
   A,
   B,
-  AIsAny extends 0 | 1 = _RT.Binary.IsAny<A>,
-  BIsAny extends 0 | 1 = _RT.Binary.IsAny<B>,
-> = _RT.Binary.If<{
-  condition: _RT.Binary.OR[AIsAny][BIsAny];
-  type: _RT.Binary.toBoolean[_RT.Binary.AND[AIsAny][BIsAny]];
-  else: _RT.Binary.If<{
-    condition: _RT.Binary.AND[_RT.Binary.IsStrictObject<A>][_RT.Binary.IsStrictObject<B>];
+  AIsAny extends 0 | 1 = IsAny<A>,
+  BIsAny extends 0 | 1 = IsAny<B>,
+> = If<{
+  condition: OR[AIsAny][BIsAny];
+  type: toBoolean[AND[AIsAny][BIsAny]];
+  else: If<{
+    condition: AND[IsStrictObject<A>][IsStrictObject<B>];
     type: _EqualsObject<A, B>;
-    else: _RT.Binary.toBoolean[
-      _RT.Binary.AND[_RT.Binary.IsSubType<A, B>][_RT.Binary.IsSuperType<A, B>]
+    else: toBoolean[
+      AND[IsSubTypeBinary<A, B>][IsSuperTypeBinary<A, B>]
     ];
   }>;
 }>;

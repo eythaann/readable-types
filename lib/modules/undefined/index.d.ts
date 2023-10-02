@@ -1,3 +1,5 @@
+import { IsType } from '../app';
+
 /**
  * Evaluates if the specified type is `undefined`.
  * @example
@@ -8,7 +10,7 @@
  * type C = IsUndefined<number | undefined>;
  * //   ^? false
  */
-export type IsUndefined<T> = _RT.IsType<T, undefined>;
+export type IsUndefined<T> = IsType<T, undefined>;
 
 /**
  * Evaluates if the specified type is `null`.
@@ -20,7 +22,7 @@ export type IsUndefined<T> = _RT.IsType<T, undefined>;
  * type C = IsNull<number | null>;
  * //   ^? false
  */
-export type IsNull<T> = _RT.IsType<T, null>;
+export type IsNull<T> = IsType<T, null>;
 
 /** remove undefined from type */
 export type NonUndefined<T> = T extends undefined ? never : T;

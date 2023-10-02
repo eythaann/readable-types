@@ -1,5 +1,6 @@
-import './ts-env';
 import './global';
-import './modules/internal';
+
+/** Internal utilities use at your own risk */
+export * as _RT from './modules/app';
 
 export * from './modules/infrastructure';

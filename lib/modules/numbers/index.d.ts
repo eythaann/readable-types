@@ -1,3 +1,5 @@
+import { IsType } from '../app';
+
 /**
  * Evaluates if the specified type is a number.
  *
@@ -9,6 +11,6 @@
  * type C = IsNumber<number | never>;
  * //   ^? true
  */
-export type IsNumber<T> = _RT.IsType<T, number>;
+export type IsNumber<T> = IsType<T, number>;
 
 export type StrToNumber<T> = T extends `${infer X extends number}` ? X : never;

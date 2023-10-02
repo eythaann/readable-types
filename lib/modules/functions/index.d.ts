@@ -1,3 +1,5 @@
+import { IsType } from '../app';
+
 /** The min type of "what a function is", extensible for any function type. */
 export type AnyFunction = (...args: any[]) => any;
 
@@ -14,4 +16,4 @@ export type AnyFunction = (...args: any[]) => any;
  * type C = IsFunction<() => void | never>;
  * //   ^? true
  */
-export type IsFunction<T> = _RT.IsType<T, AnyFunction>;
+export type IsFunction<T> = IsType<T, AnyFunction>;

@@ -1,3 +1,4 @@
+import { ForceExtract } from '../modules/app';
 import {
   If,
   IsFunction,
@@ -105,7 +106,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBeTuple: propertyCallableOnPass<IsTuple<T>, I, 'tuple'>;
 
   /** Type should be a tuple of passed length */
-  toBeTupleWithLength: <U extends InvertIf<I, And<[IsTuple<T>, Equals<U, _RT.ForceExtract<T, 'lenght'>>]>> extends true ? Readonly<number> : FAIL<FailMsgs<I>['tuple']>>(v?: U) => void;
+  toBeTupleWithLength: <U extends InvertIf<I, And<[IsTuple<T>, Equals<U, ForceExtract<T, 'lenght'>>]>> extends true ? Readonly<number> : FAIL<FailMsgs<I>['tuple']>>(v?: U) => void;
 
   /** Type should be a string */
   toBeString: propertyCallableOnPass<IsString<T>, I, 'string'>;
@@ -120,7 +121,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBePromise: propertyCallableOnPass<IsPromise<T>, I, 'promise'>;
 
   /** Type should has the property passed */
-  toHaveProperty: <U extends InvertIf<I, Not<IsUnknown<_RT.ForceExtract<T, U>>>> extends true ? Readonly<string> : FAIL<FailMsgs<I>['property']>>(v?: U) => void;
+  toHaveProperty: <U extends InvertIf<I, Not<IsUnknown<ForceExtract<T, U>>>> extends true ? Readonly<string> : FAIL<FailMsgs<I>['property']>>(v?: U) => void;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {
@@ -129,7 +130,7 @@ type IValidationsInternal<T> = IValidationsPublic<T> & {
   };
 };
 
-export type IValidations<T> = IsTrue<_RT.ForceExtract<RT_CONFIG, 'development'>> extends true
+export type IValidations<T> = IsTrue<ForceExtract<RT_CONFIG, 'development'>> extends true
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 

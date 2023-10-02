@@ -1,3 +1,5 @@
+import { IsType } from '../app';
+
 type stringtifible = string | number | bigint | boolean | null | undefined;
 
 /**
@@ -11,7 +13,7 @@ type stringtifible = string | number | bigint | boolean | null | undefined;
  * type C = IsString<never>;
  * //   ^? false
  */
-export type IsString<T> = _RT.IsType<T, string>;
+export type IsString<T> = IsType<T, string>;
 
 /**
  * `Stringtify` is a TypeScript utility type that takes a value (T) and transforms it into a string representation.

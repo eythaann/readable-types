@@ -1,3 +1,9 @@
+import { ConditionCaseMap, ConditionObject } from './app';
+
+/*
+  ! WARNING: This utility has an internal implementation.
+  If you are modifying this method, ensure to also update its corresponding internal implementation.
+*/
 /**
  * Conditional type that selects one of two possible types based on a boolean condition or a condition object.
  *
@@ -10,14 +16,10 @@
  * type C = If<boolean, string, number>;
  * //   ^ Type C = string | number
  */
-/*
-  ! WARNING: This utility has an internal implementation.
-  If you are modifying this method, ensure to also update its corresponding internal implementation.
-*/
 export type If<
-  Condition extends boolean | _RT.ConditionObject,
+  Condition extends boolean | ConditionObject,
   TrueCase = never,
   FalseCase = never
-> = Condition extends _RT.ConditionObject
-  ? Condition[_RT.ConditionCaseMap[`${Condition['condition']}`]]
+> = Condition extends ConditionObject
+  ? Condition[ConditionCaseMap[`${Condition['condition']}`]]
   : Condition extends true ? TrueCase : FalseCase;

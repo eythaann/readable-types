@@ -1,3 +1,4 @@
+import { IsType } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples';
 import { If } from '../conditions';
 import { Cast } from '../generals';
@@ -14,17 +15,17 @@ import { IsNever } from '../never';
  * type C = IsBoolean<boolean | never>;
  * //   ^? true
  */
-export type IsBoolean<T> = _RT.IsType<T, boolean>;
+export type IsBoolean<T> = IsType<T, boolean>;
 
 /**
  * Evaluates if the specified type is a `true`.
  */
-export type IsTrue<T> = _RT.IsType<T, true>;
+export type IsTrue<T> = IsType<T, true>;
 
 /**
  * Evaluates if the specified type is `false`.
  */
-export type IsFalse<T> = _RT.IsType<T, false>;
+export type IsFalse<T> = IsType<T, false>;
 
 /**
  * Performs a logical AND operation on a tuple of boolean values.

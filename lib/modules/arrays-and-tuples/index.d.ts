@@ -1,4 +1,5 @@
 import { IsAny } from '../any';
+import { IsType } from '../app';
 import { Or } from '../booleans';
 import { Equals } from '../comparison';
 import { If } from '../conditions';
@@ -18,7 +19,7 @@ import { startsWith } from '../strings';
  * type C = IsArray<never>;
  * //   ^? false
  */
-export type IsArray<T> = _RT.IsType<T, any[]>;
+export type IsArray<T> = IsType<T, any[]>;
 
 /**
  * A utility type that checks whether a given array is empty.

@@ -1,5 +1,7 @@
 import { Modify } from '.';
+import { ForceExtract, ForceToString } from '../app';
 import { getTupleIndexes, nLengthTuple } from '../arrays-and-tuples';
+import { forceConcat } from '../arrays-and-tuples/app';
 import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../iterators';
 import { IsNever } from '../never';
 import { InternalAdd } from '../numbers/math/app/addition';
@@ -16,7 +18,7 @@ type GetUnionGroupByNumericOrder<
   L,
   Result extends unknown[] = [],
   lastKey = 0,
-> = `${Result['length']}` extends _RT.ForceToString<L> ? Result : UnionMapHKT<T, createGroup<L, Result, lastKey>>;
+> = `${Result['length']}` extends ForceToString<L> ? Result : UnionMapHKT<T, createGroup<L, Result, lastKey>>;
 
 type GetAllPosibleGroupsByNumericOrder<
   T,
@@ -29,8 +31,8 @@ interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends Ite
   initialAcc: mainObj & { [_ in K]: [] };
   return: Modify<
   this['acc'],
-  _RT.ForceExtract<_RT.ForceExtract<U, this['current']>, 1> & {
-    readonly [_ in K]: _RT.Array.forceConcat<_RT.ForceExtract<this['acc'], K>, [_RT.ForceExtract<_RT.ForceExtract<U, this['current']>, 0>]>
+  ForceExtract<ForceExtract<U, this['current']>, 1> & {
+    readonly [_ in K]: forceConcat<ForceExtract<this['acc'], K>, [ForceExtract<ForceExtract<U, this['current']>, 0>]>
   }>;
 }
 

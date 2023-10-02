@@ -1,4 +1,6 @@
+import { ForceExtract, ForceToString } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples';
+import { forceConcat } from '../arrays-and-tuples/app';
 import { IsTrue } from '../booleans';
 import { Cast } from '../generals';
 import { InternalAdd } from '../numbers/math/app/addition';
@@ -34,8 +36,8 @@ type DoMap<
   lastResult = [],
 
   nextIndex = InternalAdd<currentIndex, 1>,
-  result = _RT.Array.forceConcat<lastResult, [_RT.ForceExtract<(V & { index: currentIndex; tuple: T; __current: _RT.ForceExtract<T, currentIndex> }), 'return'>]>,
-> = nextIndex extends _RT.ForceToString<_RT.ForceExtract<T, 'length'>> ? result : DoMap<T, V, nextIndex, result>;
+  result = forceConcat<lastResult, [ForceExtract<(V & { index: currentIndex; tuple: T; __current: ForceExtract<T, currentIndex> }), 'return'>]>,
+> = nextIndex extends ForceToString<ForceExtract<T, 'length'>> ? result : DoMap<T, V, nextIndex, result>;
 
 export type TupleMapHKT<T extends nLengthTuple, V extends IteratorHKT.Tuple> = T extends [] ? [] : DoMap<T, V>;
 
@@ -51,8 +53,8 @@ type DoReduce<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-  result = _RT.ForceExtract<V & { index: currentIndex; tuple: T; __current: _RT.ForceExtract<T, currentIndex>; __acc: acc }, 'return'>,
-> = nextIndex extends _RT.ForceToString<_RT.ForceExtract<T, 'length'>> ? result : DoReduce<T, V, result, nextIndex>;
+  result = ForceExtract<V & { index: currentIndex; tuple: T; __current: ForceExtract<T, currentIndex>; __acc: acc }, 'return'>,
+> = nextIndex extends ForceToString<ForceExtract<T, 'length'>> ? result : DoReduce<T, V, result, nextIndex>;
 
 export type TupleReduceHKT<
   Tuple extends nLengthTuple,
@@ -71,9 +73,9 @@ type DoFind<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-> = IsTrue<_RT.ForceExtract<V & { index: currentIndex; tuple: T; __current: _RT.ForceExtract<T, currentIndex> }, 'return'>> extends true
-  ? _RT.ForceExtract<T, currentIndex>
-  : nextIndex extends _RT.ForceToString<_RT.ForceExtract<T, 'length'>>
+> = IsTrue<ForceExtract<V & { index: currentIndex; tuple: T; __current: ForceExtract<T, currentIndex> }, 'return'>> extends true
+  ? ForceExtract<T, currentIndex>
+  : nextIndex extends ForceToString<ForceExtract<T, 'length'>>
     ? unknown
     : DoFind<T, V, nextIndex>;
 
