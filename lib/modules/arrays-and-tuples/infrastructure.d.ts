@@ -44,7 +44,10 @@ export type IsEmptyArray<T extends unknown[]> = T extends [] ? true : false;
  * type C = IsTuple<never>;
  * //   ^? false
  */
-export type IsTuple<T> = If<Or<[IsNever<T>, IsAny<T>]>, false, T extends [infer _A, ...(infer _B)] ? true : false> ;
+export type IsTuple<T> = If<Or<[IsNever<T>, IsAny<T>]>, {
+  then: false;
+  else: T extends [infer _A, ...(infer _B)] ? true : false;
+}>;
 
 /**
  * Checks if a tuple `T` includes a specific type `TypeToSearch`.

@@ -1,4 +1,4 @@
-import { IsUnknown } from './infrastructure';
+import { DefaultOnUnknown, IsUnknown } from './infrastructure';
 
 describeType('IsUnknown', () => {
   testType('Should return true only for type unknown', [
@@ -15,4 +15,16 @@ describeType('IsUnknown', () => {
     assertType<IsUnknown<never>>().equals<false>(),
     assertType<IsUnknown<unknown & string>>().equals<false>(),
   ]);
+
+  describeType('DefaultOnUnknown', () => {
+    testType('Should replace unknown type with the default type', () => {
+      type result = DefaultOnUnknown<unknown, string>;
+      assertType<result>().equals<string>();
+    });
+
+    testType('Should retain the original type if it is known', () => {
+      type result = DefaultOnUnknown<number, string>;
+      assertType<result>().equals<number>();
+    });
+  });
 });

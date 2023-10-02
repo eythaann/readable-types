@@ -41,7 +41,10 @@ type propertyCallableOnPass<
   Result extends boolean,
   Invert extends boolean,
   keyToErrorsMsg extends keyof FailMsgs
-> = If<InvertIf<Invert, Result>, () => void, FAIL<FailMsgs<Invert>[keyToErrorsMsg]>>;
+> = If<InvertIf<Invert, Result>, {
+  then: () => void;
+  else: FAIL<FailMsgs<Invert>[keyToErrorsMsg]>;
+}>;
 
 interface IValidationsPublic<T, I extends boolean = false> {
   not: IValidationsPublic<T, Not<I>>;

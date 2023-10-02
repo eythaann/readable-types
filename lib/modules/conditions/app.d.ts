@@ -1,18 +1,36 @@
+import { ForceExtract } from '../app';
 
-export type ConditionObject = {
+type Explicit = {
   condition: boolean;
-  type: unknown;
+  then: unknown;
   else: unknown;
 };
 
-export type ConditionCaseMap = {
-  'true': 'type';
-  'false': 'else';
-  'boolean': 'type' | 'else';
+type Natural = {
+  then: unknown;
+  else: unknown;
 };
 
-// TODO improve inference of types for generics
-export type IfObject<Condition extends ConditionObject> = Condition[ConditionCaseMap[`${Condition['condition']}`]];
+export type ExplicitCondition<Condition> = [ForceExtract<Condition, 'condition'>] extends [false] ? ForceExtract<Condition, 'else'> : ForceExtract<Condition, 'then'>;
 
-export type IfSingleLine<Condition, T, F = never> = [Condition] extends [true] ? T : F;
+export type NaturalCondition<Condition, Obj> = [Condition] extends [false] ? ForceExtract<Obj, 'else'> : ForceExtract<Obj, 'then'>;
 
+export type SingleLineCondition<Condition, T, F = never> = [Condition] extends [false] ? F : T;
+
+export type ExtendsCaseMapA = {
+  'singleLine': boolean;
+  'natural': boolean;
+  'explicit': Explicit;
+};
+
+export type ExtendsCaseMapB = {
+  'singleLine': unknown;
+  'natural': Natural;
+  'explicit': never;
+};
+
+export type ExtendsCaseMapC = {
+  'singleLine': unknown;
+  'natural': never;
+  'explicit': never;
+};

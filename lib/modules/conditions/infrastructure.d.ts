@@ -1,4 +1,7 @@
-import { ConditionCaseMap, ConditionObject } from './app';
+import { ForceExtract } from '../app';
+import { ExplicitCondition, ExtendsCaseMapA, ExtendsCaseMapB, ExtendsCaseMapC, NaturalCondition, SingleLineCondition } from './app';
+
+type IfMode = ForceExtract<INTERNAL_RT_CONFIG, 'conditionWay'>;
 
 /*
   ! WARNING: This utility has an internal implementation.
@@ -17,9 +20,11 @@ import { ConditionCaseMap, ConditionObject } from './app';
  * //   ^ Type C = string | number
  */
 export type If<
-  Condition extends boolean | ConditionObject,
-  TrueCase = never,
-  FalseCase = never
-> = Condition extends ConditionObject
-  ? Condition[ConditionCaseMap[`${Condition['condition']}`]]
-  : Condition extends true ? TrueCase : FalseCase;
+  A extends ExtendsCaseMapA[IfMode],
+  B extends ExtendsCaseMapB[IfMode] = never,
+  C extends ExtendsCaseMapC[IfMode] = never
+> = {
+  'singleLine': SingleLineCondition<A, B, C>;
+  'natural': NaturalCondition<A, B>;
+  'explicit': ExplicitCondition<A>;
+}[IfMode];

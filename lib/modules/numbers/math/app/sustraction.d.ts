@@ -17,7 +17,10 @@ type getSustractCarry<A, B> = B extends ForceExtract<CarryOnAddition, ForceExtra
 
 type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>, B>> = {
   result: Result;
-  carryOut: If<And<[Equals<CarryIn, 1>, Equals<B, 9>]>, 1, getSustractCarry<A, Result>>;
+  carryOut: If<And<[Equals<CarryIn, 1>, Equals<B, 9>]>, {
+    then: 1;
+    else: getSustractCarry<A, Result>;
+  }>;
 };
 
 type _SubstractOnShifted<A, B, CarryIn = 0> = sustractDecimal<ToDecimal<ForceExtract<A, 'extracted'>>, ToDecimal<ForceExtract<B, 'extracted'>>, CarryIn>;

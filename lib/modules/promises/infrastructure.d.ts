@@ -13,4 +13,7 @@ import { IsNever } from '../never/infrastructure';
  * type C = IsPromise<never>;
  * //   ^? false
  */
-export type IsPromise<T> = If<IsNever<T>, false, T extends Promise<any> ? true : false>;
+export type IsPromise<T> = If<IsNever<T>, {
+  then: false;
+  else: T extends Promise<any> ? true : false;
+}>;

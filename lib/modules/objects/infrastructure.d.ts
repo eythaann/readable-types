@@ -9,7 +9,7 @@ import { IsUnknown } from '../unknow/infrastructure';
 import { AnyFunction } from '../functions/infrastructure';
 import { KeysOfUnion } from '../generals/infrastructure';
 import { NonUndefined } from '../undefined/infrastructure';
-import { IfSingleLine } from '../conditions/app';
+import { SingleLineCondition } from '../conditions/app';
 
 export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
@@ -47,9 +47,8 @@ export type Modify<T, U> = IsStrictObject<T> extends true
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
  */
-export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<{
-  condition: And<[IsStrictObject<T>, IsStrictObject<U>]>;
-  type: Prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & Modify<T, U[Key]> }[keyof U]>;
+export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<And<[IsStrictObject<T>, IsStrictObject<U>]>, {
+  then: Prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & Modify<T, U[Key]> }[keyof U]>;
   else: T;
 }>;
 
@@ -82,7 +81,7 @@ export type PickByValue<
   ? Prettify<_result>
   : ValuesToPick extends [infer X, ...infer Rest]
     ? PickByValue<Type, Rest, _result & {
-      [Key in keyof Type as IfSingleLine<Equals<Type[Key], X>, Key>]: Type[Key]
+      [Key in keyof Type as SingleLineCondition<Equals<Type[Key], X>, Key>]: Type[Key]
     }>
     : never;
 
@@ -103,10 +102,10 @@ export type CanBeEmptyObject<Type> = {} extends Type ? true : false;
  * //   ^? "b"
  */
 export type ReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: If<Equals<
-  { readonly [_ in Key]: Type[Key] },
-  { [_ in Key]: Type[Key] }
-  >, Key>
+  [Key in keyof Type]-?: If<Equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
+    then: Key;
+    else: never;
+  }>
 }[keyof Type];
 
 /**
@@ -116,10 +115,10 @@ export type ReadonlyKeys<Type> = {
  * //   ^? "a"
  */
 export type NoReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: If<Equals<
-  { -readonly [_ in Key]: Type[Key] },
-  { [_ in Key]: Type[Key] }
-  >, Key>
+  [Key in keyof Type]-?: If<Equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
+    then: Key;
+    else: never;
+  }>
 }[keyof Type];
 
 /**
@@ -129,7 +128,10 @@ export type NoReadonlyKeys<Type> = {
  * //   ^? "b" | "c"
  */
 export type RequiredKeys<Type> = {
-  [Key in keyof Type]-?: If<Not<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>>, Key>
+  [Key in keyof Type]-?: If<Not<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>>, {
+    then: Key;
+    else: never;
+  }>
 }[keyof Type];
 
 /**
@@ -139,7 +141,10 @@ export type RequiredKeys<Type> = {
  * //   ^? "a" | "b"
  */
 export type OptionalKeys<Type> = {
-  [Key in keyof Type]-?: If<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>, Key>
+  [Key in keyof Type]-?: If<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>, {
+    then: Key;
+    else: never;
+  }>
 }[keyof Type];
 
 /**

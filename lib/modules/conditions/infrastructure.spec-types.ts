@@ -1,27 +1,33 @@
-import { If } from './infrastructure';
+import { ExplicitCondition, NaturalCondition, SingleLineCondition } from './app';
 
 describeType('If', () => {
   testType('Should return TrueCase if Condition is true', [
-    assertType<If<true, string, number>>().equals<string>(),
-    assertType<If<true, '1234', 1234>>().equals<'1234'>(),
-    assertType<If<true, any, unknown>>().toBeAny(),
+    assertType<SingleLineCondition<true, string, number>>().equals<string>(),
+    assertType<SingleLineCondition<true, '1234', 1234>>().equals<'1234'>(),
+    assertType<SingleLineCondition<true, any, unknown>>().toBeAny(),
   ]);
 
   testType('Should return FalseCase if Condition is false', [
-    assertType<If<false, string, number>>().equals<number>(),
-    assertType<If<false, '1234', 1234>>().equals<1234>(),
-    assertType<If<false, any, unknown>>().toBeUnknow(),
+    assertType<SingleLineCondition<false, string, number>>().equals<number>(),
+    assertType<SingleLineCondition<false, '1234', 1234>>().equals<1234>(),
+    assertType<SingleLineCondition<false, any, unknown>>().toBeUnknow(),
   ]);
 
-  testType('Should return TrueCase | FalseCase if Condition is boolean', [
-    assertType<If<boolean, string, number>>().equals<string | number>(),
-    assertType<If<boolean, '1234', 1234>>().equals<'1234' | 1234>(),
-    assertType<If<boolean, any, unknown>>().toBeAny(), // in this case any | unknown resolve it as any
+  testType('Should return TrueCase if Condition is boolean', [
+    assertType<SingleLineCondition<boolean, string, number>>().equals<string>(),
+    assertType<SingleLineCondition<boolean, '1234', 1234>>().equals<'1234'>(),
+    assertType<SingleLineCondition<boolean, any, unknown>>().toBeAny(),
   ]);
 
-  testType('Should use condition object (variant 1)', [
-    assertType<If<{ condition: true; type: string; else: number }>>().equals<string>(),
-    assertType<If<{ condition: false; type: string; else: number }>>().equals<number>(),
-    assertType<If<{ condition: boolean; type: string; else: number }>>().equals<string | number>(),
+  testType('Should use condition object', [
+    assertType<ExplicitCondition<{ condition: true; then: string; else: number }>>().equals<string>(),
+    assertType<ExplicitCondition<{ condition: false; then: string; else: number }>>().equals<number>(),
+    assertType<ExplicitCondition<{ condition: boolean; then: string; else: number }>>().equals<string>(),
+  ]);
+
+  testType('Should use Natural condition object', [
+    assertType<NaturalCondition<true, { then: string; else: number }>>().equals<string>(),
+    assertType<NaturalCondition<false, { then: string; else: number }>>().equals<number>(),
+    assertType<NaturalCondition<boolean, { then: string; else: number }>>().equals<string>(),
   ]);
 });

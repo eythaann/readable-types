@@ -62,7 +62,10 @@ export type Or<T extends nLengthTuple<boolean>> = Not<IsNever<Extract<T[number],
  * //   ^? false
  */
 export type XOR<T extends boolean[], trueFinded extends boolean = false> = T extends [infer X, ...infer newT]
-  ? If<And<[Cast<X, boolean>, trueFinded]>, false, XOR<Cast<newT, boolean[]>, Or<[Cast<X, boolean>, trueFinded]>>>
+  ? If<And<[Cast<X, boolean>, trueFinded]>, {
+    then: false;
+    else: XOR<Cast<newT, boolean[]>, Or<[Cast<X, boolean>, trueFinded]>>;
+  }>
   : trueFinded;
 
 /**
@@ -90,7 +93,10 @@ export type Not<T extends boolean> = T extends true ? false : true;
  * type D = NotIf<false, false>;
  * //   ^? false
  */
-export type NotIf<Condition extends boolean, T extends boolean> = If<Condition, Not<T>, T>;
+export type NotIf<Condition extends boolean, T extends boolean> = If<Condition, {
+  then: Not<T>;
+  else: T;
+}>;
 
 /*
   -

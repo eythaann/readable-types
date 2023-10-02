@@ -14,7 +14,10 @@ type GetSumCarry<A, B> = B extends ForceExtract<CarryOnAddition, A> ? 1 : 0;
 
 type sumDecimal<A, B, CarryIn> = {
   result: GetSum<GetSum<A, B>, CarryIn>;
-  carryOut: If<And<[Equals<CarryIn, 1>, Equals<A, 9>]>, 1, GetSumCarry<GetSum<A, CarryIn>, B>>;
+  carryOut: If<And<[Equals<CarryIn, 1>, Equals<A, 9>]>, {
+    then: 1;
+    else: GetSumCarry<GetSum<A, CarryIn>, B>;
+  }>;
 };
 
 type _next<
