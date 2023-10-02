@@ -14,7 +14,7 @@ module.exports = {
     'comma-spacing': ['error', { 'before': false, 'after': true }],
     'keyword-spacing': 'error',
     'space-before-blocks': 'error',
-    'no-multiple-empty-lines': ['error', { 'max': 1, 'maxEOF': 1 }],
+    'no-multiple-empty-lines': ['error', { 'max': 1, 'maxEOF': 0, 'maxBOF': 0 }],
     'lines-between-class-members': ['error', 'always', { 'exceptAfterSingleLine': true } ],
     'padded-blocks': ['error', 'never'],
     'arrow-parens': ['error', 'always'],
@@ -40,12 +40,4 @@ module.exports = {
     '@typescript-eslint/type-annotation-spacing': ['error'],
     '@typescript-eslint/no-var-requires': ['off'],
   },
-  overrides: [
-    {
-      files: '**/*internal.d.ts',
-      rules: {
-        '@typescript-eslint/no-unused-vars': 0,
-      },
-    },
-  ],
 };

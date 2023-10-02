@@ -1,4 +1,3 @@
-
 /**
  * Extracts the types of the values of the properties of T.
  *

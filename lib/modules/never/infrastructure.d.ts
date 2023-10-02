@@ -1,4 +1,3 @@
-
 /**
  * Evaluates if the specified type is exactly a 'never' type.
  *

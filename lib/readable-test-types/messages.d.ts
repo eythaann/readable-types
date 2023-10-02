@@ -1,4 +1,3 @@
-
 type expect = 'Tested type';
 type expected = '\'expected\'';
 
