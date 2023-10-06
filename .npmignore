@@ -18,6 +18,7 @@ commitlint.config.ts
 # ts files
 tsconfig.tsbuildinfo
 tsconfig.json
+outDir
 
 # tests
 *spec-types.ts

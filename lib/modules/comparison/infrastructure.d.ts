@@ -1,4 +1,3 @@
-import { _RT } from '../..';
 import { Prettify } from '../objects/infrastructure';
 import { AND, If, IsAny, IsStrictObject, IsSubTypeBinary, IsSuperTypeBinary, OR, toBoolean } from './app';
 

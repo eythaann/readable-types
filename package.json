@@ -6,7 +6,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "tsc",
-    "typeChecking": "tsc --incremental --noEmit",
+    "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
     "prepare": "husky install",

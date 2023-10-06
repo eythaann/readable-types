@@ -8,8 +8,12 @@
     "strictFunctionTypes": true,
     "noEmit": true,
     "noErrorTruncation": true,
+    "incremental": true,
   },
   "include": [
     "./lib",
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
