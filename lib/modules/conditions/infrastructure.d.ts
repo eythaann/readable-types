@@ -1,30 +1,39 @@
 import { ForceExtract } from '../app';
-import { ExplicitCondition, ExtendsCaseMapA, ExtendsCaseMapB, ExtendsCaseMapC, NaturalCondition, SingleLineCondition } from './app';
+import { ExplicitCondition, ExtendsCaseMapA, ExtendsCaseMapB, ExtendsCaseMapC } from './app';
 
 type IfMode = ForceExtract<INTERNAL_RT_CONFIG, 'conditionWay'>;
+type AType = ExtendsCaseMapA[IfMode];
+type BType = ExtendsCaseMapB[IfMode];
+type CType = ExtendsCaseMapC[IfMode];
 
-/*
-  ! WARNING: This utility has an internal implementation.
-  If you are modifying this method, ensure to also update its corresponding internal implementation.
-*/
 /**
  * Conditional type that selects one of two possible types based on a boolean condition or a condition object.
+ * The way as you declare condition can be changed in your global.d.ts file
  *
  * @example
- * // using boolean condition
+ * 'Single Line'
  * type A = If<true, string, number>;
  * //   ^ Type A = string
- * type B = If<false, string, number>;
- * //   ^ Type B = number
- * type C = If<boolean, string, number>;
- * //   ^ Type C = string | number
+ *
+ * 'natural'
+ * type A = If<true, {
+ *  then: string;
+ *  else: number;
+ * }>;
+ *
+ * 'explicit'
+ * type A = If<{
+ *  condition: true;
+ *  then: string;
+ *  else: number;
+ * }>;
  */
 export type If<
-  A extends ExtendsCaseMapA[IfMode],
-  B extends ExtendsCaseMapB[IfMode] = never,
-  C extends ExtendsCaseMapC[IfMode] = never
-> = {
-  'singleLine': SingleLineCondition<A, B, C>;
-  'natural': NaturalCondition<A, B>;
-  'explicit': ExplicitCondition<A>;
-}[IfMode];
+  A extends AType,
+  B extends BType = never,
+  C extends CType = never
+> = ExplicitCondition<{
+  'singleLine': { condition: A; then: B; else: C };
+  'natural': { condition: A } & B;
+  'explicit': A;
+}[IfMode]>;
