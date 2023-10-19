@@ -3,7 +3,6 @@
   "version": "2.0.0-20231002",
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
-  "main": "./lib/index.js",
   "scripts": {
     "build": "tsc",
     "debugTypes": "tsc --generateTrace ./outDir",
