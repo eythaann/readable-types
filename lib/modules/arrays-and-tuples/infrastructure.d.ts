@@ -75,9 +75,9 @@ export type TupleIncludes<T, TypeToSearch> = T extends [infer Current, ...infer 
  * type B = Tuple<number>;
  * //   ^? [] | [number, ...number[]]
  */
-export type Tuple<Type, Length extends number | string = never> = IsNever<Length> extends true ? nLengthTuple<Type> : _Tuple<Type, Length>;
+export type Tuple<Type, Length extends number = never> = IsNever<Length> extends true ? nLengthTuple<Type> : _Tuple<Type, Length>;
 
-type _Tuple<Type, Length extends number | string, result extends unknown[] = []> = `${result['length']}` extends `${Length}`
+type _Tuple<Type, Length extends number, result extends unknown[] = []> = result['length'] extends Length
   ? result
   : [..._Tuple<Type, Length, [Type, ...result]>];
 
