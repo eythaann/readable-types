@@ -1,14 +1,13 @@
-import { IsAny } from '../any/infrastructure';
-import { IsNever } from '../never/infrastructure';
+import { IsSubType } from '../infrastructure';
 
 export type IsType<
   TypeToTest,
   TypeToCast,
-> = IsAny<TypeToTest> extends true
+> = 0 extends (1 & TypeToTest)
   ? false
-  : IsNever<TypeToTest> extends true
+  : [TypeToTest] extends [never]
     ? false
-    : [TypeToTest] extends [TypeToCast] ? true : false;
+    : IsSubType<TypeToTest, TypeToCast>;
 
 // @ts-ignore
 export type ForceExtract<T, Prop> = T[Prop];

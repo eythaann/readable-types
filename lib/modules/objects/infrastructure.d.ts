@@ -1,15 +1,12 @@
 import { AnyObject, KeyOfObject } from './domain';
-import { IsAny } from '../any/infrastructure';
 import { IsEmptyArray, IsTuple } from '../arrays-and-tuples/infrastructure';
 import { And, Not, Or } from '../booleans/infrastructure';
 import { Equals } from '../comparison/infrastructure';
 import { If } from '../conditions/infrastructure';
-import { IsNever } from '../never/infrastructure';
-import { IsUnknown } from '../unknow/infrastructure';
 import { AnyFunction } from '../functions/infrastructure';
 import { KeysOfUnion } from '../generals/infrastructure';
 import { NonUndefined } from '../undefined/infrastructure';
-import { SingleLineCondition } from '../conditions/app';
+import { IsType } from '../app';
 
 export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
@@ -19,20 +16,12 @@ export * from './domain';
  * Return true if type is of type object array or function
  * if you are searching for only object use IsStrictObject instead.Som
 */
-export type IsObject<T> = IsAny<T> extends true ? false
-  : IsNever<T> extends true ? false
-    : T extends AnyObject ? true
-      : false;
+export type IsObject<T> = IsType<T, AnyObject>;
 
 /**
- * Return true if type is of type object ignoring arrays.
+ * Return true if type is of type object ignoring arrays and functions.
 */
-//! WARNING: this type have a internal version please update it if you change this implementation
-export type IsStrictObject<T> = IsAny<T> extends true ? false
-  : IsNever<T> extends true ? false
-    : IsUnknown<T> extends true ? false
-      : T extends AnyObject ? T extends AnyFunction ? false : T extends any[] ? false : true
-        : false;
+export type IsStrictObject<T> = IsObject<T> extends true ? T extends AnyFunction ? false : T extends any[] ? false : true : false;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.
@@ -81,7 +70,10 @@ export type PickByValue<
   ? Prettify<_result>
   : ValuesToPick extends [infer X, ...infer Rest]
     ? PickByValue<Type, Rest, _result & {
-      [Key in keyof Type as SingleLineCondition<Equals<Type[Key], X>, Key>]: Type[Key]
+      [Key in keyof Type as If<Equals<Type[Key], X>, {
+        then: Key;
+        else: never;
+      }>]: Type[Key]
     }>
     : never;
 

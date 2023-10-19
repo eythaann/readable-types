@@ -78,7 +78,7 @@ export type XOR<T extends boolean[], trueFinded extends boolean = false> = T ext
  * type B = Not<false>;
  * //   ^? true
  */
-export type Not<T extends boolean> = T extends true ? false : true;
+export type Not<T extends boolean> = [T] extends [true] ? false : true;
 
 /**
  * Performs a logical NOT operation on a boolean value conditionally.
