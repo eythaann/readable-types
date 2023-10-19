@@ -4,7 +4,7 @@
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "typeChecking": "tsc",
     "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
