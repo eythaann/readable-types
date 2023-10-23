@@ -1,3 +1,6 @@
+export * from './HKT/infrastructure';
+export * from './HKT/domain';
+
 /**
  * Extracts the types of the values of the properties of T.
  *
