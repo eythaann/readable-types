@@ -2,15 +2,15 @@ import { Modify } from '../infrastructure';
 import { ForceExtract, ForceToString } from '../../app';
 import { getTupleIndexes, nLengthTuple } from '../../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../../arrays-and-tuples/app';
-import { TupleReduceHKT, UnionMapHKT, IteratorHKT } from '../../iterators/infrastructure';
 import { IsNever } from '../../never/infrastructure';
 import { InternalAdd } from '../../numbers/math/app/addition';
 import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
+import { $, TupleReduce, UnionMap } from '../../infrastructure';
 
-interface createGroup<L, Result extends unknown[], lastKey> extends IteratorHKT.Union {
+interface $CreateGroup<T, maxLenght, Result extends unknown[], lastKey> extends $<{ current: unknown }> {
   return: InternalBiggerThan<[lastKey], [this['current']]> extends true
     ? never
-    : GetUnionGroupByNumericOrder<Exclude<this['all'], this['current']>, L, [...Result, this['current']], this['current']>;
+    : GetUnionGroupByNumericOrder<Exclude<T, this['current']>, maxLenght, [...Result, this['current']], this['current']>;
 }
 
 type GetUnionGroupByNumericOrder<
@@ -18,7 +18,7 @@ type GetUnionGroupByNumericOrder<
   L,
   Result extends unknown[] = [],
   lastKey = 0,
-> = `${Result['length']}` extends ForceToString<L> ? Result : UnionMapHKT<T, createGroup<L, Result, lastKey>>;
+> = `${Result['length']}` extends ForceToString<L> ? Result : UnionMap<T, $CreateGroup<T, L, Result, lastKey>>;
 
 type GetAllPosibleGroupsByNumericOrder<
   T,
@@ -27,8 +27,7 @@ type GetAllPosibleGroupsByNumericOrder<
   newResult = GetUnionGroupByNumericOrder<T, current>
 > = IsNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
 
-interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends IteratorHKT.Tuple {
-  initialAcc: mainObj & { [_ in K]: [] };
+interface $CreateAcumulativeModified<U, K extends string> extends $<{ acc: unknown; current: unknown }> {
   return: Modify<
   this['acc'],
   ForceExtract<ForceExtract<U, this['current']>, 1> & {
@@ -36,8 +35,8 @@ interface CreateAcumulativeModifiedHTK<mainObj, U, K extends string> extends Ite
   }>;
 }
 
-interface CreateAllAcumulativeModifiedHTK<T, U, K extends string> extends IteratorHKT.Union<nLengthTuple<string>> {
-  return: TupleReduceHKT<this['current'], CreateAcumulativeModifiedHTK<T, U, K>>;
+interface $CreateAllAcumulativeModified<T, U, K extends string> extends $<{ current: nLengthTuple<string> }> {
+  return: TupleReduce<this['current'], $CreateAcumulativeModified<U, K>, T & { [_ in K]: [] }>;
 }
 
 /**
@@ -62,8 +61,7 @@ export type ModifyByKeyPlusOrderedCombinations<
   overrides extends [string, any][],
   keyToDiscrimitate extends string = '__key'
 > = (mainObj & { [_ in keyToDiscrimitate]?: undefined })
-// @ts-ignore
-| UnionMapHKT<
+| UnionMap<
 GetAllPosibleGroupsByNumericOrder<getTupleIndexes<overrides>>,
-CreateAllAcumulativeModifiedHTK<mainObj, overrides, keyToDiscrimitate>
+$CreateAllAcumulativeModified<mainObj, overrides, keyToDiscrimitate>
 >;
