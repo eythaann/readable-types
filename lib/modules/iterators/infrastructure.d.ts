@@ -13,7 +13,7 @@ type DoMap<
   lastResult = [],
 
   nextIndex = InternalAdd<currentIndex, 1>,
-  result = forceConcat<lastResult, [Call<$callback, { current: ForceExtract<tuple, currentIndex> }>]>,
+  result = forceConcat<lastResult, [Call<$callback, [current: ForceExtract<tuple, currentIndex>]>]>,
 > = nextIndex extends ForceExtract<tuple, 'length'>
   ? result
   : DoMap<tuple, $callback, nextIndex, result>;
@@ -32,7 +32,7 @@ type DoMap<
  * }
  * type result = TupleMap<[1, 2, 3], $callback>;  // ['1', '2', '3']
  */
-export type TupleMap<tuple extends nLengthTuple, $callback extends $<{ current: unknown }>> = tuple extends [] ? [] : DoMap<tuple, $callback>;
+export type TupleMap<tuple extends nLengthTuple, $callback extends $<[current: unknown]>> = tuple extends [] ? [] : DoMap<tuple, $callback>;
 
 type DoReduce<
   tuple,
@@ -41,7 +41,7 @@ type DoReduce<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-  result = Call<$callback, { acc: acc; current: ForceExtract<tuple, currentIndex> }>,
+  result = Call<$callback, [acc: acc, current: ForceExtract<tuple, currentIndex>]>,
 > = nextIndex extends ForceExtract<tuple, 'length'>
   ? result
   : DoReduce<tuple, $callback, result, nextIndex>;
@@ -63,7 +63,7 @@ type DoReduce<
  */
 export type TupleReduce<
   tuple extends nLengthTuple,
-  $callback extends $<{ acc: unknown; current: unknown }>,
+  $callback extends $<[acc: unknown, current: unknown]>,
   initialAcc,
 > = tuple extends [] ? initialAcc : DoReduce<tuple, $callback, initialAcc>;
 
@@ -73,7 +73,7 @@ type DoFind<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-> = IsTrue<Call<$callback, { current: ForceExtract<tuple, currentIndex> }>> extends true
+> = IsTrue<Call<$callback, [current: ForceExtract<tuple, currentIndex>]>> extends true
   ? ForceExtract<tuple, currentIndex>
   : nextIndex extends ForceExtract<tuple, 'length'>
     ? never
@@ -95,7 +95,7 @@ type DoFind<
  */
 export type TupleFind<
   tuple extends nLengthTuple,
-  $callback extends $<{ current: unknown }>,
+  $callback extends $<[current: unknown]>,
 > = tuple extends [] ? never : DoFind<tuple, $callback>;
 
 /**

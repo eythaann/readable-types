@@ -7,6 +7,9 @@ import { IsNever } from '../never/infrastructure';
 import { StrToNumber } from '../numbers/infrastructure';
 import { Substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings/infrastructure';
+import { nLengthTuple } from './domain';
+
+export * from './domain';
 
 /**
  * Evaluates if the specified type is an array.
@@ -80,12 +83,6 @@ export type Tuple<Type, Length extends number = never> = IsNever<Length> extends
 type _Tuple<Type, Length extends number, result extends unknown[] = []> = result['length'] extends Length
   ? result
   : [..._Tuple<Type, Length, [Type, ...result]>];
-
-/**
- * Create the representation of tuple type of n length.
- * Util for create baseType of tuple for be extended.
- */
-export type nLengthTuple<type = unknown> = [] | [type, ...type[]];
 
 /**
  * `Shift` takes a tuple and returns a new tuple excluding the first element from the original tuple.
