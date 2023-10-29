@@ -1,3 +1,5 @@
+import { IsUndefined, IsUnknown } from '../infrastructure';
+
 export * from './HKT/infrastructure';
 export * from './HKT/domain';
 
@@ -81,3 +83,12 @@ declare const Brand: unique symbol;
  * Normally this is usefull on advanced generics functions.
  */
 export type NoInfer<T> = [T][T extends any ? 0 : never];
+
+/**
+ * A utility type that substitutes a default type when the provided type is unknown | undefined.
+ * @example
+ * type A = Default<unknown, string>;  // Result: string
+ * type B = Default<number, string>;  // Result: number
+ * type C = Default<undefined, string>;  // Result: string
+ */
+export type Default<Type, Default> = IsUnknown<Type> extends true ? Default : IsUndefined<Type> extends true ? Default : Type;

@@ -29,3 +29,11 @@ export type NonUndefined<T> = T extends undefined ? never : T;
 
 /** remove null from type */
 export type NonNull<T> = T extends null ? never : T;
+
+/**
+ * A utility type that substitutes a default type when the provided type is undefined.
+ * @example
+ * type A = DefaultOnUndefined<undefined, string>;  // Result: string
+ * type B = DefaultOnUndefined<number, string>;  // Result: number
+ */
+export type DefaultOnUndefined<Type, Default> = IsUndefined<Type> extends true ? Default : Type;

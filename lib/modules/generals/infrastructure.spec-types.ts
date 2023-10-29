@@ -1,4 +1,4 @@
-import { Cast, KeysOfUnion, Opaque, UnionToIntersection, ValueOf, WeakOpaque } from './infrastructure';
+import { Cast, Default, KeysOfUnion, Opaque, UnionToIntersection, ValueOf, WeakOpaque } from './infrastructure';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [
@@ -98,5 +98,20 @@ describeType('WeakOpaque', () => {
 
     assertType<typeof userId>().not.equals<OrderID>();
     assertType<typeof orderId>().not.equals<UserID>();
+  });
+});
+
+describeType('DefaultOnUnknown', () => {
+  testType('Should replace type with the default type', () => {
+    type result = Default<undefined, string>;
+    type result2 = Default<unknown, string>;
+
+    assertType<result>().equals<string>();
+    assertType<result2>().equals<string>();
+  });
+
+  testType('Should retain the original type if it is not undefined | unknown', () => {
+    type result = Default<number, string>;
+    assertType<result>().equals<number>();
   });
 });

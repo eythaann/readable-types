@@ -1,4 +1,4 @@
-import { IsNull, IsUndefined, NonNull, NonUndefined } from './infrastructure';
+import { DefaultOnUndefined, IsNull, IsUndefined, NonNull, NonUndefined } from './infrastructure';
 
 describeType('IsUndefined', () => {
   testType('Should return true only for undefined', [
@@ -89,5 +89,17 @@ describeType('NonNull', () => {
     type TestType = { a: number; b?: string } | null;
     type ExpectedType = { a: number; b?: string };
     assertType<NonNull<TestType>>().equals<ExpectedType>();
+  });
+});
+
+describeType('DefaultOnUnknown', () => {
+  testType('Should replace undefined type with the default type', () => {
+    type result = DefaultOnUndefined<undefined, string>;
+    assertType<result>().equals<string>();
+  });
+
+  testType('Should retain the original type if it is not undefined', () => {
+    type result = DefaultOnUndefined<number, string>;
+    assertType<result>().equals<number>();
   });
 });
