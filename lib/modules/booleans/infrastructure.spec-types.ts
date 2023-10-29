@@ -1,4 +1,4 @@
-import { All, And, Every, IsBoolean, Or, Some, Not, NotIf, XOR, IsTrue, IsFalse } from './infrastructure';
+import { All, And, Every, IsBoolean, Or, Some, Not, NotIf, IsTrue, IsFalse } from './infrastructure';
 
 describeType('IsBoolean', () => {
   testType('Should return true only for boolean', [
@@ -43,32 +43,6 @@ describeType('Or', () => {
   // Test alias Some
   testType('Some should work the same as Or', [
     assertType<Some<[true, false, false]>>().toBeTrue(),
-  ]);
-});
-
-describeType('XOR', () => {
-  testType('Should return true if exactly one value in the array is true', [
-    assertType<XOR<[true, false, false, false]>>().toBeTrue(),
-    assertType<XOR<[false, true, false, false]>>().toBeTrue(),
-    assertType<XOR<[false, false, false, true]>>().toBeTrue(),
-  ]);
-
-  testType('Should return false if more than one value in the array is true', [
-    assertType<XOR<[true, true, false, false]>>().toBeFalse(),
-    assertType<XOR<[true, false, true, false]>>().toBeFalse(),
-    assertType<XOR<[true, false, false, true]>>().toBeFalse(),
-    assertType<XOR<[true, true, true, false]>>().toBeFalse(),
-    assertType<XOR<[true, true, false, true]>>().toBeFalse(),
-    assertType<XOR<[true, false, true, true]>>().toBeFalse(),
-    assertType<XOR<[true, true, true, true]>>().toBeFalse(),
-  ]);
-
-  testType('Should return false if no values in the array are true', [
-    assertType<XOR<[false, false, false, false]>>().toBeFalse(),
-  ]);
-
-  testType('Should return false if array is empty', [
-    assertType<XOR<[]>>().toBeFalse(),
   ]);
 });
 

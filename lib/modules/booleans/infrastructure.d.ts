@@ -1,6 +1,5 @@
 import { IsType } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
-import { Cast } from '../generals/infrastructure';
 import { IsNever } from '../never/infrastructure';
 
 /**
@@ -49,23 +48,6 @@ export type And<T extends nLengthTuple<boolean>> = IsNever<Extract<T[number], fa
  * //   ^? false
  */
 export type Or<T extends nLengthTuple<boolean>> = Not<IsNever<Extract<T[number], true>>>;
-
-/**
- * Performs a XOR operation on an array of boolean values.
- * @example
- * type A = Or<[false, false, true]>;
- * //   ^? true
- * type A = Or<[false, true, true]>;
- * //   ^? false
- * type B = Or<[false, false, false]>;
- * //   ^? false
- */
-export type XOR<T extends boolean[], trueFinded extends boolean = false> = T extends [infer X, ...infer newT]
-  ? If<And<[Cast<X, boolean>, trueFinded]>, {
-    then: false;
-    else: XOR<Cast<newT, boolean[]>, Or<[Cast<X, boolean>, trueFinded]>>;
-  }>
-  : trueFinded;
 
 /**
  * Performs a logical NOT operation on a boolean value.
