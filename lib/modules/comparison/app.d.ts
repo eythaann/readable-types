@@ -1,6 +1,3 @@
-import { AnyFunction } from '../functions/infrastructure';
-import { AnyObject } from '../objects/infrastructure';
-
 export type binaryMap<T> = {
   1: false;
   0: unknown extends T ? true : false;
@@ -28,15 +25,9 @@ export type IsStrictObject<T> = IsAny<T> extends 1
   ? 0
   : IsNever<T> extends 1
     ? 0
-    : IsUnknown<T> extends 1
-      ? 0
-      : T extends AnyObject
-        ? T extends AnyFunction
-          ? 0
-          : T extends any[]
-            ? 0
-            : 1
-        : 0;
+    : [T] extends [unknownObject]
+      ? 1
+      : 0;
 
 export interface XOR {
   0: {

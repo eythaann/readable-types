@@ -41,7 +41,7 @@ describeType('IsStrictObject', () => {
     assertType<IsStrictObject<any[]>>().toBeFalse(),
     assertType<IsStrictObject<never[]>>().toBeFalse(),
     assertType<IsStrictObject<AnyFunction>>().toBeFalse(),
-    assertType<IsStrictObject<AnyFunction>>().toBeFalse(),
+    assertType<IsStrictObject<() => any>>().toBeFalse(),
   ]);
 
   testType('Should return true if type is of type object', [

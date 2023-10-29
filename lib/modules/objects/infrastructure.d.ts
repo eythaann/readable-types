@@ -2,8 +2,6 @@ import { AnyObject, KeyOfObject } from './domain';
 import { IsEmptyArray, IsTuple } from '../arrays-and-tuples/infrastructure';
 import { And, Not, Or } from '../booleans/infrastructure';
 import { Equals } from '../comparison/infrastructure';
-import { If } from '../conditions/infrastructure';
-import { AnyFunction } from '../functions/infrastructure';
 import { KeysOfUnion } from '../generals/infrastructure';
 import { NonUndefined } from '../undefined/infrastructure';
 import { IsType } from '../app';
@@ -14,14 +12,14 @@ export * from './domain';
 
 /**
  * Return true if type is of type object array or function
- * if you are searching for only object use IsStrictObject instead.Som
+ * if you are searching for only object use IsStrictObject instead.
 */
 export type IsObject<T> = IsType<T, AnyObject>;
 
 /**
  * Return true if type is of type object ignoring arrays and functions.
 */
-export type IsStrictObject<T> = IsObject<T> extends true ? T extends AnyFunction ? false : T extends any[] ? false : true : false;
+export type IsStrictObject<T> = IsType<T, unknownObject>;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.

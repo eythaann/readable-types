@@ -1,6 +1,5 @@
 import { ForceExtract } from '../modules/app';
 import {
-  If,
   IsFunction,
   IsArray,
   NotIf as InvertIf,

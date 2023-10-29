@@ -11,8 +11,4 @@
  * type C = IsNever<number | never>;
  * //   ^? false
  */
-/*
-  ! WARNING: This utility has an internal implementation.
-  If you are modifying this method, ensure to also update its corresponding internal implementation.
-*/
 export type IsNever<Type> = [Type] extends [never] ? true : false;

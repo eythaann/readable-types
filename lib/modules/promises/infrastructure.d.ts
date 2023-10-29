@@ -1,4 +1,3 @@
-import { If } from '../conditions/infrastructure';
 import { IsNever } from '../never/infrastructure';
 
 /**

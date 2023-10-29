@@ -1,6 +1,5 @@
 import { IsType } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
-import { If } from '../conditions/infrastructure';
 import { Cast } from '../generals/infrastructure';
 import { IsNever } from '../never/infrastructure';
 

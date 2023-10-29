@@ -2,7 +2,6 @@ import { ForceExtract, ForceToString } from '../../../app';
 import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
 import { And } from '../../../booleans/infrastructure';
 import { Equals } from '../../../comparison/infrastructure';
-import { If } from '../../../conditions/infrastructure';
 import { Split, TupleToString } from '../../../strings/infrastructure';
 import { CarryOnAddition, DecimalHashMap } from '../domain';
 import { ToDecimal } from './addition';

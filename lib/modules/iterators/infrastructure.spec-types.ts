@@ -3,8 +3,8 @@ import { Add, Equals, TupleFind, TupleReduce, UnionMap } from '../infrastructure
 import { TupleMap } from './infrastructure';
 
 describeType('TupleMap', () => {
-  interface $callback extends $<{ current: number }> {
-    return: `${this['current']}`;
+  interface $callback extends $<[current: number]> {
+    return: `${this['0']}`;
   }
 
   testType('Should correctly map each number in a tuple to its string representation', () => {
@@ -19,8 +19,8 @@ describeType('TupleMap', () => {
 });
 
 describeType('TupleReduce', () => {
-  interface $callback extends $<{ acc: number; current: number }> {
-    return: Add<this['acc'], this['current']>;
+  interface $callback extends $<[acc: number, current: number]> {
+    return: Add<this['0'], this['1']>;
   }
 
   testType('Should correctly reduce a tuple of numbers to their sum', () => {
@@ -36,16 +36,16 @@ describeType('TupleReduce', () => {
 
 describeType('TupleFind', () => {
   testType('Should correctly find the string "ab" in a tuple', () => {
-    interface $callback extends $<{ current: number | string }> {
-      return: Equals<this['current'], 'ab'>;
+    interface $callback extends $<[current: number | string]> {
+      return: Equals<this['0'], 'ab'>;
     }
     type result = TupleFind<[1, 2, 3, 4, 'ab', 6], $callback>;
     assertType<result>().equals<'ab'>();
   });
 
   testType('Should return never if the item is not found', () => {
-    interface $callback extends $<{ current: number | string }> {
-      return: Equals<this['current'], 'not-found'>;
+    interface $callback extends $<[current: number | string]> {
+      return: Equals<this['0'], 'not-found'>;
     }
     type result = TupleFind<[1, 2, 3, 4, 'ab', 6], $callback>;
     assertType<result>().toBeNever();

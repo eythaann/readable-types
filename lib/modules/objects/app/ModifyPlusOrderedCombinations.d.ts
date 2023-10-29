@@ -27,11 +27,11 @@ type GetAllPosibleGroupsByNumericOrder<
   newResult = GetUnionGroupByNumericOrder<T, current>
 > = IsNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
 
-interface $CreateAcumulativeModified<U, K extends string> extends $<{ acc: unknown; current: unknown }> {
+interface $CreateAcumulativeModified<U, K extends string> extends $<[acc: unknown, current: unknown]> {
   return: Modify<
-  this['acc'],
-  ForceExtract<ForceExtract<U, this['current']>, 1> & {
-    readonly [_ in K]: forceConcat<ForceExtract<this['acc'], K>, [ForceExtract<ForceExtract<U, this['current']>, 0>]>
+  this['0'],
+  ForceExtract<ForceExtract<U, this['1']>, 1> & {
+    readonly [_ in K]: forceConcat<ForceExtract<this['0'], K>, [ForceExtract<ForceExtract<U, this['1']>, 0>]>
   }>;
 }
 
