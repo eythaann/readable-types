@@ -1,29 +1,29 @@
-import { IsType } from '../app';
+import { isType } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
-import { IsNever } from '../never/infrastructure';
+import { isNever } from '../never/infrastructure';
 
 /**
  * Evaluates if the specified type is a boolean.
  *
  * @example
- * type A = IsBoolean<boolean>;
+ * type A = isBoolean<boolean>;
  * //   ^? true
- * type B = IsBoolean<string>;
+ * type B = isBoolean<string>;
  * //   ^? false
- * type C = IsBoolean<boolean | never>;
+ * type C = isBoolean<boolean | never>;
  * //   ^? true
  */
-export type IsBoolean<T> = IsType<T, boolean>;
+export type isBoolean<T> = isType<T, boolean>;
 
 /**
  * Evaluates if the specified type is a `true`.
  */
-export type IsTrue<T> = IsType<T, true>;
+export type isTrue<T> = isType<T, true>;
 
 /**
  * Evaluates if the specified type is `false`.
  */
-export type IsFalse<T> = IsType<T, false>;
+export type isFalse<T> = isType<T, false>;
 
 /**
  * Performs a logical AND operation on a tuple of boolean values.
@@ -35,7 +35,7 @@ export type IsFalse<T> = IsType<T, false>;
  * type B = And<[true, false, true]>;
  * //   ^? false
  */
-export type And<T extends nLengthTuple<boolean>> = IsNever<Extract<T[number], false>>;
+export type And<T extends nLengthTuple<boolean>> = isNever<Extract<T[number], false>>;
 
 /**
  * Performs a logical OR operation on a tuple of boolean values.
@@ -47,7 +47,7 @@ export type And<T extends nLengthTuple<boolean>> = IsNever<Extract<T[number], fa
  * type B = Or<[false, false, false]>;
  * //   ^? false
  */
-export type Or<T extends nLengthTuple<boolean>> = Not<IsNever<Extract<T[number], true>>>;
+export type Or<T extends nLengthTuple<boolean>> = Not<isNever<Extract<T[number], true>>>;
 
 /**
  * Performs a logical NOT operation on a boolean value.

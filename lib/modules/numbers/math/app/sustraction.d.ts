@@ -1,8 +1,8 @@
-import { ForceExtract, ForceToString } from '../../../app';
+import { ForceExtract, forceToString } from '../../../app';
 import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
 import { And } from '../../../booleans/infrastructure';
-import { Equals } from '../../../comparison/infrastructure';
-import { Split, TupleToString } from '../../../strings/infrastructure';
+import { equals } from '../../../comparison/infrastructure';
+import { split, join } from '../../../strings/infrastructure';
 import { CarryOnAddition, DecimalHashMap } from '../domain';
 import { ToDecimal } from './addition';
 import { InternalBiggerThan } from './arimetic';
@@ -16,7 +16,7 @@ type getSustractCarry<A, B> = B extends ForceExtract<CarryOnAddition, ForceExtra
 
 type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>, B>> = {
   result: Result;
-  carryOut: If<And<[Equals<CarryIn, 1>, Equals<B, 9>]>, {
+  carryOut: If<And<[equals<CarryIn, 1>, equals<B, 9>]>, {
     then: 1;
     else: getSustractCarry<A, Result>;
   }>;
@@ -38,10 +38,10 @@ type MakeSubstractOnTuple<A, B, Result = [], CarryIn = 0> = A extends []
   : _next<Pop<A>, Pop<B>, Result, CarryIn>;
 
 type MakeSubstract<A_Digits, B_Digits> = InternalBiggerThan<B_Digits, A_Digits> extends true
-  ? `-${TupleToString<MakeSubstractOnTuple<B_Digits, A_Digits>>}`
-  : TupleToString<MakeSubstractOnTuple<A_Digits, B_Digits>>;
+  ? `-${join<MakeSubstractOnTuple<B_Digits, A_Digits>>}`
+  : join<MakeSubstractOnTuple<A_Digits, B_Digits>>;
 
-export type InternalSubstract<A, B, R = MakeSubstract<Split<ForceToString<A>>, Split<ForceToString<B>>>> =
+export type InternalSubstract<A, B, R = MakeSubstract<split<forceToString<A>>, split<forceToString<B>>>> =
   R extends ''
     ? 0
     : R extends`${infer X extends number}`

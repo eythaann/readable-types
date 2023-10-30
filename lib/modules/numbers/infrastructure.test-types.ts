@@ -1,41 +1,39 @@
-import { IsNumber, StrToNumber } from './infrastructure';
-import { AnyFunction } from '../functions/infrastructure';
-import { AnyObject } from '../objects/infrastructure';
+import { isNumber, strToNumber } from './infrastructure';
 
 describeType('IsNumber', () => {
   testType('Should return false if type is not a number', [
-    assertType<IsNumber<string>>().toBeFalse(),
-    assertType<IsNumber<'1234'>>().toBeFalse(),
-    assertType<IsNumber<any>>().toBeFalse(),
-    assertType<IsNumber<unknown>>().toBeFalse(),
-    assertType<IsNumber<undefined>>().toBeFalse(),
-    assertType<IsNumber<null>>().toBeFalse(),
-    assertType<IsNumber<AnyObject>>().toBeFalse(),
-    assertType<IsNumber<AnyFunction>>().toBeFalse(),
-    assertType<IsNumber<bigint>>().toBeFalse(),
-    assertType<IsNumber<any[]>>().toBeFalse(),
-    assertType<IsNumber<never[]>>().toBeFalse(),
-    assertType<IsNumber<symbol>>().toBeFalse(),
-    assertType<IsNumber<never>>().toBeFalse(),
-    assertType<IsNumber<string | number>>().toBeFalse(),
-    assertType<IsNumber<number & string>>().toBeFalse(),
+    assertType<isNumber<string>>().toBeFalse(),
+    assertType<isNumber<'1234'>>().toBeFalse(),
+    assertType<isNumber<any>>().toBeFalse(),
+    assertType<isNumber<unknown>>().toBeFalse(),
+    assertType<isNumber<undefined>>().toBeFalse(),
+    assertType<isNumber<null>>().toBeFalse(),
+    assertType<isNumber<anyObject>>().toBeFalse(),
+    assertType<isNumber<anyFunction>>().toBeFalse(),
+    assertType<isNumber<bigint>>().toBeFalse(),
+    assertType<isNumber<any[]>>().toBeFalse(),
+    assertType<isNumber<never[]>>().toBeFalse(),
+    assertType<isNumber<symbol>>().toBeFalse(),
+    assertType<isNumber<never>>().toBeFalse(),
+    assertType<isNumber<string | number>>().toBeFalse(),
+    assertType<isNumber<number & string>>().toBeFalse(),
   ]);
 
   testType('Should return true if type is a number', [
-    assertType<IsNumber<number>>().toBeTrue(),
-    assertType<IsNumber<1234>>().toBeTrue(),
-    assertType<IsNumber<number | never>>().toBeTrue(),
+    assertType<isNumber<number>>().toBeTrue(),
+    assertType<isNumber<1234>>().toBeTrue(),
+    assertType<isNumber<number | never>>().toBeTrue(),
   ]);
 });
 
 describeType('StrToNumber', () => {
   testType('Should convert string representation of a number to number type', () => {
-    type result = StrToNumber<'42'>;
+    type result = strToNumber<'42'>;
     assertType<result>().equals<42>();
   });
 
   testType('Should result in never for non-numeric string', () => {
-    type result = StrToNumber<'foo'>;
+    type result = strToNumber<'foo'>;
     assertType<result>().toBeNever();
   });
 });

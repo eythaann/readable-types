@@ -1,6 +1,6 @@
-import { ForceExtract, ForceToString } from '../../../app';
+import { ForceExtract, forceToString } from '../../../app';
 import { Shift } from '../../../arrays-and-tuples/infrastructure';
-import { Split } from '../../../strings/infrastructure';
+import { split } from '../../../strings/infrastructure';
 import { ToDecimal } from './addition';
 
 interface BiggerTable {
@@ -30,4 +30,4 @@ export type InternalBiggerThan<
         ? false
         // @ts-ignore
         : InternalBiggerThan<Shift<A_Tuple>, Shift<B_Tuple>>
-  : InternalBiggerThan<Split<ForceToString<A_Length>>, Split<ForceToString<B_Length>>>;
+  : InternalBiggerThan<split<forceToString<A_Length>>, split<forceToString<B_Length>>>;

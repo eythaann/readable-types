@@ -1,23 +1,23 @@
-import { All, And, Every, IsBoolean, Or, Some, Not, NotIf, IsTrue, IsFalse } from './infrastructure';
+import { All, And, Every, isBoolean, Or, Some, Not, NotIf, isTrue, isFalse } from './infrastructure';
 
 describeType('IsBoolean', () => {
   testType('Should return true only for boolean', [
-    assertType<IsBoolean<boolean>>().toBeTrue(),
-    assertType<IsBoolean<boolean | never>>().toBeTrue(),
+    assertType<isBoolean<boolean>>().toBeTrue(),
+    assertType<isBoolean<boolean | never>>().toBeTrue(),
   ]);
 
   testType('Should return false for all other types', [
-    assertType<IsBoolean<any>>().toBeFalse(),
-    assertType<IsBoolean<never>>().toBeFalse(),
-    assertType<IsBoolean<number>>().toBeFalse(),
-    assertType<IsBoolean<{}>>().toBeFalse(),
-    assertType<IsBoolean<null>>().toBeFalse(),
-    assertType<IsBoolean<undefined>>().toBeFalse(),
-    assertType<IsBoolean<unknown>>().toBeFalse(),
-    assertType<IsBoolean<any[]>>().toBeFalse(),
-    assertType<IsBoolean<symbol>>().toBeFalse(),
-    assertType<IsBoolean<bigint>>().toBeFalse(),
-    assertType<IsBoolean<string | number>>().toBeFalse(),
+    assertType<isBoolean<any>>().toBeFalse(),
+    assertType<isBoolean<never>>().toBeFalse(),
+    assertType<isBoolean<number>>().toBeFalse(),
+    assertType<isBoolean<{}>>().toBeFalse(),
+    assertType<isBoolean<null>>().toBeFalse(),
+    assertType<isBoolean<undefined>>().toBeFalse(),
+    assertType<isBoolean<unknown>>().toBeFalse(),
+    assertType<isBoolean<any[]>>().toBeFalse(),
+    assertType<isBoolean<symbol>>().toBeFalse(),
+    assertType<isBoolean<bigint>>().toBeFalse(),
+    assertType<isBoolean<string | number>>().toBeFalse(),
   ]);
 });
 
@@ -64,38 +64,38 @@ describeType('NotIf', () => {
 
 describeType('IsTrue', () => {
   testType('Should determine if a type is `true`', [
-    assertType<IsTrue<true>>().__internal.shouldBe(true),
-    assertType<IsTrue<false>>().__internal.shouldBe(false),
-    assertType<IsTrue<any>>().__internal.shouldBe(false),
-    assertType<IsTrue<unknown>>().__internal.shouldBe(false),
-    assertType<IsTrue<never>>().__internal.shouldBe(false),
-    assertType<IsTrue<{}>>().__internal.shouldBe(false),
-    assertType<IsTrue<null>>().__internal.shouldBe(false),
-    assertType<IsTrue<undefined>>().__internal.shouldBe(false),
-    assertType<IsTrue<0>>().__internal.shouldBe(false),
-    assertType<IsTrue<1>>().__internal.shouldBe(false),
-    assertType<IsTrue<string>>().__internal.shouldBe(false),
-    assertType<IsTrue<boolean>>().__internal.shouldBe(false),
-    assertType<IsTrue<'true'>>().__internal.shouldBe(false),
-    assertType<IsTrue<'false'>>().__internal.shouldBe(false),
+    assertType<isTrue<true>>().__internal.shouldBe(true),
+    assertType<isTrue<false>>().__internal.shouldBe(false),
+    assertType<isTrue<any>>().__internal.shouldBe(false),
+    assertType<isTrue<unknown>>().__internal.shouldBe(false),
+    assertType<isTrue<never>>().__internal.shouldBe(false),
+    assertType<isTrue<{}>>().__internal.shouldBe(false),
+    assertType<isTrue<null>>().__internal.shouldBe(false),
+    assertType<isTrue<undefined>>().__internal.shouldBe(false),
+    assertType<isTrue<0>>().__internal.shouldBe(false),
+    assertType<isTrue<1>>().__internal.shouldBe(false),
+    assertType<isTrue<string>>().__internal.shouldBe(false),
+    assertType<isTrue<boolean>>().__internal.shouldBe(false),
+    assertType<isTrue<'true'>>().__internal.shouldBe(false),
+    assertType<isTrue<'false'>>().__internal.shouldBe(false),
   ]);
 });
 
 describeType('IsFalse', () => {
   testType('Should determine if a type is `false`', [
-    assertType<IsFalse<false>>().__internal.shouldBe(true),
-    assertType<IsFalse<true>>().__internal.shouldBe(false),
-    assertType<IsFalse<any>>().__internal.shouldBe(false),
-    assertType<IsFalse<unknown>>().__internal.shouldBe(false),
-    assertType<IsFalse<never>>().__internal.shouldBe(false),
-    assertType<IsFalse<{}>>().__internal.shouldBe(false),
-    assertType<IsFalse<null>>().__internal.shouldBe(false),
-    assertType<IsFalse<undefined>>().__internal.shouldBe(false),
-    assertType<IsFalse<0>>().__internal.shouldBe(false),
-    assertType<IsFalse<1>>().__internal.shouldBe(false),
-    assertType<IsFalse<string>>().__internal.shouldBe(false),
-    assertType<IsFalse<boolean>>().__internal.shouldBe(false),
-    assertType<IsFalse<'true'>>().__internal.shouldBe(false),
-    assertType<IsFalse<'false'>>().__internal.shouldBe(false),
+    assertType<isFalse<false>>().__internal.shouldBe(true),
+    assertType<isFalse<true>>().__internal.shouldBe(false),
+    assertType<isFalse<any>>().__internal.shouldBe(false),
+    assertType<isFalse<unknown>>().__internal.shouldBe(false),
+    assertType<isFalse<never>>().__internal.shouldBe(false),
+    assertType<isFalse<{}>>().__internal.shouldBe(false),
+    assertType<isFalse<null>>().__internal.shouldBe(false),
+    assertType<isFalse<undefined>>().__internal.shouldBe(false),
+    assertType<isFalse<0>>().__internal.shouldBe(false),
+    assertType<isFalse<1>>().__internal.shouldBe(false),
+    assertType<isFalse<string>>().__internal.shouldBe(false),
+    assertType<isFalse<boolean>>().__internal.shouldBe(false),
+    assertType<isFalse<'true'>>().__internal.shouldBe(false),
+    assertType<isFalse<'false'>>().__internal.shouldBe(false),
   ]);
 });

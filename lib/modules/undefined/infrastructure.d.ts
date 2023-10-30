@@ -1,16 +1,16 @@
-import { IsType } from '../app';
+import { isType } from '../app';
 
 /**
  * Evaluates if the specified type is `undefined`.
  * @example
- * type A = IsUndefined<undefined>;
+ * type A = isUndefined<undefined>;
  * //   ^? true
- * type B = IsUndefined<number>;
+ * type B = isUndefined<number>;
  * //   ^? false
- * type C = IsUndefined<number | undefined>;
+ * type C = isUndefined<number | undefined>;
  * //   ^? false
  */
-export type IsUndefined<T> = IsType<T, undefined>;
+export type isUndefined<T> = isType<T, undefined>;
 
 /**
  * Evaluates if the specified type is `null`.
@@ -22,18 +22,18 @@ export type IsUndefined<T> = IsType<T, undefined>;
  * type C = IsNull<number | null>;
  * //   ^? false
  */
-export type IsNull<T> = IsType<T, null>;
+export type isNull<T> = isType<T, null>;
 
 /** remove undefined from type */
-export type NonUndefined<T> = T extends undefined ? never : T;
+export type nonUndefined<T> = T extends undefined ? never : T;
 
 /** remove null from type */
-export type NonNull<T> = T extends null ? never : T;
+export type nonNull<T> = T extends null ? never : T;
 
 /**
  * A utility type that substitutes a default type when the provided type is undefined.
  * @example
- * type A = DefaultOnUndefined<undefined, string>;  // Result: string
- * type B = DefaultOnUndefined<number, string>;  // Result: number
+ * type A = defaultOnUndefined<undefined, string>;  // Result: string
+ * type B = defaultOnUndefined<number, string>;  // Result: number
  */
-export type DefaultOnUndefined<Type, Default> = IsUndefined<Type> extends true ? Default : Type;
+export type defaultOnUndefined<Type, Default> = isUndefined<Type> extends true ? Default : Type;

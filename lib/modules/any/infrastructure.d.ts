@@ -1,11 +1,11 @@
 /**
  * Evaluates if the specified type is `any`.
  * @example
- * type A = IsAny<any>;
+ * type A = isAny<any>;
  * //   ^? true
- * type B = IsAny<string>;
+ * type B = isAny<string>;
  * //   ^? false
- * type C = IsAny<number | any>;
+ * type C = isAny<number | any>;
  * //   ^? true
  */
 /*
@@ -14,4 +14,4 @@
   and to `never` otherwise. Since `0` extends `never` but not `1`,
   `0 extends (1 & T)` will be `true` if `T` is `any` and `false` otherwise.
 */
-export type IsAny<T> = 0 extends (1 & T) ? true : false;
+export type isAny<T> = 0 extends (1 & T) ? true : false;

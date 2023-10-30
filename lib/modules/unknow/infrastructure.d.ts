@@ -1,22 +1,22 @@
-import { IsAny } from '../any/infrastructure';
+import { isAny } from '../infrastructure';
 
 /**
  * Evaluates if the specified type is `unknown`.
  *
  * @example
- * type A = IsUnknown<unknown>;
+ * type A = isUnknown<unknown>;
  * //   ^? true
- * type B = IsUnknown<string>;
+ * type B = isUnknown<string>;
  * //   ^? false
- * type C = IsUnknown<any>;
+ * type C = isUnknown<any>;
  * //   ^? false
  */
-export type IsUnknown<Type> = IsAny<Type> extends true ? false : unknown extends Type ? true : false;
+export type isUnknown<Type> = isAny<Type> extends true ? false : unknown extends Type ? true : false;
 
 /**
  * A utility type that substitutes a default type when the provided type is unknown.
  * @example
- * type A = DefaultOnUnknown<unknown, string>;  // Result: string
- * type B = DefaultOnUnknown<number, string>;  // Result: number
+ * type A = defaultOnUnknown<unknown, string>;  // Result: string
+ * type B = defaultOnUnknown<number, string>;  // Result: number
  */
-export type DefaultOnUnknown<Type, Default> = IsUnknown<Type> extends true ? Default : Type;
+export type defaultOnUnknown<Type, Default> = isUnknown<Type> extends true ? Default : Type;

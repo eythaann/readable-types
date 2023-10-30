@@ -1,4 +1,4 @@
-import { IsUndefined, IsUnknown } from '../infrastructure';
+import { isUndefined, isUnknown } from '../infrastructure';
 
 export * from './HKT/infrastructure';
 export * from './HKT/domain';
@@ -91,4 +91,4 @@ export type NoInfer<T> = [T][T extends any ? 0 : never];
  * type B = Default<number, string>;  // Result: number
  * type C = Default<undefined, string>;  // Result: string
  */
-export type Default<Type, Default> = IsUnknown<Type> extends true ? Default : IsUndefined<Type> extends true ? Default : Type;
+export type Default<Type, Default> = isUnknown<Type> extends true ? Default : isUndefined<Type> extends true ? Default : Type;

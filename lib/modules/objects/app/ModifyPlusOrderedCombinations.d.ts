@@ -1,8 +1,8 @@
-import { Modify } from '../infrastructure';
-import { ForceExtract, ForceToString } from '../../app';
-import { getTupleIndexes, nLengthTuple } from '../../arrays-and-tuples/infrastructure';
+import { modify } from '../infrastructure';
+import { ForceExtract, forceToString } from '../../app';
+import { getIndexes, nLengthTuple } from '../../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../../arrays-and-tuples/app';
-import { IsNever } from '../../never/infrastructure';
+import { isNever } from '../../never/infrastructure';
 import { InternalAdd } from '../../numbers/math/app/addition';
 import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
 import { $, TupleReduce, UnionMap } from '../../infrastructure';
@@ -18,17 +18,17 @@ type GetUnionGroupByNumericOrder<
   L,
   Result extends unknown[] = [],
   lastKey = 0,
-> = `${Result['length']}` extends ForceToString<L> ? Result : UnionMap<T, $CreateGroup<T, L, Result, lastKey>>;
+> = `${Result['length']}` extends forceToString<L> ? Result : UnionMap<T, $CreateGroup<T, L, Result, lastKey>>;
 
 type GetAllPosibleGroupsByNumericOrder<
   T,
   current extends number | string = '1',
   lastResult = never,
   newResult = GetUnionGroupByNumericOrder<T, current>
-> = IsNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
+> = isNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
 
 interface $CreateAcumulativeModified<U, K extends string> extends $<[acc: unknown, current: unknown]> {
-  return: Modify<
+  return: modify<
   this['0'],
   ForceExtract<ForceExtract<U, this['1']>, 1> & {
     readonly [_ in K]: forceConcat<ForceExtract<this['0'], K>, [ForceExtract<ForceExtract<U, this['1']>, 0>]>
@@ -62,6 +62,6 @@ export type ModifyByKeyPlusOrderedCombinations<
   keyToDiscrimitate extends string = '__key'
 > = (mainObj & { [_ in keyToDiscrimitate]?: undefined })
 | UnionMap<
-GetAllPosibleGroupsByNumericOrder<getTupleIndexes<overrides>>,
+GetAllPosibleGroupsByNumericOrder<getIndexes<overrides>>,
 $CreateAllAcumulativeModified<mainObj, overrides, keyToDiscrimitate>
 >;

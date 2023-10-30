@@ -1,24 +1,24 @@
-import { IsAny } from './infrastructure';
+import { isAny } from './infrastructure';
 
 describeType('IsAny', () => {
   testType('Should return true only for type any', [
-    assertType<IsAny<any>>().toBeTrue(),
-    assertType<IsAny<any | string>>().toBeTrue(), // union with "any" resolves to "any"
-    assertType<IsAny<any & string>>().toBeTrue(), // intersection with "any" resolves to "any"
+    assertType<isAny<any>>().toBeTrue(),
+    assertType<isAny<any | string>>().toBeTrue(), // union with "any" resolves to "any"
+    assertType<isAny<any & string>>().toBeTrue(), // intersection with "any" resolves to "any"
   ]);
 
   testType('Should return false for all other types', [
-    assertType<IsAny<string>>().toBeFalse(),
-    assertType<IsAny<number>>().toBeFalse(),
-    assertType<IsAny<{}>>().toBeFalse(),
-    assertType<IsAny<null>>().toBeFalse(),
-    assertType<IsAny<undefined>>().toBeFalse(),
-    assertType<IsAny<unknown>>().toBeFalse(),
-    assertType<IsAny<never>>().toBeFalse(),
-    assertType<IsAny<any[]>>().toBeFalse(),
-    assertType<IsAny<symbol>>().toBeFalse(),
-    assertType<IsAny<bigint>>().toBeFalse(),
-    assertType<IsAny<string | number>>().toBeFalse(),
-    assertType<IsAny<string & number>>().toBeFalse(),
+    assertType<isAny<string>>().toBeFalse(),
+    assertType<isAny<number>>().toBeFalse(),
+    assertType<isAny<{}>>().toBeFalse(),
+    assertType<isAny<null>>().toBeFalse(),
+    assertType<isAny<undefined>>().toBeFalse(),
+    assertType<isAny<unknown>>().toBeFalse(),
+    assertType<isAny<never>>().toBeFalse(),
+    assertType<isAny<any[]>>().toBeFalse(),
+    assertType<isAny<symbol>>().toBeFalse(),
+    assertType<isAny<bigint>>().toBeFalse(),
+    assertType<isAny<string | number>>().toBeFalse(),
+    assertType<isAny<string & number>>().toBeFalse(),
   ]);
 });

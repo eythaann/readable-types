@@ -1,4 +1,4 @@
-import { IsNever } from '../never/infrastructure';
+import { isNever } from '../never/infrastructure';
 
 /**
  * Evaluates if the specified type is a Promise.
@@ -12,7 +12,7 @@ import { IsNever } from '../never/infrastructure';
  * type C = IsPromise<never>;
  * //   ^? false
  */
-export type IsPromise<T> = If<IsNever<T>, {
+export type isPromise<T> = If<isNever<T>, {
   then: false;
   else: T extends Promise<any> ? true : false;
 }>;

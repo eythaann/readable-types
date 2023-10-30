@@ -1,7 +1,9 @@
-import { IsType } from '../app';
+import { isType } from '../app';
 
-/** The min type of "what a function is", extensible for any function type. */
-export type AnyFunction = (...args: any[]) => any;
+declare global {
+  /** The type of "what a function is", extensible for any function type. */
+  type anyFunction = (...args: any[]) => any;
+}
 
 /**
  * Evaluates if the specified type is a function.
@@ -16,4 +18,4 @@ export type AnyFunction = (...args: any[]) => any;
  * type C = IsFunction<() => void | never>;
  * //   ^? true
  */
-export type IsFunction<T> = IsType<T, AnyFunction>;
+export type isFunction<T> = isType<T, anyFunction>;

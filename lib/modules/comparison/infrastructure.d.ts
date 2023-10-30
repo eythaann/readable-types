@@ -1,7 +1,7 @@
-import { Prettify } from '../objects/infrastructure';
+import { prettify } from '../objects/infrastructure';
 import { AND, If, IsAny, IsStrictObject, IsSubTypeBinary, IsSuperTypeBinary, OR, toBoolean } from './app';
 
-type _EqualsObject<_A, _B, A = Prettify<_A>, B = Prettify<_B>> =
+type _EqualsObject<_A, _B, A = prettify<_A>, B = prettify<_B>> =
   (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? true : false;
 
 type _Equals<
@@ -25,16 +25,16 @@ type _Equals<
  * Determines if two types are equal.
  *
  * @examples
- * type A = Equals<string, string>;
+ * type A = equals<string, string>;
  * //   ^? true
- * type B = Equals<string, number>;
+ * type B = equals<string, number>;
  * //   ^? false
- * type C = Equals<any, string>;
+ * type C = equals<any, string>;
  * //   ^? false
- * type D = Equals<any, any>;
+ * type D = equals<any, any>;
  * //   ^? true
  */
-export type Equals<A, B> = _Equals<A, B>;
+export type equals<A, B> = _Equals<A, B>;
 
 /**
  * Determines if type A is a supertype of type B.
@@ -45,7 +45,7 @@ export type Equals<A, B> = _Equals<A, B>;
  * type B = IsSuperType<string, number | string>;
  * //   ^? false
  */
-export type IsSuperType<A, B> = [B] extends [A] ? true : false;
+export type isSupertype<A, B> = [B] extends [A] ? true : false;
 
 /**
  * Determines if type A is a subtype of type B.
@@ -56,4 +56,4 @@ export type IsSuperType<A, B> = [B] extends [A] ? true : false;
  * type B = IsSubType<number | string, string>;
  * //   ^? false
  */
-export type IsSubType<A, B> = [A] extends [B] ? true : false;
+export type isSubtype<A, B> = [A] extends [B] ? true : false;

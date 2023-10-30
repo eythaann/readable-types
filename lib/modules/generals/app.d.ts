@@ -1,16 +1,16 @@
-import { IsSubType } from '../infrastructure';
+import { isSubtype } from '../infrastructure';
 
-export type IsType<
+export type isType<
   TypeToTest,
   TypeToCast,
 > = 0 extends (1 & TypeToTest)
   ? false
   : [TypeToTest] extends [never]
     ? false
-    : IsSubType<TypeToTest, TypeToCast>;
+    : isSubtype<TypeToTest, TypeToCast>;
 
 // @ts-ignore
 export type ForceExtract<T, Prop> = T[Prop];
 
 // @ts-ignore
-export type ForceToString<T, Prefix = ''> = `${Prefix}${T}`;
+export type forceToString<T> = `${T}`;

@@ -1,10 +1,10 @@
-import { AnyObject, KeyOfObject } from './domain';
-import { IsEmptyArray, IsTuple } from '../arrays-and-tuples/infrastructure';
+import { KeyOfObject } from './domain';
+import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { And, Not, Or } from '../booleans/infrastructure';
-import { Equals } from '../comparison/infrastructure';
+import { equals } from '../comparison/infrastructure';
 import { KeysOfUnion } from '../generals/infrastructure';
-import { NonUndefined } from '../undefined/infrastructure';
-import { IsType } from '../app';
+import { nonUndefined } from '../undefined/infrastructure';
+import { isType } from '../app';
 
 export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
@@ -14,19 +14,19 @@ export * from './domain';
  * Return true if type is of type object array or function
  * if you are searching for only object use IsStrictObject instead.
 */
-export type IsObject<T> = IsType<T, AnyObject>;
+export type isObject<T> = isType<T, anyObject>;
 
 /**
  * Return true if type is of type object ignoring arrays and functions.
 */
-export type IsStrictObject<T> = IsType<T, unknownObject>;
+export type isStrictObject<T> = isType<T, unknownObject>;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.
  */
-export type Modify<T, U> = IsStrictObject<T> extends true
-  ? IsStrictObject<U> extends true
-    ? Prettify<Omit<T, keyof U> & U>
+export type modify<T, U> = isStrictObject<T> extends true
+  ? isStrictObject<U> extends true
+    ? prettify<Omit<T, keyof U> & U>
     : T
   : T;
 
@@ -34,8 +34,8 @@ export type Modify<T, U> = IsStrictObject<T> extends true
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
  */
-export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<And<[IsStrictObject<T>, IsStrictObject<U>]>, {
-  then: Prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & Modify<T, U[Key]> }[keyof U]>;
+export type modifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<And<[isStrictObject<T>, isStrictObject<U>]>, {
+  then: prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & modify<T, U[Key]> }[keyof U]>;
   else: T;
 }>;
 
@@ -43,7 +43,7 @@ export type ModifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> =
  * Recreate complex types for readability.
  * Do not change nothing, return the same type.
  */
-export type Prettify<T> = {
+export type prettify<T> = {
   [K in keyof T]: T[K];
 } & {};
 
@@ -64,11 +64,11 @@ export type PickByValue<
   Type,
   ValuesToPick extends unknown[],
   _result = {},
-> = Or<[Not<IsTuple<ValuesToPick>>, IsEmptyArray<ValuesToPick>]> extends true
-  ? Prettify<_result>
+> = Or<[Not<isTuple<ValuesToPick>>, isEmptyArray<ValuesToPick>]> extends true
+  ? prettify<_result>
   : ValuesToPick extends [infer X, ...infer Rest]
     ? PickByValue<Type, Rest, _result & {
-      [Key in keyof Type as If<Equals<Type[Key], X>, {
+      [Key in keyof Type as If<equals<Type[Key], X>, {
         then: Key;
         else: never;
       }>]: Type[Key]
@@ -83,7 +83,7 @@ export type PickByValue<
  * type B = CanBeEmptyObject<{ a?: 'a'; b: 'b';}>
  * //   ^? false b is required.
  */
-export type CanBeEmptyObject<Type> = {} extends Type ? true : false;
+export type canBeEmptyObject<Type> = {} extends Type ? true : false;
 
 /**
  * Returns the keys of an object which are `readonly`.
@@ -91,8 +91,8 @@ export type CanBeEmptyObject<Type> = {} extends Type ? true : false;
  * type U = ReadonlyKeys<{ a: number, readonly b: string }>;
  * //   ^? "b"
  */
-export type ReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: If<Equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
+export type readonlyKeys<Type> = {
+  [Key in keyof Type]-?: If<equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
     then: Key;
     else: never;
   }>
@@ -104,8 +104,8 @@ export type ReadonlyKeys<Type> = {
  * type U = NoReadonlyKeys<{ a: number, readonly b: string }>;
  * //   ^? "a"
  */
-export type NoReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: If<Equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
+export type noReadonlyKeys<Type> = {
+  [Key in keyof Type]-?: If<equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
     then: Key;
     else: never;
   }>
@@ -117,8 +117,8 @@ export type NoReadonlyKeys<Type> = {
  * type U = RequiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>
  * //   ^? "b" | "c"
  */
-export type RequiredKeys<Type> = {
-  [Key in keyof Type]-?: If<Not<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>>, {
+export type requiredKeys<Type> = {
+  [Key in keyof Type]-?: If<Not<canBeEmptyObject<{ [_ in Key]: Type[Key] }>>, {
     then: Key;
     else: never;
   }>
@@ -130,8 +130,8 @@ export type RequiredKeys<Type> = {
  * type U = OptionalKeys<{ a?: 'a'; b?: 'b'; c: 'a' }>
  * //   ^? "a" | "b"
  */
-export type OptionalKeys<Type> = {
-  [Key in keyof Type]-?: If<CanBeEmptyObject<{ [_ in Key]: Type[Key] }>, {
+export type optionalKeys<Type> = {
+  [Key in keyof Type]-?: If<canBeEmptyObject<{ [_ in Key]: Type[Key] }>, {
     then: Key;
     else: never;
   }>
@@ -143,7 +143,7 @@ export type OptionalKeys<Type> = {
  * type U = HasProperty<{ a?: 'a'; b?: 'b'; c: 'c' }, 'c'>
  * //   ^? true
  */
-export type HasProperty<T, K> = K extends KeysOfUnion<T> ? true : false;
+export type hasProperty<T, K> = K extends KeysOfUnion<T> ? true : false;
 
 /**
  * Convert specific properties of an object `T` to readonly.
@@ -151,7 +151,7 @@ export type HasProperty<T, K> = K extends KeysOfUnion<T> ? true : false;
  * type U = SomeToReadonly<{ a: 'a'; b: 'b' }, 'a'>
  * //   ^? { readonly a: 'a', b: 'b' }
  */
-export type SomeToReadonly<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
+export type SomeToReadonly<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
 
 /**
  * Remove readonly to specific properties of an object `T`.
@@ -159,7 +159,7 @@ export type SomeToReadonly<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & 
  * type U = SomeToWritable<{ readonly a: 'a'; readonly b: 'b' }, 'a'>
  * //   ^? { a: 'a', readonly b: 'b' }
  */
-export type SomeToWritable<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { -readonly [key in K]: T[K] }>;
+export type SomeToWritable<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { -readonly [key in K]: T[K] }>;
 
 /**
  * Convert specific properties of an object `T` to optional.
@@ -167,7 +167,7 @@ export type SomeToWritable<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & 
  * type U = SomeToPartial<{ a: 'a'; b: 'b' }, 'a'>
  * //   ^? { a?: 'a', b: 'b' }
  */
-export type SomeToPartial<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { [key in K]?: T[K] }>;
+export type SomeToPartial<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { [key in K]?: T[K] }>;
 
 /**
  * Make specific properties of an object `T` required.
@@ -175,4 +175,4 @@ export type SomeToPartial<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & {
  * type U = SomeToRequired<{ a?: 'a'; b?: 'b' }, 'a'>
  * //   ^? { a: 'a', b: 'b' }
  */
-export type SomeToRequired<T, K extends KeysOfUnion<T>> = Prettify<Omit<T, K> & { [key in K]-?: NonUndefined<T[K]> }>;
+export type SomeToRequired<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { [key in K]-?: nonUndefined<T[K]> }>;

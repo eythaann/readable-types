@@ -1,5 +1,5 @@
 import { $ } from '../generals/HKT/domain';
-import { Add, Equals, TupleFind, TupleReduce, UnionMap } from '../infrastructure';
+import { add, equals, TupleFind, TupleReduce, UnionMap } from '../infrastructure';
 import { TupleMap } from './infrastructure';
 
 describeType('TupleMap', () => {
@@ -20,7 +20,7 @@ describeType('TupleMap', () => {
 
 describeType('TupleReduce', () => {
   interface $callback extends $<[acc: number, current: number]> {
-    return: Add<this['0'], this['1']>;
+    return: add<this['0'], this['1']>;
   }
 
   testType('Should correctly reduce a tuple of numbers to their sum', () => {
@@ -37,7 +37,7 @@ describeType('TupleReduce', () => {
 describeType('TupleFind', () => {
   testType('Should correctly find the string "ab" in a tuple', () => {
     interface $callback extends $<[current: number | string]> {
-      return: Equals<this['0'], 'ab'>;
+      return: equals<this['0'], 'ab'>;
     }
     type result = TupleFind<[1, 2, 3, 4, 'ab', 6], $callback>;
     assertType<result>().equals<'ab'>();
@@ -45,7 +45,7 @@ describeType('TupleFind', () => {
 
   testType('Should return never if the item is not found', () => {
     interface $callback extends $<[current: number | string]> {
-      return: Equals<this['0'], 'not-found'>;
+      return: equals<this['0'], 'not-found'>;
     }
     type result = TupleFind<[1, 2, 3, 4, 'ab', 6], $callback>;
     assertType<result>().toBeNever();

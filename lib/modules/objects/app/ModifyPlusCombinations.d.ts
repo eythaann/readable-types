@@ -1,11 +1,11 @@
-import { KeyOfObject, Modify, Prettify } from '../infrastructure';
+import { KeyOfObject, modify, prettify } from '../infrastructure';
 import { ShiftRecursive, UnionToTupleCombination } from '../../arrays-and-tuples/infrastructure';
 import { Cast } from '../../generals/infrastructure';
 
 type _ModifyByTuple<T, U, V, Result = T> = V extends []
   ? Result
   : V extends [infer Current, ...infer Rest]
-    ? _ModifyByTuple<T, U, Rest, Modify<Result, U[Cast<Current, keyof U>]>>
+    ? _ModifyByTuple<T, U, Rest, modify<Result, U[Cast<Current, keyof U>]>>
     : never;
 
 type _ModifyByKeyPlusCombinations<
@@ -20,7 +20,7 @@ type _ModifyByKeyPlusCombinations<
     ? { readonly [_ in K]: combinations } & _ModifyByTuple<T, U, combinations>
     : never,
 
-> = Prettify<{ readonly [_ in K]?: undefined } & T | Result>;
+> = prettify<{ readonly [_ in K]?: undefined } & T | Result>;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator

@@ -1,10 +1,10 @@
-import { IsAny } from '../any/infrastructure';
-import { IsType } from '../app';
+import { isAny } from '../any/infrastructure';
+import { isType } from '../app';
 import { Or } from '../booleans/infrastructure';
-import { Equals } from '../comparison/infrastructure';
-import { IsNever } from '../never/infrastructure';
-import { StrToNumber } from '../numbers/infrastructure';
-import { Substract } from '../numbers/math/infrastructure';
+import { equals } from '../comparison/infrastructure';
+import { isNever } from '../never/infrastructure';
+import { strToNumber } from '../numbers/infrastructure';
+import { substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings/infrastructure';
 import { nLengthTuple } from './domain';
 
@@ -21,7 +21,7 @@ export * from './domain';
  * type C = IsArray<never>;
  * //   ^? false
  */
-export type IsArray<T> = IsType<T, any[]>;
+export type isArray<T> = isType<T, any[]>;
 
 /**
  * A utility type that checks whether a given array is empty.
@@ -33,7 +33,7 @@ export type IsArray<T> = IsType<T, any[]>;
  * type Result2 = IsEmptyArray<[1, 2, 3]>;
  * //   ^? false
  */
-export type IsEmptyArray<T extends unknown[]> = T extends [] ? true : false;
+export type isEmptyArray<T extends unknown[]> = T extends [] ? true : false;
 
 /**
  * Evaluates if the specified type is a tuple.
@@ -46,7 +46,7 @@ export type IsEmptyArray<T extends unknown[]> = T extends [] ? true : false;
  * type C = IsTuple<never>;
  * //   ^? false
  */
-export type IsTuple<T> = If<Or<[IsNever<T>, IsAny<T>]>, {
+export type isTuple<T> = If<Or<[isNever<T>, isAny<T>]>, {
   then: false;
   else: T extends [infer _A, ...(infer _B)] ? true : false;
 }>;
@@ -54,15 +54,15 @@ export type IsTuple<T> = If<Or<[IsNever<T>, IsAny<T>]>, {
 /**
  * Checks if a tuple `T` includes a specific type `TypeToSearch`.
  * @example
- * type Result = TupleIncludes<[number, string, boolean], string>;
+ * type Result = tupleIncludes<[number, string, boolean], string>;
  * //   ^? true
- * type Result2 = TupleIncludes<[number, string, boolean], object>;
+ * type Result2 = tupleIncludes<[number, string, boolean], object>;
  * //   ^? false
  */
-export type TupleIncludes<T, TypeToSearch> = T extends [infer Current, ...infer Rest]
-  ? Equals<Current, TypeToSearch> extends true
+export type tupleIncludes<T, TypeToSearch> = T extends [infer Current, ...infer Rest]
+  ? equals<Current, TypeToSearch> extends true
     ? true
-    : TupleIncludes<Rest, TypeToSearch>
+    : tupleIncludes<Rest, TypeToSearch>
   : false;
 
 /**
@@ -77,7 +77,7 @@ export type TupleIncludes<T, TypeToSearch> = T extends [infer Current, ...infer 
  * type B = Tuple<number>;
  * //   ^? [] | [number, ...number[]]
  */
-export type Tuple<Type, Length extends number = never> = IsNever<Length> extends true ? nLengthTuple<Type> : _Tuple<Type, Length>;
+export type Tuple<Type, Length extends number = never> = isNever<Length> extends true ? nLengthTuple<Type> : _Tuple<Type, Length>;
 
 type _Tuple<Type, Length extends number, result extends unknown[] = []> = result['length'] extends Length
   ? result
@@ -103,7 +103,7 @@ export type Pop<T extends unknown[]> = T extends [...infer Result, infer _] ? Re
 
 // @ts-ignore
 export type __beta__At<T extends unknown[], I extends number> = T[startsWith<`${I}`, '-'> extends true
-  ? Substract<T['length'], `${I}` extends `${infer _}${infer num}` ? StrToNumber<num> : never>
+  ? substract<T['length'], `${I}` extends `${infer _}${infer num}` ? strToNumber<num> : never>
   : I
 ];
 
@@ -153,7 +153,7 @@ export type UnionToTupleCombination<
   _Result extends unknown[] = [],
 
   TCopy = T,
-> = IsNever<T> extends true
+> = isNever<T> extends true
   ? _Result
   : T extends infer ActualKey
     ? UnionToTupleCombination<Exclude<TCopy, ActualKey>, [..._Result, ActualKey]>
@@ -165,9 +165,9 @@ export type UnionToTupleCombination<
  * tuple indexes.
  *
  * @example
- * type Indices = getTupleIndexes<[string, number, boolean]>;
+ * type Indices = getIndexes<[string, number, boolean]>;
  * //   ^? "0" | "1" | "2"
- * type Empty = getTupleIndexes<[]>;
+ * type Empty = getIndexes<[]>;
  * //   ^? never
  */
-export type getTupleIndexes<T> = Exclude<keyof T, keyof []>;
+export type getIndexes<T> = Exclude<keyof T, keyof []>;

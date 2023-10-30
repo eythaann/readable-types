@@ -1,7 +1,7 @@
 import { ForceExtract } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../arrays-and-tuples/app';
-import { IsTrue } from '../booleans/infrastructure';
+import { isTrue } from '../booleans/infrastructure';
 import { InternalAdd } from '../numbers/math/app/addition';
 import { $ } from '../generals/HKT/domain';
 import { Call } from '../generals/HKT/app';
@@ -73,7 +73,7 @@ type DoFind<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-> = IsTrue<Call<$callback, [current: ForceExtract<tuple, currentIndex>]>> extends true
+> = isTrue<Call<$callback, [current: ForceExtract<tuple, currentIndex>]>> extends true
   ? ForceExtract<tuple, currentIndex>
   : nextIndex extends ForceExtract<tuple, 'length'>
     ? never

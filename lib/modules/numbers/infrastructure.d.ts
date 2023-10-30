@@ -1,23 +1,23 @@
-import { IsType } from '../app';
+import { isType } from '../app';
 
 /**
  * Evaluates if the specified type is a number.
  *
  * @example
- * type A = IsNumber<number>;
+ * type A = isNumber<number>;
  * //   ^? true
- * type B = IsNumber<string>;
+ * type B = isNumber<string>;
  * //   ^? false
- * type C = IsNumber<number | never>;
+ * type C = isNumber<number | never>;
  * //   ^? true
  */
-export type IsNumber<T> = IsType<T, number>;
+export type isNumber<T> = isType<T, number>;
 
 /**
  * Converts a string representation of a number to a number type.
  * If the input isn't a string representation of a number, the result is `never`.
  * @example
- * type A = StrToNumber<'42'>;  // Result: number
- * type B = StrToNumber<'foo'>;  // Result: never
+ * type A = strToNumber<'42'>;  // Result: number
+ * type B = strToNumber<'foo'>;  // Result: never
  */
-export type StrToNumber<T> = T extends `${infer X extends number}` ? X : never;
+export type strToNumber<T> = T extends `${infer X extends number}` ? X : never;
