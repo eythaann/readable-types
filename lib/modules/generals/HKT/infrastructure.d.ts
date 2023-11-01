@@ -1,6 +1,8 @@
 import { $, $ARGS } from './domain';
-import { Call as _Call } from './app';
+import { Call as _Call, Bind as _Bind } from './app';
 import { nLengthTuple, TupleMap } from '../../infrastructure';
+
+type $Base = $<nLengthTuple>;
 
 /**
  * `Call` is a utility type that emulates the behavior of calling a function in JavaScript,
@@ -20,10 +22,14 @@ import { nLengthTuple, TupleMap } from '../../infrastructure';
  * }
  * type Result = Call<MyHKT, { T: number }>; // Result is string
  */
-export type Call<$Generic extends $<nLengthTuple | Record<string, unknown>>, Args extends $Generic[$ARGS]> = _Call<$Generic, Args>;
+export type Call<$Generic extends $Base, Args extends $Generic[$ARGS]> = _Call<$Generic, Args>;
 
-interface $myGeneric extends $<[T: number]> {
-  return: `${this['0']}`;
+export type Args<$Generic extends $Base> = $Generic[$ARGS];
+
+export type Bind<$Generic extends $Base, Args extends nLengthTuple> = _Bind<$Generic, Args>;
+
+interface $myGeneric extends $<[number]> {
+  return: `${this[0]}`;
 }
 
 type myClasicGeneric<T extends number> = Call<$myGeneric, [T]>;

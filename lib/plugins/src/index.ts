@@ -10,11 +10,13 @@ function init(modules: { typescript: typeof import('typescript/lib/tsserverlibra
 
     // Set up decorator object
     const proxy: ts.LanguageService = Object.create(null);
-    for (let k of Object.keys(info.languageService) as Array<keyof ts.LanguageService>) {
-      const x = info.languageService[k]!;
+    for (const key of Object.keys(info.languageService) as Array<keyof ts.LanguageService>) {
+      const x = info.languageService[key]!;
       // @ts-expect-error - JS runtime trickery which is tricky to type tersely
-      proxy[k] = (...args: Array<{}>) => x.apply(info.languageService, args);
+      proxy[key] = (...args: Array<{}>) => x.apply(info.languageService, args);
     }
+
+    const typeChecker = info.languageService.getProgram()?.getTypeChecker();
 
     proxy.getSemanticDiagnostics = (fileName) => {
       const sourceFile = info.languageService.getProgram()?.getSourceFile(fileName);
@@ -23,13 +25,9 @@ function init(modules: { typescript: typeof import('typescript/lib/tsserverlibra
       if (sourceFile) {
         ts.forEachChild(sourceFile, function visit(node) {
           if (ts.isCallExpression(node)) {
-            const typeChecker = info.languageService.getProgram()?.getTypeChecker();
             const signature = typeChecker?.getResolvedSignature(node);
             if (signature) {
               const returnType = typeChecker?.typeToString(typeChecker.getReturnTypeOfSignature(signature));
-
-              print(returnType);
-
               if (returnType && returnType.includes('RTT_FAIL')) {
                 diagnostics.push({
                   file: sourceFile,

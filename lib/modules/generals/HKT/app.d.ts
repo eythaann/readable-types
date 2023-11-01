@@ -1,19 +1,23 @@
+import { InternalAdd } from '../../numbers/math/app/addition';
 import { ForceExtract } from '../app';
-//import { $, $ARGS, $BINDED_ARGS } from './domain';
+import { $, $ARGS, $BINDED_ARGS } from './domain';
 
-export type Call<$Generic, Args, /* _Args = [...$Generic[$BINDED_ARGS], ...Args] */> = ForceExtract<($Generic & {
-  [K in Exclude<keyof Args, keyof []>]: Args[K]
-}), 'return'>;
+export type Call<$Generic, Args> = $BINDED_ARGS extends keyof $Generic
+  ? ForceExtract<($Generic & {
+    [K in Exclude<keyof Args, keyof []> as InternalAdd<K, ForceExtract<$Generic[$BINDED_ARGS], 'length'>>]: Args[K]
+  }), 'return'>
+  : ForceExtract<($Generic & {
+    [K in Exclude<keyof Args, keyof []>]: Args[K]
+  }), 'return'>;
 
-// TODO finish this feature
-/* export type Bind<$Generic, BindedArgs> = $Generic & {
-  [$BINDED_ARGS]: [...$Generic[$BINDED_ARGS], ...BindedArgs];
+export type Bind<$Generic, BindedArgs> = $Generic & {
+  [$BINDED_ARGS]: BindedArgs;
   [$ARGS]: cut<BindedArgs, ForceExtract<$Generic, $ARGS>>;
 } & {
   [K in Exclude<keyof BindedArgs, keyof []>]: BindedArgs[K]
 };
 
-type cut<bindedArgs, args> = args['length'] extends bindedArgs['length']
+type cut<bindedArgs, args> = ForceExtract<args, 'length'> extends ForceExtract<bindedArgs, 'length'>
   ? args
   : args extends [infer _, ...infer Rest] ? cut<bindedArgs, Rest> : [];
 
@@ -25,8 +29,4 @@ type $bindedExample = Bind<$example, [123, 'worth']>;
 
 //type $bindedExample2 = Bind<$bindedExample, [555, 'GG']>;
 
-type result = Call<$bindedExample, [156, '123']>;
-
-type t0 = ($bindedExample & { 2: 156 })['return'];
-
-type t1 = $bindedExample[$BINDED_ARGS]; */
+type result = Call<$bindedExample, ['123']>;

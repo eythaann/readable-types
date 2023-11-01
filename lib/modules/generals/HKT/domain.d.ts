@@ -33,8 +33,9 @@ export type $BINDED_ARGS = typeof $BINDED_ARGS;
  * type MyNamedHKT = $<{ x: number; y: string }>;
  * // MyNamedHKT is now { args: { x: number; y: string }; return: unknown; x: number; y: string; }
  */
-export type $<Args extends nLengthTuple | Record<string, unknown> = []> = {
+export type $<Args extends nLengthTuple = nLengthTuple> = {
   [$ARGS]: Args;
+  [x: number]: unknown;
   return: unknown;
 } & {
   [K in Exclude<keyof Args, keyof []>]: Args[K]

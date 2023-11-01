@@ -57,13 +57,13 @@ interface IValidationsPublic<T, I extends boolean = false> {
   returned: IValidationsPublic<Returned<T>, I>;
 
   /** asserting type should be the same type as the expected*/
-  equals: <U extends Readonly<InferrableTypes>>(v?: U) => InvertIf<I, equals<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['equal']>;
+  equals: <U>() => InvertIf<I, equals<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['equal']>;
 
   /** expected type should be extended of asserting type*/
-  isSuperTypeOf: <U extends Readonly<InferrableTypes>>(v?: U) => InvertIf<I, isSupertype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['supertype']>;
+  isSuperTypeOf: <U>() => InvertIf<I, isSupertype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['supertype']>;
 
   /** asserting type should be extended of expected type */
-  isSubTypeOf: <U extends Readonly<InferrableTypes>>(v?: U) => InvertIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
+  isSubTypeOf: <U>() => InvertIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
 
   /** Type should be `true` */
   toBeTrue: propertyCallableOnPass<isTrue<T>, I, 'truly'>;
@@ -102,7 +102,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBeTuple: propertyCallableOnPass<isTuple<T>, I, 'tuple'>;
 
   /** Type should be a tuple of passed length */
-  toBeTupleWithLength: <U extends Readonly<number>>(v?: U) => InvertIf<I, And<[isTuple<T>, equals<U, ForceExtract<T, 'lenght'>>]>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['tuple']>;
+  toBeTupleWithLength: <U>() => InvertIf<I, And<[isTuple<T>, equals<U, ForceExtract<T, 'lenght'>>]>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['tuple']>;
 
   /** Type should be a string */
   toBeString: propertyCallableOnPass<isString<T>, I, 'string'>;
@@ -117,7 +117,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBePromise: propertyCallableOnPass<isPromise<T>, I, 'promise'>;
 
   /** Type should has the property passed */
-  toHaveProperty: <U extends Readonly<string>>(v?: U) => InvertIf<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
+  toHaveProperty: <U>() => InvertIf<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {
