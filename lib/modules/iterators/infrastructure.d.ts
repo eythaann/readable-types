@@ -112,4 +112,4 @@ export type TupleFind<
  * }
  * type result = UnionMap<1 | 2 | 3, $callback>;  // '1' | '2' | '3'
  */
-export type UnionMap<T, $callback extends $<{ current: unknown }>> = T extends infer U ? Call<$callback, { current: U }> : never;
+export type UnionMap<T, $callback extends $<[current: unknown]>> = T extends infer U ? Call<$callback, [current: U]> : never;

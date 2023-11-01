@@ -53,8 +53,8 @@ describeType('TupleFind', () => {
 });
 
 describeType('UnionMap', () => {
-  interface $callback extends $<{ current: number }> {
-    return: `${this['current']}`;
+  interface $callback extends $<[current: number]> {
+    return: `${this[0]}`;
   }
 
   testType('Should correctly map each number in a union to its string representation', () => {

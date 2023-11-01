@@ -117,7 +117,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBePromise: propertyCallableOnPass<isPromise<T>, I, 'promise'>;
 
   /** Type should has the property passed */
-  toHaveProperty: <U>() => InvertIf<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
+  toHaveProperty: <U extends Readonly<PropertyKey>>(v?: U) => InvertIf<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {

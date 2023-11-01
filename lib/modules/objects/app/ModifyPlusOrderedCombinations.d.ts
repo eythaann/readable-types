@@ -7,10 +7,10 @@ import { InternalAdd } from '../../numbers/math/app/addition';
 import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
 import { $, TupleReduce, UnionMap } from '../../infrastructure';
 
-interface $CreateGroup<T, maxLenght, Result extends unknown[], lastKey> extends $<{ current: unknown }> {
-  return: InternalBiggerThan<[lastKey], [this['current']]> extends true
+interface $CreateGroup<T, maxLenght, Result extends unknown[], lastKey> extends $<[current: unknown]> {
+  return: InternalBiggerThan<[lastKey], [this[0]]> extends true
     ? never
-    : GetUnionGroupByNumericOrder<Exclude<T, this['current']>, maxLenght, [...Result, this['current']], this['current']>;
+    : GetUnionGroupByNumericOrder<Exclude<T, this[0]>, maxLenght, [...Result, this[0]], this[0]>;
 }
 
 type GetUnionGroupByNumericOrder<
@@ -35,8 +35,8 @@ interface $CreateAcumulativeModified<U, K extends string> extends $<[acc: unknow
   }>;
 }
 
-interface $CreateAllAcumulativeModified<T, U, K extends string> extends $<{ current: nLengthTuple<string> }> {
-  return: TupleReduce<this['current'], $CreateAcumulativeModified<U, K>, T & { [_ in K]: [] }>;
+interface $CreateAllAcumulativeModified<T, U, K extends string> extends $<[current: nLengthTuple<string>]> {
+  return: TupleReduce<this[0], $CreateAcumulativeModified<U, K>, T & { [_ in K]: [] }>;
 }
 
 /**
