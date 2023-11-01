@@ -1,4 +1,4 @@
-import { ForceExtract } from '../app';
+import { forceExtract } from '../app';
 
 type Explicit = {
   condition: boolean;
@@ -11,7 +11,7 @@ type Natural = {
   else: unknown;
 };
 
-export type ExplicitCondition<Condition> = [ForceExtract<Condition, 'condition'>] extends [false] ? ForceExtract<Condition, 'else'> : ForceExtract<Condition, 'then'>;
+export type ExplicitCondition<Condition> = [forceExtract<Condition, 'condition'>] extends [false] ? forceExtract<Condition, 'else'> : forceExtract<Condition, 'then'>;
 
 export type ExtendsCaseMapA = {
   'singleLine': boolean;

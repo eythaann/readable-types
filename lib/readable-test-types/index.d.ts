@@ -1,4 +1,4 @@
-import { ForceExtract } from '../modules/app';
+import { forceExtract } from '../modules/app';
 import {
   isFunction,
   isArray,
@@ -102,7 +102,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBeTuple: propertyCallableOnPass<isTuple<T>, I, 'tuple'>;
 
   /** Type should be a tuple of passed length */
-  toBeTupleWithLength: <U>() => InvertIf<I, And<[isTuple<T>, equals<U, ForceExtract<T, 'lenght'>>]>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['tuple']>;
+  toBeTupleWithLength: <U>() => InvertIf<I, And<[isTuple<T>, equals<U, forceExtract<T, 'lenght'>>]>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['tuple']>;
 
   /** Type should be a string */
   toBeString: propertyCallableOnPass<isString<T>, I, 'string'>;
@@ -126,7 +126,7 @@ type IValidationsInternal<T> = IValidationsPublic<T> & {
   };
 };
 
-export type IValidations<T> = isTrue<ForceExtract<RT_CONFIG, 'development'>> extends true
+export type IValidations<T> = isTrue<forceExtract<RT_CONFIG, 'development'>> extends true
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 

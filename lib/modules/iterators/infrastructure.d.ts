@@ -1,4 +1,4 @@
-import { ForceExtract } from '../app';
+import { forceExtract } from '../app';
 import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../arrays-and-tuples/app';
 import { isTrue } from '../booleans/infrastructure';
@@ -13,8 +13,8 @@ type DoMap<
   lastResult = [],
 
   nextIndex = InternalAdd<currentIndex, 1>,
-  result = forceConcat<lastResult, [Call<$callback, [current: ForceExtract<tuple, currentIndex>]>]>,
-> = nextIndex extends ForceExtract<tuple, 'length'>
+  result = forceConcat<lastResult, [Call<$callback, [current: forceExtract<tuple, currentIndex>]>]>,
+> = nextIndex extends forceExtract<tuple, 'length'>
   ? result
   : DoMap<tuple, $callback, nextIndex, result>;
 
@@ -41,8 +41,8 @@ type DoReduce<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-  result = Call<$callback, [acc: acc, current: ForceExtract<tuple, currentIndex>]>,
-> = nextIndex extends ForceExtract<tuple, 'length'>
+  result = Call<$callback, [acc: acc, current: forceExtract<tuple, currentIndex>]>,
+> = nextIndex extends forceExtract<tuple, 'length'>
   ? result
   : DoReduce<tuple, $callback, result, nextIndex>;
 
@@ -73,9 +73,9 @@ type DoFind<
   currentIndex = 0,
 
   nextIndex = InternalAdd<currentIndex, 1>,
-> = isTrue<Call<$callback, [current: ForceExtract<tuple, currentIndex>]>> extends true
-  ? ForceExtract<tuple, currentIndex>
-  : nextIndex extends ForceExtract<tuple, 'length'>
+> = isTrue<Call<$callback, [current: forceExtract<tuple, currentIndex>]>> extends true
+  ? forceExtract<tuple, currentIndex>
+  : nextIndex extends forceExtract<tuple, 'length'>
     ? never
     : DoFind<tuple, $callback, nextIndex>;
 

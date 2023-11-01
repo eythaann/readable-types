@@ -10,7 +10,7 @@ export type isType<
     : isSubtype<TypeToTest, TypeToCast>;
 
 // @ts-ignore
-export type ForceExtract<T, Prop> = T[Prop];
+export type forceExtract<T, Prop> = T[Prop];
 
 // @ts-ignore
 export type forceToString<T> = `${T}`;

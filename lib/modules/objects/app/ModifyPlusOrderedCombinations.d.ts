@@ -1,5 +1,5 @@
 import { modify } from '../infrastructure';
-import { ForceExtract, forceToString } from '../../app';
+import { forceExtract, forceToString } from '../../app';
 import { getIndexes, nLengthTuple } from '../../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../../arrays-and-tuples/app';
 import { isNever } from '../../never/infrastructure';
@@ -30,8 +30,8 @@ type GetAllPosibleGroupsByNumericOrder<
 interface $CreateAcumulativeModified<U, K extends string> extends $<[acc: unknown, current: unknown]> {
   return: modify<
   this['0'],
-  ForceExtract<ForceExtract<U, this['1']>, 1> & {
-    readonly [_ in K]: forceConcat<ForceExtract<this['0'], K>, [ForceExtract<ForceExtract<U, this['1']>, 0>]>
+  forceExtract<forceExtract<U, this['1']>, 1> & {
+    readonly [_ in K]: forceConcat<forceExtract<this['0'], K>, [forceExtract<forceExtract<U, this['1']>, 0>]>
   }>;
 }
 

@@ -1,4 +1,4 @@
-import { ForceExtract, forceToString } from '../../../app';
+import { forceExtract, forceToString } from '../../../app';
 import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
 import { And } from '../../../booleans/infrastructure';
 import { equals } from '../../../comparison/infrastructure';
@@ -10,9 +10,9 @@ import { InternalBiggerThan } from './arimetic';
 type substractMap = [0, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 type substractMapForCarry = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
-type GetSustract<A, B> = ForceExtract<ForceExtract<DecimalHashMap, A>, ForceExtract<substractMap, B>>;
+type GetSustract<A, B> = forceExtract<forceExtract<DecimalHashMap, A>, forceExtract<substractMap, B>>;
 
-type getSustractCarry<A, B> = B extends ForceExtract<CarryOnAddition, ForceExtract<substractMapForCarry, A>> ? 1 : 0;
+type getSustractCarry<A, B> = B extends forceExtract<CarryOnAddition, forceExtract<substractMapForCarry, A>> ? 1 : 0;
 
 type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>, B>> = {
   result: Result;
@@ -22,13 +22,13 @@ type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>
   }>;
 };
 
-type _SubstractOnShifted<A, B, CarryIn = 0> = sustractDecimal<ToDecimal<ForceExtract<A, 'extracted'>>, ToDecimal<ForceExtract<B, 'extracted'>>, CarryIn>;
+type _SubstractOnShifted<A, B, CarryIn = 0> = sustractDecimal<ToDecimal<forceExtract<A, 'extracted'>>, ToDecimal<forceExtract<B, 'extracted'>>, CarryIn>;
 
 type _next<A, B, lastIncompleteResult, lastCarryOut, actualSustract = _SubstractOnShifted<A, B, lastCarryOut>> = MakeSubstractOnTuple<
-ForceExtract<A, 'rest'>,
-ForceExtract<B, 'rest'>,
-forceConcat<[ForceExtract<actualSustract, 'result'>], lastIncompleteResult>,
-ForceExtract<actualSustract, 'carryOut'>
+forceExtract<A, 'rest'>,
+forceExtract<B, 'rest'>,
+forceConcat<[forceExtract<actualSustract, 'result'>], lastIncompleteResult>,
+forceExtract<actualSustract, 'carryOut'>
 >;
 
 type removeZeros<T> = T extends [infer C, ...infer R] ? C extends 0 ? removeZeros<R> : T : T;
