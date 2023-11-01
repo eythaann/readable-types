@@ -29,3 +29,7 @@ outDir
 
 #env files
 /lib/rt.config.d.ts
+
+#plugin
+/lib/plugins/src
+/lib/plugins/tsconfig.json

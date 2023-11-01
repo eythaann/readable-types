@@ -4,6 +4,7 @@
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
   "scripts": {
+    "build:plugin": "tsc -p ./lib/plugins",
     "typeChecking": "tsc",
     "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
@@ -33,6 +34,7 @@
     "url": "https://github.com/Eythaann/readable-types/issues"
   },
   "dependencies": {
+    "readable-types-plugin": "file:./lib/plugins",
     "typescript": "^4.8"
   },
   "devDependencies": {
