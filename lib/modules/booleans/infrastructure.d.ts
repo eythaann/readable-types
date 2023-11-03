@@ -49,35 +49,37 @@ export type And<T extends nLengthTuple<boolean>> = isNever<Extract<T[number], fa
  */
 export type Or<T extends nLengthTuple<boolean>> = Not<isNever<Extract<T[number], true>>>;
 
-/**
- * Performs a logical NOT operation on a boolean value.
- * It returns the opposite boolean value of the input.
- *
- * @example
- * type A = Not<true>;
- * //   ^? false
- * type B = Not<false>;
- * //   ^? true
- */
-export type Not<T extends boolean> = [T] extends [true] ? false : true;
+declare global {
+  /**
+   * Performs a logical NOT operation on a boolean value.
+   * It returns the opposite boolean value of the input.
+   *
+   * @example
+   * type A = Not<true>;
+   * //   ^? false
+   * type B = Not<false>;
+   * //   ^? true
+   */
+  type Not<T extends boolean> = [T] extends [false] ? true : false;
 
-/**
- * Performs a logical NOT operation on a boolean value conditionally.
- *
- * @example
- * type A = NotIf<true, true>;
- * //   ^? false
- * type B = NotIf<true, false>;
- * //   ^? true
- * type C = NotIf<false, true>;
- * //   ^? true
- * type D = NotIf<false, false>;
- * //   ^? false
- */
-export type NotIf<Condition extends boolean, T extends boolean> = If<Condition, {
-  then: Not<T>;
-  else: T;
-}>;
+  /**
+   * Performs a logical NOT operation on a boolean value conditionally.
+   *
+   * @example
+   * type A = NotIf<true, true>;
+   * //   ^? false
+   * type B = NotIf<true, false>;
+   * //   ^? true
+   * type C = NotIf<false, true>;
+   * //   ^? true
+   * type D = NotIf<false, false>;
+   * //   ^? false
+   */
+  type NotIf<Condition extends boolean, T extends boolean> = If<Condition, {
+    then: Not<T>;
+    else: T;
+  }>;
+}
 
 /*
   -

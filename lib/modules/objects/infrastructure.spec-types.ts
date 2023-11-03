@@ -1,4 +1,4 @@
-import { canBeEmptyObject, hasProperty, isObject, isStrictObject, modify, modifyByKey, noReadonlyKeys, optionalKeys, PickByValue, prettify, readonlyKeys, requiredKeys, SomeToPartial, SomeToReadonly, SomeToRequired, SomeToWritable } from './infrastructure';
+import { canBeEmptyObject, hasProperty, isObject, isStrictObject, modify, modifyByKey, getNoReadonlyKeys, getOptionalKeys, pickByValue, prettify, getReadonlyKeys, getRequiredKeys, someToPartial, someToReadonly, someToRequired, someToWritable } from './infrastructure';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
@@ -85,12 +85,12 @@ describeType('PickByValue', () => {
     type T5 = {};
 
     validator([
-      assertType<PickByValue<T1, [string, number]>>().equals<{ a: string; b: number }>(),
-      assertType<PickByValue<T1, [string | number]>>().equals<{ c: string | number }>(),
-      assertType<PickByValue<T2, [boolean, null, undefined, any, never]>>().equals<{ d: boolean; e: null; f: undefined; g: any; h: never }>(),
-      assertType<PickByValue<T3, [{ j: string }, [number, string]]>>().equals<{ i: { j: string }; k: [number, string] }>(),
-      assertType<PickByValue<T4, [symbol, bigint]>>().equals<{ l: symbol; m: bigint }>(),
-      assertType<PickByValue<T5, [string]>>().equals<{}>(),
+      assertType<pickByValue<T1, [string, number]>>().equals<{ a: string; b: number }>(),
+      assertType<pickByValue<T1, [string | number]>>().equals<{ c: string | number }>(),
+      assertType<pickByValue<T2, [boolean, null, undefined, any, never]>>().equals<{ d: boolean; e: null; f: undefined; g: any; h: never }>(),
+      assertType<pickByValue<T3, [{ j: string }, [number, string]]>>().equals<{ i: { j: string }; k: [number, string] }>(),
+      assertType<pickByValue<T4, [symbol, bigint]>>().equals<{ l: symbol; m: bigint }>(),
+      assertType<pickByValue<T5, [string]>>().equals<{}>(),
     ]);
   });
 });
@@ -106,19 +106,19 @@ describeType('CanBeEmptyObject', () => {
 
 describeType('RequiredKeys', () => {
   testType('Should get the required keys of an object', [
-    assertType<requiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>>().equals<'b' | 'c'>(),
-    assertType<requiredKeys<{}>>().toBeNever(),
-    assertType<requiredKeys<{ a: 'a' }>>().equals<'a'>(),
-    assertType<requiredKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().toBeNever(),
+    assertType<getRequiredKeys<{ a?: 'a'; b: 'b'; c: 'a' }>>().equals<'b' | 'c'>(),
+    assertType<getRequiredKeys<{}>>().toBeNever(),
+    assertType<getRequiredKeys<{ a: 'a' }>>().equals<'a'>(),
+    assertType<getRequiredKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().toBeNever(),
   ]);
 });
 
 describeType('OptionalKeys', () => {
   testType('Should get the optional keys of an object', [
-    assertType<optionalKeys<{ a?: 'a'; b?: 'b'; c: 'a' }>>().equals<'a' | 'b'>(),
-    assertType<optionalKeys<{}>>().toBeNever(),
-    assertType<optionalKeys<{ a: 'a' }>>().toBeNever(),
-    assertType<optionalKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<'a' | 'b' | 'c'>(),
+    assertType<getOptionalKeys<{ a?: 'a'; b?: 'b'; c: 'a' }>>().equals<'a' | 'b'>(),
+    assertType<getOptionalKeys<{}>>().toBeNever(),
+    assertType<getOptionalKeys<{ a: 'a' }>>().toBeNever(),
+    assertType<getOptionalKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<'a' | 'b' | 'c'>(),
   ]);
 });
 
@@ -155,48 +155,48 @@ describeType('Type Modifiers', () => {
   testType('SomeToReadonly should make specified keys readonly', () => {
     type TestType = { a: number; b: string; c: boolean };
     type expected = { readonly a: number; b: string; c: boolean };
-    assertType<SomeToReadonly<TestType, 'a'>>().equals<expected>();
+    assertType<someToReadonly<TestType, 'a'>>().equals<expected>();
   });
 
   testType('SomeToWritable should make specified keys writable', () => {
     type TestType = { readonly a: number; b: string; readonly c: boolean };
     type expected = { a: number; b: string; readonly c: boolean };
-    assertType<SomeToWritable<TestType, 'a'>>().equals<expected>();
+    assertType<someToWritable<TestType, 'a'>>().equals<expected>();
   });
 
   testType('SomeToPartial should make specified keys optional', () => {
     type TestType = { a: number; b: string; c: boolean };
     type expected = { a?: number; b: string; c: boolean };
-    assertType<SomeToPartial<TestType, 'a'>>().equals<expected>();
+    assertType<someToPartial<TestType, 'a'>>().equals<expected>();
   });
 
   testType('SomeToRequired should make specified keys required', () => {
     type TestType = { a?: number; b: string; c?: boolean };
     type expected = { a: number; b: string; c?: boolean };
-    assertType<SomeToRequired<TestType, 'a'>>().equals<expected>();
+    assertType<someToRequired<TestType, 'a'>>().equals<expected>();
   });
 });
 
 describeType('ReadonlyKeys', () => {
   testType('Should return readonly keys', () => {
     type TestObj = { a: number; readonly b: string; readonly c: boolean };
-    assertType<readonlyKeys<TestObj>>().equals<'b' | 'c'>();
+    assertType<getReadonlyKeys<TestObj>>().equals<'b' | 'c'>();
   });
 
   testType('Should return empty union for objects with all non-readonly properties', () => {
     type TestObj = { a: number; b: string };
-    assertType<readonlyKeys<TestObj>>().toBeNever();
+    assertType<getReadonlyKeys<TestObj>>().toBeNever();
   });
 });
 
 describeType('NoReadonlyKeys', () => {
   testType('Should return keys that are not readonly', () => {
     type TestObj = { a: number; readonly b: string; readonly c: boolean };
-    assertType<noReadonlyKeys<TestObj>>().equals<'a'>();
+    assertType<getNoReadonlyKeys<TestObj>>().equals<'a'>();
   });
 
   testType('Should return empty union for objects with all readonly properties', () => {
     type TestObj = { readonly a: number; readonly b: string };
-    assertType<noReadonlyKeys<TestObj>>().toBeNever();
+    assertType<getNoReadonlyKeys<TestObj>>().toBeNever();
   });
 });

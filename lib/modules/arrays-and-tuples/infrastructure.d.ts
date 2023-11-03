@@ -1,6 +1,5 @@
 import { isAny } from '../any/infrastructure';
 import { isType } from '../app';
-import { Or } from '../booleans/infrastructure';
 import { equals } from '../comparison/infrastructure';
 import { isNever } from '../never/infrastructure';
 import { strToNumber } from '../numbers/infrastructure';
@@ -46,7 +45,7 @@ export type isEmptyArray<T extends unknown[]> = T extends [] ? true : false;
  * type C = IsTuple<never>;
  * //   ^? false
  */
-export type isTuple<T> = If<Or<[isNever<T>, isAny<T>]>, {
+export type isTuple<T> = If<(isNever<T> | isAny<T>), {
   then: false;
   else: T extends [infer _A, ...(infer _B)] ? true : false;
 }>;

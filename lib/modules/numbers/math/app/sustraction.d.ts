@@ -1,6 +1,5 @@
 import { forceExtract, forceToString } from '../../../app';
 import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
-import { And } from '../../../booleans/infrastructure';
 import { equals } from '../../../comparison/infrastructure';
 import { split, join } from '../../../strings/infrastructure';
 import { CarryOnAddition, DecimalHashMap } from '../domain';
@@ -16,7 +15,7 @@ type getSustractCarry<A, B> = B extends forceExtract<CarryOnAddition, forceExtra
 
 type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>, B>> = {
   result: Result;
-  carryOut: If<And<[equals<CarryIn, 1>, equals<B, 9>]>, {
+  carryOut: If<(equals<CarryIn, 1> & equals<B, 9>), {
     then: 1;
     else: getSustractCarry<A, Result>;
   }>;

@@ -3,6 +3,7 @@
   "version": "2.0.0-20231023",
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
+  "main": "./lib/plugins/dist/index.js",
   "scripts": {
     "build:plugin": "tsc -p ./lib/plugins",
     "typeChecking": "tsc",

@@ -5,7 +5,7 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strict": true,
-    "noEmit": false,
+    "noEmit": true,
     "noErrorTruncation": true,
     "incremental": true,
     "plugins": [{

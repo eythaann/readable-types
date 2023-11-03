@@ -2,7 +2,6 @@ import { forceExtract } from '../modules/app';
 import {
   isFunction,
   isArray,
-  NotIf as InvertIf,
   isObject,
   isStrictObject,
   isNull,
@@ -16,10 +15,8 @@ import {
   isBoolean,
   isAny,
   isPromise,
-  Not,
   isUnknown,
   isTuple,
-  And,
   isTrue,
   isFalse,
   Opaque,
@@ -44,7 +41,7 @@ type propertyCallableOnPass<
   Result extends boolean,
   Invert extends boolean,
   keyToErrorsMsg extends keyof FailMsgs
-> = If<InvertIf<Invert, Result>, {
+> = If<NotIf<Invert, Result>, {
   then: () => RTT_PASS;
   else: () => RTT_FAIL<FailMsgs<Invert>[keyToErrorsMsg]>;
 }>;
@@ -57,13 +54,13 @@ interface IValidationsPublic<T, I extends boolean = false> {
   returned: IValidationsPublic<Returned<T>, I>;
 
   /** asserting type should be the same type as the expected*/
-  equals: <U>() => InvertIf<I, equals<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['equal']>;
+  equals: <U>() => NotIf<I, equals<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['equal']>;
 
   /** expected type should be extended of asserting type*/
-  isSuperTypeOf: <U>() => InvertIf<I, isSupertype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['supertype']>;
+  isSuperTypeOf: <U>() => NotIf<I, isSupertype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['supertype']>;
 
   /** asserting type should be extended of expected type */
-  isSubTypeOf: <U>() => InvertIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
+  isSubTypeOf: <U>() => NotIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
 
   /** Type should be `true` */
   toBeTrue: propertyCallableOnPass<isTrue<T>, I, 'truly'>;
@@ -102,7 +99,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBeTuple: propertyCallableOnPass<isTuple<T>, I, 'tuple'>;
 
   /** Type should be a tuple of passed length */
-  toBeTupleWithLength: <U>() => InvertIf<I, And<[isTuple<T>, equals<U, forceExtract<T, 'lenght'>>]>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['tuple']>;
+  toBeTupleWithLength: <U>() => NotIf<I, isTuple<T> & equals<U, forceExtract<T, 'lenght'>>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['tuple']>;
 
   /** Type should be a string */
   toBeString: propertyCallableOnPass<isString<T>, I, 'string'>;
@@ -117,7 +114,7 @@ interface IValidationsPublic<T, I extends boolean = false> {
   toBePromise: propertyCallableOnPass<isPromise<T>, I, 'promise'>;
 
   /** Type should has the property passed */
-  toHaveProperty: <U extends Readonly<PropertyKey>>(v?: U) => InvertIf<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
+  toHaveProperty: <U extends Readonly<PropertyKey>>(v?: U) => NotIf<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
 }
 
 type IValidationsInternal<T> = IValidationsPublic<T> & {
