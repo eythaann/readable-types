@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+npm run build:plugin
+
 echo "Running type checking on min supported version...\n"
 npx -p typescript@4.8 tsc --incremental --noEmit
 
