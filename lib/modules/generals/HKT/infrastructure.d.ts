@@ -1,6 +1,5 @@
-import { $, $ARGS } from './domain';
+import { $ARGS } from './domain';
 import { Call as _Call, Bind as _Bind } from './app';
-import { nLengthTuple, TupleMap } from '../../infrastructure';
 
 type $Base = $<nLengthTuple>;
 
@@ -27,13 +26,3 @@ export type Call<$Generic extends $Base, Args extends $Generic[$ARGS]> = _Call<$
 export type Args<$Generic extends $Base> = $Generic[$ARGS];
 
 export type Bind<$Generic extends $Base, Args extends nLengthTuple> = _Bind<$Generic, Args>;
-
-interface $myGeneric extends $<[number]> {
-  return: `${this[0]}`;
-}
-
-type myClasicGeneric<T extends number> = Call<$myGeneric, [T]>;
-
-type example0 = myClasicGeneric<123>;
-type example1 = Call<$myGeneric, [123]>;
-type example2 = TupleMap<[1, 2, 3, 4, 23213], $myGeneric>;

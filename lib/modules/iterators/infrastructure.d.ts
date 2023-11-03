@@ -1,9 +1,7 @@
 import { forceExtract } from '../app';
-import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../arrays-and-tuples/app';
 import { isTrue } from '../booleans/infrastructure';
 import { InternalAdd } from '../numbers/math/app/addition';
-import { $ } from '../generals/HKT/domain';
 import { Call } from '../generals/HKT/app';
 
 type DoMap<
@@ -32,7 +30,7 @@ type DoMap<
  * }
  * type result = TupleMap<[1, 2, 3], $callback>;  // ['1', '2', '3']
  */
-export type TupleMap<tuple extends nLengthTuple, $callback extends $<[current: unknown]>> = tuple extends [] ? [] : DoMap<tuple, $callback>;
+export type TupleMap<tuple extends nLengthTuple | [], $callback extends $<[current: unknown]>> = tuple extends [] ? [] : DoMap<tuple, $callback>;
 
 type DoReduce<
   tuple,
@@ -62,7 +60,7 @@ type DoReduce<
  * type result = TupleReduce<[1, 2, 3], $callback, 0>;  // 6
  */
 export type TupleReduce<
-  tuple extends nLengthTuple,
+  tuple extends nLengthTuple | [],
   $callback extends $<[acc: unknown, current: unknown]>,
   initialAcc,
 > = tuple extends [] ? initialAcc : DoReduce<tuple, $callback, initialAcc>;
@@ -94,7 +92,7 @@ type DoFind<
  * type result = TupleFind<[1, 'findMe', 3], $callback>;  // 'findMe'
  */
 export type TupleFind<
-  tuple extends nLengthTuple,
+  tuple extends nLengthTuple | [],
   $callback extends $<[current: unknown]>,
 > = tuple extends [] ? never : DoFind<tuple, $callback>;
 

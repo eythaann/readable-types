@@ -1,11 +1,11 @@
 import { modify } from '../infrastructure';
 import { forceExtract, forceToString } from '../../app';
-import { getIndexes, nLengthTuple } from '../../arrays-and-tuples/infrastructure';
+import { getIndexes } from '../../arrays-and-tuples/infrastructure';
 import { forceConcat } from '../../arrays-and-tuples/app';
 import { isNever } from '../../never/infrastructure';
 import { InternalAdd } from '../../numbers/math/app/addition';
 import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
-import { $, TupleReduce, UnionMap } from '../../infrastructure';
+import { TupleReduce, UnionMap } from '../../infrastructure';
 
 interface $CreateGroup<T, maxLenght, Result extends unknown[], lastKey> extends $<[current: unknown]> {
   return: InternalBiggerThan<[lastKey], [this[0]]> extends true

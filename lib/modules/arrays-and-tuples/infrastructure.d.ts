@@ -5,7 +5,6 @@ import { isNever } from '../never/infrastructure';
 import { strToNumber } from '../numbers/infrastructure';
 import { substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings/infrastructure';
-import { nLengthTuple } from './domain';
 
 export * from './domain';
 

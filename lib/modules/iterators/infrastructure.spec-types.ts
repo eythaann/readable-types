@@ -1,4 +1,3 @@
-import { $ } from '../generals/HKT/domain';
 import { add, equals, TupleFind, TupleReduce, UnionMap } from '../infrastructure';
 import { TupleMap } from './infrastructure';
 

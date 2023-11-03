@@ -1,5 +1,4 @@
 import { isType } from '../app';
-import { nLengthTuple } from '../arrays-and-tuples/infrastructure';
 import { isNever } from '../never/infrastructure';
 
 /**
