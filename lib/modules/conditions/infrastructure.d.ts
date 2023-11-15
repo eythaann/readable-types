@@ -6,6 +6,20 @@ type AType = ExtendsCaseMapA[IfMode];
 type BType = ExtendsCaseMapB[IfMode];
 type CType = ExtendsCaseMapC[IfMode];
 
+interface Explicit<Condition, Then, Else> {
+  condition: Condition;
+  then: Then;
+  else: Else;
+}
+
+interface Modes<A, B, C> {
+  'singleLine': Explicit<A, B, C>;
+  // @ts-ignore
+  'natural': Explicit<A, B['then'], B['else']>;
+  // @ts-ignore
+  'explicit': Explicit<A['condition'], A['then'], A['else']>;
+}
+
 declare global {
   /**
   * Conditional type that selects one of two possible types based on a boolean condition or a condition object.
@@ -33,9 +47,5 @@ declare global {
     A extends AType,
     B extends BType = never,
     C extends CType = never
-  > = ExplicitCondition<{
-    'singleLine': { condition: A; then: B; else: C };
-    'natural': { condition: A; then: B['then']; else: B['else'] };
-    'explicit': A;
-  }[IfMode]>;
+  > = ExplicitCondition<Modes<A, B, C>[IfMode]>;
 }

@@ -32,11 +32,11 @@ declare global {
    * type MyNamedHKT = $<{ x: number; y: string }>;
    * // MyNamedHKT is now { args: { x: number; y: string }; return: unknown; x: number; y: string; }
    */
-  type $<Args extends nLengthTuple = nLengthTuple> = {
+  type $<Args extends [] | nLengthTuple = []> = {
     [$ARGS]: Args;
     [x: number]: unknown;
     return: unknown;
   } & {
-    [K in Exclude<keyof Args, keyof []>]: Args[K]
+    [K in Exclude<keyof Args, keyof []>]: Args[K];
   };
 }
