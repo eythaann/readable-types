@@ -52,12 +52,12 @@ describeType('Opaque', () => {
 
   testType('Should not be asignable to its baseType', () => {
     type UserID = Opaque<number, 'UserID'>;
-    assertType<UserID>().not.isSubTypeOf<number>();
+    assertType<UserID>().not.isAssignableTo<number>();
   });
 
   testType('Should its baseType not asignable to Opaque', () => {
     type UserID = Opaque<number, 'UserID'>;
-    assertType<UserID>().not.isSuperTypeOf<number>();
+    assertType<number>().not.isAssignableTo<UserID>();
   });
 
   testType('Should differentiate between different opaque types', () => {
@@ -81,12 +81,12 @@ describeType('WeakOpaque', () => {
 
   testType('Should be asignable to its baseType', () => {
     type UserID = WeakOpaque<number, 'UserID'>;
-    assertType<UserID>().isSubTypeOf<number>();
+    assertType<UserID>().isAssignableTo<number>();
   });
 
   testType('Should its baseType not asignable to Opaque', () => {
     type UserID = WeakOpaque<number, 'UserID'>;
-    assertType<UserID>().not.isSuperTypeOf<number>();
+    assertType<number>().not.isAssignableTo<UserID>();
   });
 
   testType('Should differentiate between different opaque types', () => {

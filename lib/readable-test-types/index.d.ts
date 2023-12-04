@@ -59,6 +59,9 @@ interface IValidationsPublic<T, I extends boolean = false> {
   /** expected type should be extended of asserting type*/
   isSuperTypeOf: <U>() => NotIf<I, isSupertype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['supertype']>;
 
+  /** expected type should be extended of asserting type*/
+  isAssignableTo: <U>() => NotIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
+
   /** asserting type should be extended of expected type */
   isSubTypeOf: <U>() => NotIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
 
