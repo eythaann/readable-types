@@ -11,7 +11,8 @@
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
     "prepare": "husky install",
-    "postversion": "git push && git push --tags --no-verify && npm publish"
+    "postversion": "git push && git push --tags --no-verify && npm publish",
+    "prepublish": "tsc -p ./rtt-plugin"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Eythaann/readable-types/issues"
+  },
+  "bin": {
+    "rtt": "./rtt-plugin/rtt.js"
   },
   "dependencies": {
     "readable-types-plugin": "file:./rtt-plugin",
