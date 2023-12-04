@@ -50,7 +50,7 @@ describeType('IsStrictObject', () => {
 });
 
 describeType('Modify', () => {
-  testType('Should modify the object', (validator) => {
+  testType('Should modify the object', () => {
     type Base = {
       prop1: string;
       prop2: number;
@@ -62,11 +62,9 @@ describeType('Modify', () => {
       newProp: boolean;
     };
 
-    validator([
-      assertType<modify<Base, { newProp: never }>>().not.equals<Base>(),
-      assertType<modify<Base, { newProp: boolean }>>().equals<expected>(),
-      assertType<modify<Base, { newProp1: boolean }>>().toHaveProperty('newProp1'),
-    ]);
+    assertType<modify<Base, { newProp: never }>>().not.equals<Base>();
+    assertType<modify<Base, { newProp: boolean }>>().equals<expected>();
+    assertType<modify<Base, { newProp1: boolean }>>().toHaveProperty('newProp1');
   });
 });
 
@@ -77,21 +75,19 @@ describeType('Prettify', () => {
 });
 
 describeType('PickByValue', () => {
-  testType('Should pick properties whose value types match any in the ValuesToPick array', (validator) => {
+  testType('Should pick properties whose value types match any in the ValuesToPick array', () => {
     type T1 = { a: string; b: number; c: string | number };
     type T2 = { d: boolean; e: null; f: undefined; g: any; h: never };
     type T3 = { i: { j: string }; k: [number, string] };
     type T4 = { l: symbol; m: bigint };
     type T5 = {};
 
-    validator([
-      assertType<pickByValue<T1, [string, number]>>().equals<{ a: string; b: number }>(),
-      assertType<pickByValue<T1, [string | number]>>().equals<{ c: string | number }>(),
-      assertType<pickByValue<T2, [boolean, null, undefined, any, never]>>().equals<{ d: boolean; e: null; f: undefined; g: any; h: never }>(),
-      assertType<pickByValue<T3, [{ j: string }, [number, string]]>>().equals<{ i: { j: string }; k: [number, string] }>(),
-      assertType<pickByValue<T4, [symbol, bigint]>>().equals<{ l: symbol; m: bigint }>(),
-      assertType<pickByValue<T5, [string]>>().equals<{}>(),
-    ]);
+    assertType<pickByValue<T1, [string, number]>>().equals<{ a: string; b: number }>();
+    assertType<pickByValue<T1, [string | number]>>().equals<{ c: string | number }>();
+    assertType<pickByValue<T2, [boolean, null, undefined, any, never]>>().equals<{ d: boolean; e: null; f: undefined; g: any; h: never }>();
+    assertType<pickByValue<T3, [{ j: string }, [number, string]]>>().equals<{ i: { j: string }; k: [number, string] }>();
+    assertType<pickByValue<T4, [symbol, bigint]>>().equals<{ l: symbol; m: bigint }>();
+    assertType<pickByValue<T5, [string]>>().equals<{}>();
   });
 });
 

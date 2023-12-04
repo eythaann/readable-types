@@ -4,14 +4,14 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "noUncheckedIndexedAccess": false,
+    "noUncheckedIndexedAccess": true,
     "strict": true,
     "noEmit": true,
     "noErrorTruncation": true,
-    "incremental": true,
     "plugins": [{
       "name": "readable-types-plugin",
     }],
+    "incremental": true,
   },
   "include": [
     "./lib",

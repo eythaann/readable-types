@@ -127,4 +127,4 @@ export type IValidations<T> = isTrue<forceExtract<RT_CONFIG, 'development'>> ext
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 
-export type TestsCallback = (validator: (asserts: anyObject) => void) => anyObject | void;
+export type TestsCallback = (() => void) | anyObject;
