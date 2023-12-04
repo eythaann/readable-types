@@ -4,6 +4,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noUncheckedIndexedAccess": false,
     "strict": true,
     "noEmit": true,
     "noErrorTruncation": true,
@@ -14,7 +15,6 @@
   },
   "include": [
     "./lib",
-    "./plugins",
   ],
   "exclude": [
     "node_modules"

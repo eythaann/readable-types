@@ -7,7 +7,7 @@ describeType('If', () => {
   });
 
   testType('Should return false case', () => {
-    assertType<ExplicitCondition<{ condition: false; then: string; else: number }>>().equals<number>();
+    assertType<ExplicitCondition<{ condition: false; then: string; else: number }>>().equals<string>();
     assertType<ExplicitCondition<{ condition: never; then: string; else: number }>>().equals<number>();
   });
 });

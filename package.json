@@ -5,14 +5,14 @@
   "types": "./lib/index.d.ts",
   "main": "./lib/plugins/dist/index.js",
   "scripts": {
-    "build:plugin": "tsc -p ./lib/plugins",
-    "typeChecking": "npm run build:plugin && tsc",
+    "build:plugin": "tsc -p ./plugins",
+    "typeChecking": "tsc -p ./",
     "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
     "prepare": "husky install",
     "postversion": "git push && git push --tags --no-verify && npm publish",
-    "prepublish": "tsc -p ./lib/plugins"
+    "prepublish": "tsc -p ./plugins"
   },
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
     "url": "https://github.com/Eythaann/readable-types/issues"
   },
   "dependencies": {
-    "readable-types-plugin": "file:./lib/plugins",
+    "readable-types-plugin": "file:./plugins",
     "typescript": "^4.8"
   },
   "devDependencies": {
