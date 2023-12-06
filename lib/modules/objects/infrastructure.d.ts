@@ -1,13 +1,24 @@
-import { KeyOfObject } from './domain';
 import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { equals } from '../comparison/infrastructure';
 import { KeysOfUnion } from '../generals/infrastructure';
 import { nonUndefined } from '../undefined/infrastructure';
 import { isType } from '../app';
+import { empty_object_key } from './domain';
 
 export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
-export * from './domain';
+
+/** @deprecated use offical type PropertyKey instead */
+export type KeyOfObject = PropertyKey;
+
+declare global {
+  type uObject = unknownObject;
+  type unknownObject = { [key in PropertyKey]: unknown };
+
+  type anyObject = { [key in PropertyKey]: any };
+
+  type emptyObject = { [empty_object_key]?: never };
+}
 
 /**
  * Return true if type is of type object array or function
