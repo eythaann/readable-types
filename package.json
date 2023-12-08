@@ -3,7 +3,7 @@
   "version": "2.1.2",
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
-  "main": "./lib",
+  "main": "./rtt-plugin/dist/LaguageServicePlugin.js",
   "scripts": {
     "typeChecking": "tsc",
     "test": "rtft",

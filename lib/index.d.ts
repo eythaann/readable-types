@@ -6,7 +6,7 @@ export type RT_CONFIG_SCHEME = {
   /** Change the way of declare if statements. (default: natural) */
   conditionWay?: 'singleLine' | 'natural' | 'explicit';
   /** readable types testing configurations */
-  readable_types_testing?: {
+  testing?: {
     /** Regex of included filenames. */
     include?: readonly string[];
     /** Regex of excluded filenames. */
