@@ -1,7 +1,7 @@
 import { add, substract } from './infrastructure';
 
 describeType('Add', () => {
-  testType('Should add two numbers and produce a string result', [
+  testType('Should add two numbers and produce the correct result', [
     assertType<add<5, 10>>().equals<15>(),
     assertType<add<0, 0>>().equals<0>(),
     assertType<add<100, 109>>().equals<209>(),
@@ -13,7 +13,7 @@ describeType('Add', () => {
 });
 
 describeType('Substract', () => {
-  testType('Should Substract two numbers and produce a string result', [
+  testType('Should Substract two numbers and produce the correct result', [
     assertType<substract<5, 10>>().equals<-5>(),
     assertType<substract<0, 0>>().equals<0>(),
     assertType<substract<100, 109>>().equals<-9>(),
