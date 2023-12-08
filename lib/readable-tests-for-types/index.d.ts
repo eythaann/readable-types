@@ -22,6 +22,7 @@ import {
   Opaque,
   hasProperty,
 } from '../modules/infrastructure';
+import { CONFIG } from '../modules/shared/config';
 import { FailMsgs } from './messages';
 
 type RTT_PASS = {
@@ -126,8 +127,12 @@ type IValidationsInternal<T> = IValidationsPublic<T> & {
   };
 };
 
-export type IValidations<T> = isTrue<forceExtract<RT_CONFIG, 'development'>> extends true
+type IValidations<T> = isTrue<CONFIG['development']> extends true
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 
-export type TestsCallback = (() => void) | anyObject;
+declare global {
+  function describeType(description: string, cb: () => void): void;
+  function testType(description: string, tests: (() => void) | any[] | unknownObject): void;
+  function assertType<T>(): IValidations<T>;
+}

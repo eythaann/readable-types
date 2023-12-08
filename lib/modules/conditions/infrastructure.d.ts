@@ -1,7 +1,7 @@
-import { INTERNAL_RT_CONFIG } from '../shared/config';
+import { CONFIG } from '../shared/config';
 import { ExplicitCondition, ExtendsCaseMapA, ExtendsCaseMapB, ExtendsCaseMapC } from './app';
 
-type IfMode = INTERNAL_RT_CONFIG['conditionWay'];
+type IfMode = CONFIG['conditionWay'];
 type AType = ExtendsCaseMapA[IfMode];
 type BType = ExtendsCaseMapB[IfMode];
 type CType = ExtendsCaseMapC[IfMode];

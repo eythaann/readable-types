@@ -1,4 +1,4 @@
-import { isAny } from './infrastructure';
+import { defaultOnAny, isAny } from './infrastructure';
 
 describeType('IsAny', () => {
   testType('Should return true only for type any', [
@@ -21,4 +21,16 @@ describeType('IsAny', () => {
     assertType<isAny<string | number>>().toBeFalse(),
     assertType<isAny<string & number>>().toBeFalse(),
   ]);
+});
+
+describeType('defaultOnAny', () => {
+  testType('Should replace any type with the default type', () => {
+    type result = defaultOnAny<any, string>;
+    assertType<result>().equals<string>();
+  });
+
+  testType('Should retain the original type if it is not any', () => {
+    type result = defaultOnAny<number, string>;
+    assertType<result>().equals<number>();
+  });
 });
