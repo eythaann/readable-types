@@ -16,7 +16,6 @@
   },
   "include": [
     "./lib",
-    "rt.config.ts",
   ],
   "exclude": [
     "node_modules"
