@@ -6,3 +6,5 @@ npx -p typescript@4.8 tsc --incremental --noEmit
 
 echo "Running type checking on latest version...\n"
 npx -p typescript@latest tsc --incremental --noEmit
+
+npm run test

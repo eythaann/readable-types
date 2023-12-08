@@ -4,17 +4,17 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
     "strict": true,
     "noEmit": true,
     "noErrorTruncation": true,
-    "incremental": true,
     "plugins": [{
       "name": "readable-types-plugin",
     }],
+    "incremental": true,
   },
   "include": [
     "./lib",
-    "./plugins",
   ],
   "exclude": [
     "node_modules"

@@ -4,6 +4,7 @@
 
 # git
 .gitignore
+.gitmodules
 /.github
 
 # eslint

@@ -1,0 +1,3 @@
+[submodule "rtt-plugin"]
+	path = rtt-plugin
+	url = https://github.com/Eythaann/rtt-plugin

@@ -59,6 +59,9 @@ interface IValidationsPublic<T, I extends boolean = false> {
   /** expected type should be extended of asserting type*/
   isSuperTypeOf: <U>() => NotIf<I, isSupertype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['supertype']>;
 
+  /** expected type should be extended of asserting type*/
+  isAssignableTo: <U>() => NotIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
+
   /** asserting type should be extended of expected type */
   isSubTypeOf: <U>() => NotIf<I, isSubtype<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['subtype']>;
 
@@ -127,4 +130,4 @@ export type IValidations<T> = isTrue<forceExtract<RT_CONFIG, 'development'>> ext
   ? IValidationsInternal<T>
   : IValidationsPublic<T>;
 
-export type TestsCallback = (validator: (asserts: anyObject) => void) => anyObject | void;
+export type TestsCallback = (() => void) | anyObject;

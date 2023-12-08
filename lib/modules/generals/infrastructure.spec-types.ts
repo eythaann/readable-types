@@ -1,4 +1,4 @@
-import { Cast, Default, KeysOfUnion, Opaque, UnionToIntersection, ValueOf, WeakOpaque } from './infrastructure';
+import { Cast, Default, KeysOfUnion, UnionToIntersection, ValueOf } from './infrastructure';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [
@@ -41,64 +41,6 @@ describeType('Cast', () => {
   testType('Should cast arrays to broader array types', [
     assertType<Cast<number[], any[]>>().equals<number[]>(),
   ]);
-});
-
-describeType('Opaque', () => {
-  testType('Should be asignable to it selft', () => {
-    type UserID = Opaque<number, 'UserID'>;
-    const userId: UserID = 123 as UserID;
-    assertType<UserID>().equals<typeof userId>();
-  });
-
-  testType('Should not be asignable to its baseType', () => {
-    type UserID = Opaque<number, 'UserID'>;
-    assertType<UserID>().not.isSubTypeOf<number>();
-  });
-
-  testType('Should its baseType not asignable to Opaque', () => {
-    type UserID = Opaque<number, 'UserID'>;
-    assertType<UserID>().not.isSuperTypeOf<number>();
-  });
-
-  testType('Should differentiate between different opaque types', () => {
-    type UserID = Opaque<number, 'UserID'>;
-    type OrderID = Opaque<number, 'OrderID'>;
-
-    const userId: UserID = 123 as UserID;
-    const orderId: OrderID = 123 as OrderID;
-
-    assertType<typeof userId>().not.equals<OrderID>();
-    assertType<typeof orderId>().not.equals<UserID>();
-  });
-});
-
-describeType('WeakOpaque', () => {
-  testType('Should be asignable to it selft', () => {
-    type UserID = WeakOpaque<number, 'UserID'>;
-    const userId: UserID = 123 as UserID;
-    assertType<UserID>().equals<typeof userId>();
-  });
-
-  testType('Should be asignable to its baseType', () => {
-    type UserID = WeakOpaque<number, 'UserID'>;
-    assertType<UserID>().isSubTypeOf<number>();
-  });
-
-  testType('Should its baseType not asignable to Opaque', () => {
-    type UserID = WeakOpaque<number, 'UserID'>;
-    assertType<UserID>().not.isSuperTypeOf<number>();
-  });
-
-  testType('Should differentiate between different opaque types', () => {
-    type UserID = WeakOpaque<number, 'UserID'>;
-    type OrderID = WeakOpaque<number, 'OrderID'>;
-
-    const userId: UserID = 123 as UserID;
-    const orderId: OrderID = 123 as OrderID;
-
-    assertType<typeof userId>().not.equals<OrderID>();
-    assertType<typeof orderId>().not.equals<UserID>();
-  });
 });
 
 describeType('DefaultOnUnknown', () => {

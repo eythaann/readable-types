@@ -1,17 +1,18 @@
 {
   "name": "readable-types",
-  "version": "2.0.0-20231103",
+  "version": "2.1.2",
   "description": "Utils for typescript language",
   "types": "./lib/index.d.ts",
-  "main": "./lib/plugins/dist/index.js",
+  "main": "./rtt-plugin/dist/index.js",
   "scripts": {
-    "build:plugin": "tsc -p ./lib/plugins",
     "typeChecking": "tsc",
+    "test": "rtt",
     "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
     "prepare": "husky install",
-    "postversion": "git push && git push --tags --no-verify"
+    "postversion": "git push && git push --tags --no-verify && npm publish",
+    "prepublish": "tsc -p ./rtt-plugin"
   },
   "repository": {
     "type": "git",
@@ -34,8 +35,11 @@
   "bugs": {
     "url": "https://github.com/Eythaann/readable-types/issues"
   },
+  "bin": {
+    "rtt": "./rtt-plugin/rtt.js"
+  },
   "dependencies": {
-    "readable-types-plugin": "file:./lib/plugins",
+    "readable-types-plugin": "file:./rtt-plugin",
     "typescript": "^4.8"
   },
   "devDependencies": {

@@ -5,11 +5,11 @@ import { isNever } from '../never/infrastructure';
  *
  * @example
  *
- * type A = IsPromise<Promise<number>>;
+ * type A = isPromise<Promise<number>>;
  * //   ^? true
- * type B = IsPromise<string>;
+ * type B = isPromise<string>;
  * //   ^? false
- * type C = IsPromise<never>;
+ * type C = isPromise<never>;
  * //   ^? false
  */
 export type isPromise<T> = If<isNever<T>, {

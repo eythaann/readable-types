@@ -15,16 +15,16 @@ describeType('IsUnknown', () => {
     assertType<isUnknown<never>>().toBeFalse(),
     assertType<isUnknown<unknown & string>>().toBeFalse(),
   ]);
+});
 
-  describeType('DefaultOnUnknown', () => {
-    testType('Should replace unknown type with the default type', () => {
-      type result = defaultOnUnknown<unknown, string>;
-      assertType<result>().equals<string>();
-    });
+describeType('DefaultOnUnknown', () => {
+  testType('Should replace unknown type with the default type', () => {
+    type result = defaultOnUnknown<unknown, string>;
+    assertType<result>().equals<string>();
+  });
 
-    testType('Should retain the original type if it is known', () => {
-      type result = defaultOnUnknown<number, string>;
-      assertType<result>().equals<number>();
-    });
+  testType('Should retain the original type if it is known', () => {
+    type result = defaultOnUnknown<number, string>;
+    assertType<result>().equals<number>();
   });
 });

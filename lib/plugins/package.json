@@ -1,5 +1,0 @@
-{
-    "name": "my-plugin",
-    "license": "MIT",
-    "main": "./dist"
-}

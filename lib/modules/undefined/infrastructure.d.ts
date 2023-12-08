@@ -15,11 +15,11 @@ export type isUndefined<T> = isType<T, undefined>;
 /**
  * Evaluates if the specified type is `null`.
  * @example
- * type A = IsNull<null>;
+ * type A = isNull<null>;
  * //   ^? true
- * type B = IsNull<number>;
+ * type B = isNull<number>;
  * //   ^? false
- * type C = IsNull<number | null>;
+ * type C = isNull<number | null>;
  * //   ^? false
  */
 export type isNull<T> = isType<T, null>;

@@ -1,7 +1,7 @@
 import { $ARGS } from './domain';
 import { Call as _Call, Bind as _Bind } from './app';
 
-type $Base = $<nLengthTuple>;
+type $Base = $<[] | nLengthTuple | unknownObject>;
 
 /**
  * `Call` is a utility type that emulates the behavior of calling a function in JavaScript,

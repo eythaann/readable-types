@@ -1,4 +1,4 @@
-import { isSubtype } from '../infrastructure';
+export * as HKT from './HKT/app';
 
 export type isType<
   TypeToTest,
@@ -7,7 +7,7 @@ export type isType<
   ? false
   : [TypeToTest] extends [never]
     ? false
-    : isSubtype<TypeToTest, TypeToCast>;
+    : [TypeToTest] extends [TypeToCast] ? true : false;
 
 // @ts-ignore
 export type forceExtract<T, Prop> = T[Prop];

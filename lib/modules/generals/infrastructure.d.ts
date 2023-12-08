@@ -1,7 +1,7 @@
 import { isUndefined, isUnknown } from '../infrastructure';
 
 export * from './HKT/infrastructure';
-export * from './HKT/domain';
+export * from './opaque/infrastructure';
 
 /**
  * Extracts the types of the values of the properties of T.
@@ -42,40 +42,6 @@ export type UnionToIntersection<Type> = { [Key in KeysOfUnion<Type>]: Extract<Ty
  * //   ^? Result2 = 'a'
  */
 export type Cast<T, U> = T extends U ? T : U;
-
-/**
- * Creates an opaque type, ensuring that values of the base type cannot be
- * directly assigned to the opaque type, and vice versa.
- *
- * An opaque type is a type that wraps around another type (the base type),
- * adding a unique "brand" to differentiate it. This pattern is useful
- * for creating distinct types that are based on the same underlying type.
- *
- * @template BaseType - The underlying type of the opaque type.
- * @template BrandType - A unique brand to differentiate the opaque type from its base type.
- *
- * @example
- * type UserID = Opaque<number, 'UserID'>;
- * const userId: UserID = 123 as UserID;
- * const notUserId: number = 123;
- * // Direct assignment without casting would result in a type error:
- * // const anotherUserId: UserID = 456; // Error
- */
-export type Opaque<BaseType, BrandType = unknown> = (BaseType & {
-  readonly [_ in typeof Brand]: BrandType;
-}) | {
-  readonly [_ in typeof Brand]: BrandType;
-};
-
-/**
- * Creates an brand type, ensuring that values of the base type cannot be
- * directly assigned to the opaque type, but itseft is asignable to its base type.
- */
-export type WeakOpaque<BaseType, BrandType = unknown> = BaseType & {
-  readonly [_ in typeof Brand]: BrandType;
-};
-
-declare const Brand: unique symbol;
 
 /**
  * Allow avoid infer on generics when you predifine a type on other context.
