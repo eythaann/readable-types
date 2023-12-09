@@ -12,7 +12,7 @@ type GetSumCarry<A, B> = B extends forceExtract<CarryOnAddition, A> ? 1 : 0;
 
 type sumDecimal<A, B, CarryIn> = {
   result: GetSum<GetSum<A, B>, CarryIn>;
-  carryOut: If<(equals<CarryIn, 1> & equals<A, 9>), {
+  carryOut: $if<(equals<CarryIn, 1> & equals<A, 9>), {
     then: 1;
     else: GetSumCarry<GetSum<A, CarryIn>, B>;
   }>;

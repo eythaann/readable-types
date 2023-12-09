@@ -1,4 +1,4 @@
-import { All, And, Every, isBoolean, Or, Some, isTrue, isFalse } from './infrastructure';
+import { And, isBoolean, Or, isTrue, isFalse, Xor } from './infrastructure';
 
 describeType('IsBoolean', () => {
   testType('Should return true only for boolean', [
@@ -26,12 +26,6 @@ describeType('And', () => {
     assertType<And<[true, true, true]>>().toBeTrue(),
     assertType<And<[true, false, true]>>().toBeFalse(),
   ]);
-
-  // Test aliases All and Every
-  testType('All and Every should work the same as And', [
-    assertType<All<[true, true, true]>>().toBeTrue(),
-    assertType<Every<[true, false, true]>>().toBeFalse(),
-  ]);
 });
 
 describeType('Or', () => {
@@ -39,26 +33,21 @@ describeType('Or', () => {
     assertType<Or<[true, false, false]>>().toBeTrue(),
     assertType<Or<[false, false, false]>>().toBeFalse(),
   ]);
-
-  // Test alias Some
-  testType('Some should work the same as Or', [
-    assertType<Some<[true, false, false]>>().toBeTrue(),
-  ]);
 });
 
 describeType('Not', () => {
   testType('Should return the negation of the given boolean value', [
-    assertType<Not<true>>().toBeFalse(),
-    assertType<Not<false>>().toBeTrue(),
+    assertType<not<true>>().toBeFalse(),
+    assertType<not<false>>().toBeTrue(),
   ]);
 });
 
-describeType('NotIf', () => {
-  testType('Should conditionally return the negation of the given boolean value', [
-    assertType<NotIf<true, true>>().toBeFalse(),
-    assertType<NotIf<true, false>>().toBeTrue(),
-    assertType<NotIf<false, true>>().toBeTrue(),
-    assertType<NotIf<false, false>>().toBeFalse(),
+describeType('Xor', () => {
+  testType('Should conditionally return the Xor operation', [
+    assertType<Xor<true, true>>().toBeFalse(),
+    assertType<Xor<true, false>>().toBeTrue(),
+    assertType<Xor<false, true>>().toBeTrue(),
+    assertType<Xor<false, false>>().toBeFalse(),
   ]);
 });
 

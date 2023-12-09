@@ -1,4 +1,4 @@
-import { defaultOnAny, modify } from '../infrastructure';
+import { defaultOnAny } from '../infrastructure';
 
 type DEFAULT_CONFIG = {
   development: true;
@@ -6,6 +6,5 @@ type DEFAULT_CONFIG = {
 };
 
 // @ts-ignore
-type CLIENT_CONFIG = defaultOnAny<typeof import('../../../../../rt.config').default, never>;
-
-export type CONFIG = modify<DEFAULT_CONFIG, CLIENT_CONFIG>;
+type CLIENT_CONFIG = defaultOnAny<typeof import('../../../../../rt.config').default, {}>;
+export type CONFIG = Omit<DEFAULT_CONFIG, keyof CLIENT_CONFIG> & CLIENT_CONFIG;

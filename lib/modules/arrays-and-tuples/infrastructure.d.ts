@@ -44,7 +44,7 @@ export type isEmptyArray<T extends unknown[]> = T extends [] ? true : false;
  * type C = IsTuple<never>;
  * //   ^? false
  */
-export type isTuple<T> = If<(isNever<T> | isAny<T>), {
+export type isTuple<T> = $if<isNever<T> | isAny<T>, {
   then: false;
   else: T extends [infer _A, ...(infer _B)] ? true : false;
 }>;

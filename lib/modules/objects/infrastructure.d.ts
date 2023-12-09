@@ -34,17 +34,16 @@ export type isStrictObject<T> = isType<T, unknownObject>;
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.
  */
-export type modify<T, U> = isStrictObject<T> extends true
-  ? isStrictObject<U> extends true
-    ? prettify<Omit<T, keyof U> & U>
-    : T
-  : T;
+export type modify<T, U> = $if<isStrictObject<T> & isStrictObject<U>, {
+  then: prettify<Omit<T, keyof U> & U>;
+  else: T;
+}>;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
  */
-export type modifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = If<(isStrictObject<T> & isStrictObject<U>), {
+export type modifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = $if<(isStrictObject<T> & isStrictObject<U>), {
   then: prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & modify<T, U[Key]> }[keyof U]>;
   else: T;
 }>;
@@ -74,11 +73,11 @@ export type pickByValue<
   Type,
   ValuesToPick extends unknown[],
   _result = {},
-> = If<(Not<isTuple<ValuesToPick>> | isEmptyArray<ValuesToPick>), {
+> = $if<(not<isTuple<ValuesToPick>> | isEmptyArray<ValuesToPick>), {
   then: prettify<_result>;
   else: ValuesToPick extends [infer X, ...infer Rest]
     ? pickByValue<Type, Rest, _result & {
-      [Key in keyof Type as If<equals<Type[Key], X>, {
+      [Key in keyof Type as $if<equals<Type[Key], X>, {
         then: Key;
         else: never;
       }>]: Type[Key]
@@ -103,7 +102,7 @@ export type canBeEmptyObject<Type extends unknownObject> = [{}] extends [Type] ?
  * //   ^? "b"
  */
 export type getReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: If<equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
+  [Key in keyof Type]-?: $if<equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
     then: Key;
     else: never;
   }>
@@ -116,7 +115,7 @@ export type getReadonlyKeys<Type> = {
  * //   ^? "a"
  */
 export type getNoReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: If<equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
+  [Key in keyof Type]-?: $if<equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
     then: Key;
     else: never;
   }>
@@ -129,7 +128,7 @@ export type getNoReadonlyKeys<Type> = {
  * //   ^? "b" | "c"
  */
 export type getRequiredKeys<Type> = {
-  [Key in keyof Type]-?: If<Not<canBeEmptyObject<{ [_ in Key]: Type[Key] }>>, {
+  [Key in keyof Type]-?: $if<not<canBeEmptyObject<{ [_ in Key]: Type[Key] }>>, {
     then: Key;
     else: never;
   }>
@@ -142,7 +141,7 @@ export type getRequiredKeys<Type> = {
  * //   ^? "a" | "b"
  */
 export type getOptionalKeys<Type> = {
-  [Key in keyof Type]-?: If<canBeEmptyObject<{ [_ in Key]: Type[Key] }>, {
+  [Key in keyof Type]-?: $if<canBeEmptyObject<{ [_ in Key]: Type[Key] }>, {
     then: Key;
     else: never;
   }>
