@@ -1,6 +1,6 @@
 import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { equals } from '../comparison/infrastructure';
-import { KeysOfUnion } from '../generals/infrastructure';
+import { $keyof } from '../generals/infrastructure';
 import { nonUndefined } from '../undefined/infrastructure';
 import { isType } from '../app';
 import { empty_object_key } from './domain';
@@ -153,7 +153,7 @@ export type getOptionalKeys<Type> = {
  * type U = hasProperty<{ a?: 'a'; b?: 'b'; c: 'c' }, 'c'>
  * //   ^? true
  */
-export type hasProperty<T, K> = K extends KeysOfUnion<T> ? true : false;
+export type hasProperty<T, K> = K extends $keyof<T> ? true : false;
 
 /**
  * Convert specific properties of an object `T` to readonly.
@@ -161,7 +161,7 @@ export type hasProperty<T, K> = K extends KeysOfUnion<T> ? true : false;
  * type U = someToReadonly<{ a: 'a'; b: 'b' }, 'a'>
  * //   ^? { readonly a: 'a', b: 'b' }
  */
-export type someToReadonly<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
+export type someToReadonly<T, K extends $keyof<T>> = prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
 
 /**
  * Remove readonly to specific properties of an object `T`.
@@ -169,7 +169,7 @@ export type someToReadonly<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & 
  * type U = someToWritable<{ readonly a: 'a'; readonly b: 'b' }, 'a'>
  * //   ^? { a: 'a', readonly b: 'b' }
  */
-export type someToWritable<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { -readonly [key in K]: T[K] }>;
+export type someToWritable<T, K extends $keyof<T>> = prettify<Omit<T, K> & { -readonly [key in K]: T[K] }>;
 
 /**
  * Convert specific properties of an object `T` to optional.
@@ -177,7 +177,7 @@ export type someToWritable<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & 
  * type U = someToPartial<{ a: 'a'; b: 'b' }, 'a'>
  * //   ^? { a?: 'a', b: 'b' }
  */
-export type someToPartial<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { [key in K]?: T[K] }>;
+export type someToPartial<T, K extends $keyof<T>> = prettify<Omit<T, K> & { [key in K]?: T[K] }>;
 
 /**
  * Make specific properties of an object `T` required.
@@ -185,4 +185,4 @@ export type someToPartial<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & {
  * type U = someToRequired<{ a?: 'a'; b?: 'b' }, 'a'>
  * //   ^? { a: 'a', b: 'b' }
  */
-export type someToRequired<T, K extends KeysOfUnion<T>> = prettify<Omit<T, K> & { [key in K]-?: nonUndefined<T[K]> }>;
+export type someToRequired<T, K extends $keyof<T>> = prettify<Omit<T, K> & { [key in K]-?: nonUndefined<T[K]> }>;

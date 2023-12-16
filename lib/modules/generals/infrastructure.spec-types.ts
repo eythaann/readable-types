@@ -1,59 +1,61 @@
-import { Cast, Default, KeysOfUnion, UnionToIntersection, ValueOf } from './infrastructure';
+import { cast, defaultOnNullable, $keyof, unionToIntersection, valueof } from './infrastructure';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [
-    assertType<ValueOf<{ a: number; b: string }>>().equals<number | string>(),
-    assertType<ValueOf<{ a: any; b: unknown }>>().toBeAny(),
-    assertType<ValueOf<{ a: never; b: never }>>().toBeNever(),
+    assertType<valueof<{ a: number; b: string }>>().equals<number | string>(),
+    assertType<valueof<{ a: any; b: unknown }>>().toBeAny(),
+    assertType<valueof<{ a: never; b: never }>>().toBeNever(),
   ]);
 });
 
 describeType('KeysOfUnion', () => {
   testType('Should return the union of the keys of the object types in the union', [
-    assertType<KeysOfUnion<{ a: number; b: string } | { c: boolean }>>().equals<'a' | 'b' | 'c'>(),
-    assertType<KeysOfUnion<{ a: any } | { b: unknown }>>().equals<'a' | 'b'>(),
-    assertType<KeysOfUnion<{ a: never } | { b: never }>>().equals<'a' | 'b'>(),
+    assertType<$keyof<{ a: number; b: string } | { c: boolean }>>().equals<'a' | 'b' | 'c'>(),
+    assertType<$keyof<{ a: any } | { b: unknown }>>().equals<'a' | 'b'>(),
+    assertType<$keyof<{ a: never } | { b: never }>>().equals<'a' | 'b'>(),
   ]);
 });
 
 describeType('UnionToIntersection', () => {
   testType('Should return a single object type with the union of keys and values', [
-    assertType<UnionToIntersection<{ a: number; b: string } | { a: string; c: boolean }>>().equals<{ a: number | string; b: string; c: boolean }>(),
-    assertType<UnionToIntersection<{ a: any } | { b: unknown }>>().equals<{ a: any; b: unknown }>(),
-    assertType<UnionToIntersection<{ a: never } | { b: never }>>().equals<{ a: never; b: never }>(),
+    assertType<unionToIntersection<{ a: number; b: string } | { a: string; c: boolean }>>().equals<{ a: number | string; b: string; c: boolean }>(),
+    assertType<unionToIntersection<{ a: any } | { b: unknown }>>().equals<{ a: any; b: unknown }>(),
+    assertType<unionToIntersection<{ a: never } | { b: never }>>().equals<{ a: never; b: never }>(),
   ]);
 });
 
 describeType('Cast', () => {
   testType('Should cast T to U if T is not a subtype of U', [
-    assertType<Cast<string, number>>().equals<number>(),
+    assertType<cast<string, number>>().equals<number>(),
   ]);
 
   testType('Should return T if T is a subtype of U', [
-    assertType<Cast<'a', string>>().equals<'a'>(),
-    assertType<Cast<5, number>>().equals<5>(),
+    assertType<cast<'a', string>>().equals<'a'>(),
+    assertType<cast<5, number>>().equals<5>(),
   ]);
 
   testType('Should allow casting to union types', [
-    assertType<Cast<number, number | string>>().equals<number>(),
+    assertType<cast<number, number | string>>().equals<number>(),
   ]);
 
   testType('Should cast arrays to broader array types', [
-    assertType<Cast<number[], any[]>>().equals<number[]>(),
+    assertType<cast<number[], any[]>>().equals<number[]>(),
   ]);
 });
 
 describeType('DefaultOnUnknown', () => {
   testType('Should replace type with the default type', () => {
-    type result = Default<undefined, string>;
-    type result2 = Default<unknown, string>;
+    type result = defaultOnNullable<undefined, string>;
+    type result2 = defaultOnNullable<unknown, string>;
+    type result3 = defaultOnNullable<null, string>;
 
-    assertType<result>().equals<string>();
-    assertType<result2>().equals<string>();
+    assertType<result>().toBeString();
+    assertType<result2>().toBeString();
+    assertType<result3>().toBeString();
   });
 
   testType('Should retain the original type if it is not undefined | unknown', () => {
-    type result = Default<number, string>;
+    type result = defaultOnNullable<number, string>;
     assertType<result>().equals<number>();
   });
 });

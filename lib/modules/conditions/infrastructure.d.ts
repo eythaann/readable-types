@@ -50,18 +50,4 @@ declare global {
     B extends BType = never,
     C extends CType = never
   > = ExplicitCondition<Modes<A, B, C>[IfMode]>;
-
-  /** @alias $if */
-  type If<
-    A extends AType,
-    B extends BType = never,
-    C extends CType = never
-  > = ExplicitCondition<Modes<A, B, C>[IfMode]>;
-
-  /** @alias $if */
-  type if_<
-    A extends AType,
-    B extends BType = never,
-    C extends CType = never
-  > = ExplicitCondition<Modes<A, B, C>[IfMode]>;
 }

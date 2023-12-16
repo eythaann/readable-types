@@ -27,7 +27,7 @@ type GetAllPosibleGroupsByNumericOrder<
   newResult = GetUnionGroupByNumericOrder<T, current>
 > = isNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
 
-interface $CreateAcumulativeModified<U, K extends string> extends $<[acc: unknown, current: unknown]> {
+interface $CreateAcumulativeModified<U, K extends PropertyKey> extends $<[acc: unknown, current: unknown]> {
   return: modify<
   this['0'],
   forceExtract<forceExtract<U, this['1']>, 1> & {
@@ -35,7 +35,7 @@ interface $CreateAcumulativeModified<U, K extends string> extends $<[acc: unknow
   }>;
 }
 
-interface $CreateAllAcumulativeModified<T, U, K extends string> extends $<[current: nLengthTuple<string>]> {
+interface $CreateAllAcumulativeModified<T, U, K extends PropertyKey> extends $<[current: nLengthTuple<string>]> {
   return: TupleReduce<this[0], $CreateAcumulativeModified<U, K>, T & { [_ in K]: [] }>;
 }
 
@@ -50,16 +50,16 @@ interface $CreateAllAcumulativeModified<T, U, K extends string> extends $<[curre
  * to act as a key identifier and an object as its second element to specify the overrides.
  *
  * @example
- * type Result = ModifyByKeyPlusOrderedCombinations<{ test: 'test' }, [
+ * type Result = modifyByKeyPlusOrderedCombinations<{ test: 'test' }, [
  *  ['fet1', { newprop1: 1 }],
  *  ['fet2', { newprop2: 2 }],
  *  ['fet3', { newprop1: 3; newprop3: 3 }],
  * ]>;
  */
-export type ModifyByKeyPlusOrderedCombinations<
+export type modifyByKeyPlusOrderedCombinations<
   mainObj,
   overrides extends [string, any][],
-  keyToDiscrimitate extends string = '__key'
+  keyToDiscrimitate extends PropertyKey = '__key'
 > = (mainObj & { [_ in keyToDiscrimitate]?: undefined })
 | UnionMap<
 GetAllPosibleGroupsByNumericOrder<getIndexes<overrides>>,
