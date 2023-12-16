@@ -1,7 +1,7 @@
 import { isUndefined, isUnknown } from '../infrastructure';
 
 export * from './HKT/infrastructure';
-export * from './opaque/infrastructure';
+export * from './newtypes/infrastructure';
 
 /**
  * Extracts the types of the values of the properties of T.
