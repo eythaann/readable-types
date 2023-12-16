@@ -1,11 +1,11 @@
 import { KeyOfObject, modify, prettify } from '../infrastructure';
 import { ShiftRecursive, UnionToTupleCombination } from '../../arrays-and-tuples/infrastructure';
-import { Cast } from '../../generals/infrastructure';
+import { cast } from '../../generals/infrastructure';
 
 type _ModifyByTuple<T, U, V, Result = T> = V extends []
   ? Result
   : V extends [infer Current, ...infer Rest]
-    ? _ModifyByTuple<T, U, Rest, modify<Result, U[Cast<Current, keyof U>]>>
+    ? _ModifyByTuple<T, U, Rest, modify<Result, U[cast<Current, keyof U>]>>
     : never;
 
 type _ModifyByKeyPlusCombinations<
@@ -27,4 +27,4 @@ type _ModifyByKeyPlusCombinations<
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object
  * Also create the combinations of override the mainType with two or more types in the overrides.
  */
-export type ModifyByKeyPlusCombinations<T, U, KeyToDiscrimitate extends KeyOfObject = '__keys'> = _ModifyByKeyPlusCombinations<T, U, KeyToDiscrimitate>;
+export type modifyByKeyPlusCombinations<T, U, KeyToDiscrimitate extends KeyOfObject = '__keys'> = _ModifyByKeyPlusCombinations<T, U, KeyToDiscrimitate>;

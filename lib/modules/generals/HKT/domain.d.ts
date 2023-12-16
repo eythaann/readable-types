@@ -6,6 +6,8 @@ export type $BINDED_ARGS = typeof $BINDED_ARGS;
 
 declare global {
   /**
+   * @rt_keyowrd
+   *
    * `$` is a generic utility type intended to be used as a base for creating High Kinded Types (HKT).
    * It encapsulates the arguments and return type of a function, allowing for advanced type manipulation
    * and transformations within the TypeScript type system.

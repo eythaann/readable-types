@@ -15,7 +15,7 @@ type getSustractCarry<A, B> = B extends forceExtract<CarryOnAddition, forceExtra
 
 type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>, B>> = {
   result: Result;
-  carryOut: If<(equals<CarryIn, 1> & equals<B, 9>), {
+  carryOut: $if<(equals<CarryIn, 1> & equals<B, 9>), {
     then: 1;
     else: getSustractCarry<A, Result>;
   }>;

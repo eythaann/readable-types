@@ -9,9 +9,10 @@
     "noEmit": true,
     "noErrorTruncation": true,
     "plugins": [{
-      "name": "readable-types-plugin",
+      "name": "readable-test-for-types",
     }],
     "incremental": true,
+    "resolveJsonModule": true,
   },
   "include": [
     "./lib",

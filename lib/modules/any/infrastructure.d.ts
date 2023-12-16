@@ -15,3 +15,11 @@
   `0 extends (1 & T)` will be `true` if `T` is `any` and `false` otherwise.
 */
 export type isAny<T> = 0 extends (1 & T) ? true : false;
+
+/**
+ * A utility type that substitutes a default type when the provided type is `any`.
+ * @example
+ * type A = defaultOnAny<any, string>;  // Result: string
+ * type B = defaultOnAny<number, string>;  // Result: number
+ */
+export type defaultOnAny<Type, Default> = isAny<Type> extends true ? Default : Type;

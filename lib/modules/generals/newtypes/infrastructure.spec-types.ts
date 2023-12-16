@@ -29,7 +29,7 @@ describeType('Opaque', () => {
   });
 });
 
-describeType('WeakOpaque', () => {
+describeType('SoftOpaque', () => {
   testType('Should be asignable to it selft', () => {
     type UserID = SoftOpaque<number, 'UserID'>;
     const userId: UserID = 123 as UserID;

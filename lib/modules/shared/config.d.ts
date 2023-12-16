@@ -1,7 +1,10 @@
-import { forceExtract } from '../app';
-import { defaultOnUnknown } from '../infrastructure';
+import { defaultOnAny } from '../infrastructure';
 
-export interface INTERNAL_RT_CONFIG {
-  development: defaultOnUnknown<forceExtract<RT_CONFIG, 'development'>, false>;
-  conditionWay: defaultOnUnknown<forceExtract<RT_CONFIG, 'conditionWay'>, 'natural'>;
-}
+type DEFAULT_CONFIG = {
+  development: true;
+  conditionWay: 'natural';
+};
+
+// @ts-ignore
+type CLIENT_CONFIG = defaultOnAny<typeof import('../../../../../rt.config').default, {}>;
+export type CONFIG = Omit<DEFAULT_CONFIG, keyof CLIENT_CONFIG> & CLIENT_CONFIG;

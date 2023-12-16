@@ -1,60 +1,66 @@
-import { isUndefined, isUnknown } from '../infrastructure';
+import { isNull, isUndefined, isUnknown } from '../infrastructure';
 
 export * from './HKT/infrastructure';
-export * from './opaque/infrastructure';
+export * from './newtypes/infrastructure';
 
 /**
  * Extracts the types of the values of the properties of T.
  *
  * @example
- * type A = ValueOf<{ a: number, b: string }>;
+ * type A = valueof<{ a: number, b: string }>;
  * //   ^? number | string
  */
-export type ValueOf<T> = T[keyof T];
+export type valueof<T> = T[keyof T];
 
 /**
- * Extracts the keys of a union of object types.
- *
+ * Improved `keyof` to support unions
+
  * @example
- * type A = KeysOfUnion<{ a: number, b: string } | { c: boolean }>;
+ * type A = $keyof<{ a: number, b: string } | { c: boolean }>;
  * //   ^? "a" | "b" | "c"
  */
-export type KeysOfUnion<Type> = Type extends Type ? keyof Type : never;
+export type $keyof<Type> = [Type] extends [never]
+  ? keyof Type // PropertyKey on `any` and `never`
+  : Type extends Type ? keyof Type : never;
 
 /**
  * Converts a union of object types into a single object type with keys
  * being the union of all keys and values being the union of all values.
  *
  * @example
- * type A = UnionToIntersection<{ a: number, b: string } | { a: string, c: boolean }>;
+ * type A = unionToIntersection<{ a: number, b: string } | { a: string, c: boolean }>;
  * //   ^? { a: number | string, b: string, c: boolean }
  */
-export type UnionToIntersection<Type> = { [Key in KeysOfUnion<Type>]: Extract<Type, { [key in Key]?: any }>[Key] };
+export type unionToIntersection<Type extends unknownObject> = { [Key in $keyof<Type>]: Extract<Type, { [key in Key]?: any }>[Key] };
 
 /**
  * This can be used to assert that a certain type `T` is subtype of another type `U`.
  * util for cast keyof objects in generics as example
  * @example
- * type Result1 = Cast<string, number>;
+ * type Result1 = cast<string, number>;
  * //   ^? Result1 = number
  *
- * type Result2 = Cast<'a', string>;
+ * type Result2 = cast<'a', string>;
  * //   ^? Result2 = 'a'
  */
-export type Cast<T, U> = T extends U ? T : U;
+export type cast<T, U> = T extends U ? T : U;
 
 /**
  * Allow avoid infer on generics when you predifine a type on other context.
  *
  * Normally this is usefull on advanced generics functions.
  */
-export type NoInfer<T> = [T][T extends any ? 0 : never];
+export type noInfer<T> = [T][T extends any ? 0 : never];
 
 /**
- * A utility type that substitutes a default type when the provided type is unknown | undefined.
+ * A utility type that substitutes a default type when the provided type is `unknown`, `undefined` or `null`.
  * @example
- * type A = Default<unknown, string>;  // Result: string
- * type B = Default<number, string>;  // Result: number
- * type C = Default<undefined, string>;  // Result: string
+ * type A = defaultOnNullable<unknown, string>;  // Result: string
+ * type B = defaultOnNullable<null, string>;  // Result: string
+ * type C = defaultOnNullable<undefined, string>;  // Result: string
+ * type D = defaultOnNullable<number, string>;  // Result: number
  */
-export type Default<Type, Default> = isUnknown<Type> extends true ? Default : isUndefined<Type> extends true ? Default : Type;
+export type defaultOnNullable<Type, Default> = $if<isUnknown<Type> | isUndefined<Type> | isNull<Type>, {
+  then: Default;
+  else: Type;
+}>;

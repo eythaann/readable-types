@@ -3,9 +3,9 @@ export * as HKT from './HKT/app';
 export type isType<
   TypeToTest,
   TypeToCast,
-> = 0 extends (1 & TypeToTest)
+> = 0 extends (1 & TypeToTest) // is any?
   ? false
-  : [TypeToTest] extends [never]
+  : [TypeToTest] extends [never] // is never?
     ? false
     : [TypeToTest] extends [TypeToCast] ? true : false;
 
