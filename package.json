@@ -10,9 +10,8 @@
     "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
     "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
-    "prepare": "husky install",
-    "postversion": "git push && git push --tags --no-verify && npm publish",
-    "prepublish": "tsc -p ./rtt-plugin"
+    "prepare": "husky install && tsc -p ./rtt-plugin",
+    "postversion": "git push && git push --tags --no-verify && npm publish"
   },
   "repository": {
     "type": "git",
