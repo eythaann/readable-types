@@ -1,4 +1,4 @@
-import { $ARGS } from './domain';
+import { $ArgumentTypes } from './domain';
 import { Call as _Call, Bind as _Bind } from './app';
 
 type $Base = $<[] | nLengthTuple | unknownObject>;
@@ -21,8 +21,8 @@ type $Base = $<[] | nLengthTuple | unknownObject>;
  * }
  * type Result = call<MyHKT, { T: number }>; // Result is string
  */
-export type call<$Generic extends $Base, Args extends $Generic[$ARGS]> = _Call<$Generic, Args>;
+export type call<$Generic extends $Base, Args extends $Generic[$ArgumentTypes]> = _Call<$Generic, Args>;
 
-export type args<$Generic extends $Base> = $Generic[$ARGS];
+export type args<$Generic extends $Base> = $Generic[$ArgumentTypes];
 
 export type bind<$Generic extends $Base, Args extends nLengthTuple> = _Bind<$Generic, Args>;

@@ -50,7 +50,12 @@ export type cast<T, U> = T extends U ? T : U;
  *
  * Normally this is usefull on advanced generics functions.
  */
-export type noInfer<T> = [T][T extends any ? 0 : never];
+export type noInfer<T, waitFor = T> = [T][waitFor extends any ? 0 : never];
+
+/**
+ * Avoid ejecution of caching when create a interface or type.
+ */
+export type waitFor<argForWait, type> = any extends argForWait ? type : never;
 
 /**
  * A utility type that substitutes a default type when the provided type is `unknown`, `undefined` or `null`.

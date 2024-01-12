@@ -1,9 +1,10 @@
 import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { equals } from '../comparison/infrastructure';
-import { $keyof } from '../generals/infrastructure';
+import { $keyof, waitFor } from '../generals/infrastructure';
 import { nonUndefined } from '../undefined/infrastructure';
 import { isType } from '../app';
 import { empty_object_key } from './domain';
+import { assign } from './app';
 
 export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
@@ -12,9 +13,16 @@ export * from './app/ModifyPlusCombinations';
 export type KeyOfObject = PropertyKey;
 
 declare global {
-  type uObject = unknownObject;
+  /**
+   * Allow only objects (no primitives, no arrays, no functions),
+   * This have a bug when using interfaces, so maybe you wanna use strictObject instead.
+   * */
   type unknownObject = { [key in PropertyKey]: unknown };
 
+  /** Allow only objects (no primitives, no arrays, no functions). */
+  type strictObject = object & { length?: never };
+
+  /** @warning `any` less primitive values. Try no use it. */
   type anyObject = { [key in PropertyKey]: any };
 
   type emptyObject = { [empty_object_key]?: never };
@@ -29,17 +37,22 @@ export type isObject<T> = isType<T, anyObject>;
 /**
  * Return true if type is of type object ignoring arrays and functions.
 */
-export type isStrictObject<T> = isType<T, unknownObject>;
+export type isStrictObject<T> = isType<T, strictObject>;
+
+/** Same as `modify` but less pretty and preserving the context of `this`. */
+export type modifyInterface<T extends object, U extends object> = waitFor<T, assign<T, U>>;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.
  */
 export type modify<T, U> = $if<isStrictObject<T> & isStrictObject<U>, {
-  then: prettify<Omit<T, keyof U> & U>;
+  //@ts-ignore
+  then: prettify<assign<T, U>>;
   else: T;
 }>;
 
 /**
+ * @deprecated will be removed in 4.0
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
  */

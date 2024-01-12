@@ -1,7 +1,7 @@
-declare const $ARGS: unique symbol;
+declare const $ArgumentTypes: unique symbol;
 declare const $BINDED_ARGS: unique symbol;
 
-export type $ARGS = typeof $ARGS;
+export type $ArgumentTypes = typeof $ArgumentTypes;
 export type $BINDED_ARGS = typeof $BINDED_ARGS;
 
 declare global {
@@ -35,7 +35,7 @@ declare global {
    * // MyNamedHKT is now { args: { x: number; y: string }; return: unknown; x: number; y: string; }
    */
   type $<Args extends [] | nLengthTuple | unknownObject = []> = {
-    [$ARGS]: Args;
+    [$ArgumentTypes]: Args;
     [x: number]: unknown;
     return: unknown;
   } & {

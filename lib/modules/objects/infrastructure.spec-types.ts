@@ -47,6 +47,11 @@ describeType('IsStrictObject', () => {
     assertType<isStrictObject<anyObject>>().toBeTrue(),
     assertType<isStrictObject<{ prop1: string }>>().toBeTrue(),
   ]);
+
+  testType('Should return true if type is a interface', () => {
+    interface A { prop: string }
+    assertType<isStrictObject<A>>().toBeTrue();
+  });
 });
 
 describeType('Modify', () => {
@@ -58,12 +63,12 @@ describeType('Modify', () => {
 
     type expected = {
       prop1: string;
-      prop2: number;
+      prop2: 'modified';
       newProp: boolean;
     };
 
     assertType<modify<Base, { newProp: never }>>().not.equals<Base>();
-    assertType<modify<Base, { newProp: boolean }>>().equals<expected>();
+    assertType<modify<Base, { prop2: 'modified'; newProp: boolean }>>().equals<expected>();
     assertType<modify<Base, { newProp1: boolean }>>().toHaveProperty('newProp1');
   });
 });
