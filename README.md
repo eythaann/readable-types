@@ -105,16 +105,10 @@ describeType('MyType', () => {
 ```
 
 ### Execute Test
-To test with our library, we use the TypeScript compiler (`tsc`) to transpile our code. However, to prevent our test and spec files from being included in the final build add the next in your `tsconfig.json`:
-```json
-"exclude": [
-    "**/*.spec-types.ts"
-    "**/*.test-types.ts"
-]
-```
+To test with our library, we use the TypeScript compiler reading the AST.
 For "run" the test you need to ejecute:
 ```bash 
-tsc --noEmit *.(spec|test)-types.ts
+rtft
 ```
 Additionally, we recommend adding this command to your Husky pre-commit hook to ensure that any changes to these files are caught before they are committed to the repository.
 
