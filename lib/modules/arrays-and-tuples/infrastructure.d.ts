@@ -1,8 +1,9 @@
 import { isAny } from '../any/infrastructure';
-import { isType } from '../app';
+import { forceToString, isType } from '../app';
 import { equals } from '../comparison/infrastructure';
 import { isNever } from '../never/infrastructure';
 import { strToNumber } from '../numbers/infrastructure';
+import { InternalAdd } from '../numbers/math/app/addition';
 import { substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings/infrastructure';
 
@@ -169,3 +170,14 @@ export type UnionToTupleCombination<
  * //   ^? never
  */
 export type getIndexes<T> = Exclude<keyof T, keyof []>;
+
+/**
+ * Converts properties numbers of an object to a tuple.
+
+ * @example
+ * type a = ObjectToTuple<{ 0: string; 1: number; }>
+ * //   ^? [string, number]
+ */
+export type ObjectToTuple<T extends anyObject, currentIndex extends number = 0> = `${currentIndex}` extends forceToString<keyof T>
+  ? [T[currentIndex], ...ObjectToTuple<T, InternalAdd<currentIndex, 1>>]
+  : [];

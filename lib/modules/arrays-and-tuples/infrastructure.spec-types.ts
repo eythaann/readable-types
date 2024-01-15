@@ -1,4 +1,4 @@
-import { isArray, isEmptyArray, isTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, getIndexes, UnionToTupleCombination, tupleIncludes } from './infrastructure';
+import { isArray, isEmptyArray, isTuple, Pop, PopRecursive, Shift, ShiftRecursive, Tuple, getIndexes, UnionToTupleCombination, tupleIncludes, ObjectToTuple } from './infrastructure';
 
 describeType('IsArray', () => {
   testType('Should return true for array types', [
@@ -123,5 +123,22 @@ describeType('TupleIncludes', () => {
   testType('Should return false for an empty tuple', () => {
     type TestTuple = [];
     assertType<tupleIncludes<TestTuple, any>>().toBeFalse();
+  });
+});
+
+describeType('ObjectToTuple', () => {
+  testType('Should create a tuple', () => {
+    type result = ObjectToTuple<{ 0: string; 1: number }>;
+    assertType<result>().equals<[string, number]>();
+  });
+
+  testType('Should create an empty tuple', () => {
+    type result = ObjectToTuple<{}>;
+    assertType<result>().equals<[]>();
+  });
+
+  testType('Should ignore indexers of no type number', () => {
+    type result = ObjectToTuple<{ 0: string; ignored: 'test'; 1: number }>;
+    assertType<result>().equals<[string, number]>();
   });
 });

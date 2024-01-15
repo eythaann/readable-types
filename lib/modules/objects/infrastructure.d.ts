@@ -199,3 +199,12 @@ export type someToPartial<T, K extends $keyof<T>> = prettify<Omit<T, K> & { [key
  * //   ^? { a: 'a', b: 'b' }
  */
 export type someToRequired<T, K extends $keyof<T>> = prettify<Omit<T, K> & { [key in K]-?: nonUndefined<T[K]> }>;
+
+/**
+ * Converts a tuple to an object.
+ *
+ * @example
+ * type a = TupleToObject<[string, number]>
+ * //   ^? { 0: string; 1: number; }
+ */
+export type TupleToObject<T> = { [K in Exclude<keyof T, keyof []>]: T[K] };

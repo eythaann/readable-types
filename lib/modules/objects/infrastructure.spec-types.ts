@@ -1,4 +1,4 @@
-import { canBeEmptyObject, hasProperty, isObject, isStrictObject, modify, modifyByKey, getNoReadonlyKeys, getOptionalKeys, pickByValue, prettify, getReadonlyKeys, getRequiredKeys, someToPartial, someToReadonly, someToRequired, someToWritable } from './infrastructure';
+import { canBeEmptyObject, hasProperty, isObject, isStrictObject, modify, modifyByKey, getNoReadonlyKeys, getOptionalKeys, pickByValue, prettify, getReadonlyKeys, getRequiredKeys, someToPartial, someToReadonly, someToRequired, someToWritable, TupleToObject } from './infrastructure';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
@@ -199,5 +199,17 @@ describeType('NoReadonlyKeys', () => {
   testType('Should return empty union for objects with all readonly properties', () => {
     type TestObj = { readonly a: number; readonly b: string };
     assertType<getNoReadonlyKeys<TestObj>>().toBeNever();
+  });
+});
+
+describeType('TupleToObject', () => {
+  testType('Should create an object', () => {
+    type result = TupleToObject<[string, number]>;
+    assertType<result>().equals<{ 0: string; 1: number }>();
+  });
+
+  testType('Should create an empty object', () => {
+    type result = TupleToObject<[]>;
+    assertType<result>().equals<{}>();
   });
 });
