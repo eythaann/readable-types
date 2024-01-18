@@ -48,12 +48,18 @@ type Assertion<
   else: RTT_FAIL<FailMsgs<Invert>[keyToErrorsMsg]>;
 }>;
 
-interface PublicAssertions<T, I extends boolean = false> {
-  not: PublicAssertions<T, not<I>>;
+type DevelopmentAssertions<T> = isTrue<CONFIG['development']> extends true ? {
+  __internal: {
+    shouldBe: (a: T) => void;
+  };
+} : {};
 
-  awaited: PublicAssertions<Awaited<T>, I>;
+interface Assertions<T, I extends boolean = false> extends DevelopmentAssertions<T> {
+  not: Assertions<T, not<I>>;
 
-  returned: PublicAssertions<Returned<T>, I>;
+  awaited: Assertions<Awaited<T>, I>;
+
+  returned: Assertions<Returned<T>, I>;
 
   /** asserting type should be the same type as the expected*/
   equals: <U>() => Xor<I, equals<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['equal']>;
@@ -122,18 +128,8 @@ interface PublicAssertions<T, I extends boolean = false> {
   toHaveProperty: <U extends Readonly<PropertyKey>>(v?: U) => Xor<I, hasProperty<T, U>> extends true ? RTT_PASS : RTT_FAIL<FailMsgs<I>['property']>;
 }
 
-type InternalAssertions<T> = {
-  __internal: {
-    shouldBe: (a: T) => void;
-  };
-};
-
-type IValidations<T> = isTrue<CONFIG['development']> extends true
-  ? PublicAssertions<T> & InternalAssertions<T>
-  : PublicAssertions<T>;
-
 declare global {
   function describeType(description: string, cb: () => void): void;
   function testType(description: string, tests: (() => void) | any[] | unknownObject): void;
-  function assertType<T>(): IValidations<T>;
+  function assertType<T>(): Assertions<T>;
 }
