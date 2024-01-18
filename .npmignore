@@ -29,7 +29,7 @@ outDir
 /blob
 
 #env files
-/lib/rt.config.d.ts
+rt.config.ts
 
 #plugin
 /lib/plugins/src

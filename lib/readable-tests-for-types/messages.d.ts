@@ -1,5 +1,5 @@
-type expect = 'Tested type';
-type expected = '\'expected\'';
+type recieve = 'Tested <type>';
+type expected = '`expected`';
 
 type p = 'is';
 type n = 'is not';
@@ -11,25 +11,25 @@ type have<T> = T extends true ? has : hasNot;
 type be<T> = T extends true ? p : n;
 
 export type FailMsgs<T extends boolean = false> = {
-  equal: `${expect} ${be<T>} equal to ${expected}`;
-  supertype: `${expect} ${be<T>} supertype of ${expected}`;
-  subtype: `${expect} ${be<T>} subtype of ${expected}`;
+  equal: `${recieve} ${be<T>} equal to ${expected}`;
+  supertype: `${recieve} ${be<T>} supertype of ${expected}`;
+  subtype: `${recieve} ${be<T>} subtype of ${expected}`;
 
-  truly: `${expect} ${be<T>} equals to true`;
-  falsy: `${expect} ${be<T>} equals to false`;
+  truly: `${recieve} ${be<T>} equals to \`true\``;
+  falsy: `${recieve} ${be<T>} equals to \`false\``;
 
-  never: `${expect} ${be<T>} type never`;
-  undefined: `${expect} ${be<T>} type undefined`;
-  null: `${expect} ${be<T>} type null`;
-  object: `${expect} ${be<T>} type object`;
-  function: `${expect} ${be<T>} type function`;
-  number: `${expect} ${be<T>} type function`;
-  string: `${expect} ${be<T>} type function`;
-  array: `${expect} ${be<T>} type array`;
-  tuple: `${expect} ${be<T>} type tuple`;
-  any: `${expect} ${be<T>} type any`;
-  unknow: `${expect} ${be<T>} type unknow`;
-  boolean: `${expect} ${be<T>} type boolean`;
-  promise: `${expect} ${be<T>} type promise`;
-  property: `${expect} ${have<T>} property`;
+  never: `${recieve} ${be<T>} type \`never\``;
+  undefined: `${recieve} ${be<T>} type \`undefined\``;
+  null: `${recieve} ${be<T>} type \`null\``;
+  object: `${recieve} ${be<T>} type \`object\``;
+  function: `${recieve} ${be<T>} type \`function\``;
+  number: `${recieve} ${be<T>} type \`function\``;
+  string: `${recieve} ${be<T>} type \`function\``;
+  array: `${recieve} ${be<T>} type \`array\``;
+  tuple: `${recieve} ${be<T>} type \`tuple\``;
+  any: `${recieve} ${be<T>} type \`any\``;
+  unknow: `${recieve} ${be<T>} type \`unknow\``;
+  boolean: `${recieve} ${be<T>} type \`boolean\``;
+  promise: `${recieve} ${be<T>} type \`promise\``;
+  property: `${recieve} ${have<T>} \`property\``;
 };
