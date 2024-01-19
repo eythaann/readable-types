@@ -38,6 +38,10 @@ jobs:
       run:
         working-directory: rt-website
     steps:
+      - name: Debug directory structure
+        run: |
+          pwd
+          ls -al
       - name: Detect package manager
         id: detect-package-manager
         run: |
