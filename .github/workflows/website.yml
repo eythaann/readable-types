@@ -34,9 +34,6 @@ jobs:
   build:
     needs: clone
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: rt-website
     steps:
       - name: Debug directory structure
         run: |
