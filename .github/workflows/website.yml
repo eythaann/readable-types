@@ -25,24 +25,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  clone:
+  build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rt-website
     steps:
       - name: Clone repository
+        working-directory: .
         run: git clone https://github.com/eythaann/rt-website.git
+
       - name: Debug directory structure
         run: |
           pwd
           ls -al
 
-  build:
-    needs: clone
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug directory structure
-        run: |
-          pwd
-          ls -al
       - name: Detect package manager
         id: detect-package-manager
         run: |
