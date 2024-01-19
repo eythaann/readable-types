@@ -30,6 +30,10 @@ jobs:
     steps:
       - name: Clone repository
         run: git clone https://github.com/eythaann/rt-website.git
+      - name: Debug directory structure
+        run: |
+          pwd
+          ls -al
 
   build:
     needs: clone
