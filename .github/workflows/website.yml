@@ -60,15 +60,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
-          working-directory: rt-website
           static_site_generator: next
+          generator_config_file: ./rt-website/next.config.js
 
       - name: Restore cache
         uses: actions/cache@v3
         with:
-          working-directory: rt-website
           path: |
-            .next/cache
+            rt-website/.next/cache
           # Generate a new cache whenever packages or source files change.
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           # If source files changed but packages didn't, rebuild from a prior cache.
