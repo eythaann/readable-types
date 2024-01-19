@@ -53,17 +53,20 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
+          working-directory: rt-website
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
+          working-directory: rt-website
           static_site_generator: next
 
       - name: Restore cache
         uses: actions/cache@v3
         with:
+          working-directory: rt-website
           path: |
             .next/cache
           # Generate a new cache whenever packages or source files change.
@@ -84,7 +87,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./rt-website/out
 
   deploy:
     environment:
