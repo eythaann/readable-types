@@ -1,11 +1,6 @@
-# Sample workflow for building and deploying a Next.js site to GitHub Pages
-#
-# To get started with Next.js see: https://nextjs.org/docs/getting-started
-#
-name: Deploy Next.js site to Pages
+name: Deploy Readable Types Website to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["master"]
 
@@ -25,12 +20,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Cloning rt-website
-        run: git clone https://github.com/eythaann/rt-website.git
+        run: git clone https://github.com/eythaann/rt-website.git .
 
       - name: Detect package manager
         id: detect-package-manager
