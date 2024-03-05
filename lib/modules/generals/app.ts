@@ -1,5 +1,3 @@
-export * as HKT from './HKT/app';
-
 export type isType<
   TypeToTest,
   TypeToCast,

@@ -1,10 +1,10 @@
-import { forceExtract } from '../internals';
+import { forceExtract } from '../../modules/internals';
 
-import { isTrue } from '../booleans/infrastructure';
+import { isTrue } from '../../modules/booleans/infrastructure';
 
-import { forceConcat } from '../arrays-and-tuples/app';
-import { Call } from '../generals/HKT/app';
-import { InternalAdd } from '../numbers/math/app/addition';
+import { forceConcat } from '../../modules/arrays-and-tuples/app';
+import { Call } from '../HKT/app';
+import { InternalAdd } from '../math/app/addition';
 
 type DoMap<
   tuple,

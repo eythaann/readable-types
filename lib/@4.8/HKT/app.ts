@@ -1,7 +1,7 @@
-import { modifyInterface } from '../..';
+import { modifyInterface } from '../../modules';
 
-import { InternalAdd } from '../../numbers/math/app/addition';
-import { forceExtract } from '../app';
+import { forceExtract } from '../../modules/generals/app';
+import { InternalAdd } from '../math/app/addition';
 
 import { $ArgumentTypes, $BINDED_ARGS } from './domain';
 

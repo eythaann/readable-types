@@ -2,15 +2,13 @@ import { isType } from '../internals';
 
 import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { equals } from '../comparison/infrastructure';
-import { $keyof, waitFor } from '../generals/infrastructure';
+import { $keyof, SerializableBySelf, waitFor } from '../generals/infrastructure';
 import { nonUndefined } from '../undefined/infrastructure';
 
 import { assign } from './app';
 
-import { SerializableBySelf } from '../generals/domain';
 import { empty_object_key } from './domain';
 
-export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
 
 /** @deprecated use offical type PropertyKey instead */

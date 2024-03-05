@@ -1,4 +1,5 @@
-import { add, equals, TupleFind, TupleReduce, UnionMap } from '..';
+import { equals } from '../../modules';
+import { add, TupleFind, TupleReduce, UnionMap } from '../main';
 
 import { TupleMap } from './infrastructure';
 

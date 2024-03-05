@@ -1,8 +1,5 @@
 import { isNull, isUndefined, isUnknown } from '..';
 
-import { SerializableByFn, SerializableBySelf } from './domain';
-
-export * from './HKT/infrastructure';
 export * from './newtypes/infrastructure';
 
 /**
@@ -90,3 +87,9 @@ declare global {
     | SerializableBySelf
     | SerializableByFn;
 }
+
+export interface SerializableByFn {
+  toJSON(): serializable;
+}
+
+export type SerializableBySelf<T = anyObject> = { [K in keyof T as T[K] extends anyFunction ? never : K]: serializable };

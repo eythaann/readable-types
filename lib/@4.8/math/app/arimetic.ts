@@ -1,8 +1,8 @@
-import { forceExtract, forceToString } from '../../../internals';
+import { forceExtract, forceToString } from '../../../modules/internals';
 import { ToDecimal } from './addition';
 
-import { Shift } from '../../../arrays-and-tuples/infrastructure';
-import { split } from '../../../strings/infrastructure';
+import { Shift } from '../../../modules/arrays-and-tuples/infrastructure';
+import { split } from '../../../modules/strings/infrastructure';
 
 interface BiggerTable {
   0: never;

@@ -1,13 +1,13 @@
-import { TupleReduce, UnionMap } from '../..';
-import { forceExtract, forceToString } from '../../internals';
+import { forceExtract, forceToString } from '../../modules/internals';
 
-import { getIndexes } from '../../arrays-and-tuples/infrastructure';
-import { isNever } from '../../never/infrastructure';
-import { modify } from '../infrastructure';
+import { getIndexes } from '../../modules/arrays-and-tuples/infrastructure';
+import { isNever } from '../../modules/never/infrastructure';
+import { modify } from '../../modules/objects/infrastructure';
+import { TupleReduce, UnionMap } from '../iterators/infrastructure';
 
-import { forceConcat } from '../../arrays-and-tuples/app';
-import { InternalAdd } from '../../numbers/math/app/addition';
-import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
+import { forceConcat } from '../../modules/arrays-and-tuples/app';
+import { InternalAdd } from '../math/app/addition';
+import { InternalBiggerThan } from '../math/app/arimetic';
 
 interface $CreateGroup<T, maxLenght, Result extends unknown[], lastKey> extends $<[current: unknown]> {
   return: InternalBiggerThan<[lastKey], [this[0]]> extends true

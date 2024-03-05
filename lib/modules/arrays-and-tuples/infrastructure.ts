@@ -1,13 +1,8 @@
-import { forceToString, isType } from '../internals';
+import { isType } from '../internals';
 
 import { isAny } from '../any/infrastructure';
 import { equals } from '../comparison/infrastructure';
 import { isNever } from '../never/infrastructure';
-import { strToNumber } from '../numbers/infrastructure';
-import { substract } from '../numbers/math/infrastructure';
-import { startsWith } from '../strings/infrastructure';
-
-import { InternalAdd } from '../numbers/math/app/addition';
 
 export * from './domain';
 
@@ -102,12 +97,6 @@ export type Shift<T extends unknown[]> = T extends [infer _, ...infer Result] ? 
  */
 export type Pop<T extends unknown[]> = T extends [...infer Result, infer _] ? Result : [];
 
-// @ts-ignore
-export type __beta__At<T extends unknown[], I extends number> = T[startsWith<`${I}`, '-'> extends true
-  ? substract<T['length'], `${I}` extends `${infer _}${infer num}` ? strToNumber<num> : never>
-  : I
-];
-
 /**
  * `ShiftRecursive` recursively generates all possible subsets of a tuple by successively excluding
  * the first element in each iteration until the length of the tuple is equal to a specified minimum length.
@@ -173,13 +162,3 @@ export type UnionToTupleCombination<
  */
 export type getIndexes<T> = Exclude<keyof T, keyof []>;
 
-/**
- * Converts properties numbers of an object to a tuple.
-
- * @example
- * type a = ObjectToTuple<{ 0: string; 1: number; }>
- * //   ^? [string, number]
- */
-export type ObjectToTuple<T extends anyObject, currentIndex extends number = 0> = `${currentIndex}` extends forceToString<keyof T>
-  ? [T[currentIndex], ...ObjectToTuple<T, InternalAdd<currentIndex, 1>>]
-  : [];

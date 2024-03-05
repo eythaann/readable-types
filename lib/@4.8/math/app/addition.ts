@@ -1,9 +1,9 @@
-import { forceExtract, forceToString } from '../../../internals';
+import { forceExtract, forceToString } from '../../../modules/internals';
 
-import { equals } from '../../../comparison/infrastructure';
-import { join, split } from '../../../strings/infrastructure';
+import { equals } from '../../../modules/comparison/infrastructure';
+import { join, split } from '../../../modules/strings/infrastructure';
 
-import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
+import { forceConcat, Pop } from '../../../modules/arrays-and-tuples/app';
 
 import { CarryOnAddition, DecimalHashMap } from '../domain';
 

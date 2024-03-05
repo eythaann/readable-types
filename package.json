@@ -2,24 +2,11 @@
   "name": "readable-types",
   "version": "3.4.0",
   "description": "Utils for typescript language",
-  "main": "./dist/index.js",
+  "main": "./dist/@5.0/main.js",
   "typesVersions": {
-    ">=5.0": { "*": ["dist/index.d.ts", "dist/@5.0/index.d.ts"] },
-    ">=4.2": { "*": ["dist/index.d.ts"] }
-  },
-  "scripts": {
-    "typeChecking": "bash ./scripts/typeChecking.sh",
-    "build": "npx -p typescript@latest tsc -p ./tsconfig.build.json",
-    "test": "rtft",
-    "debugTypes": "tsc --generateTrace ./outDir",
-    "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
-    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
-    "prepare": "husky install && tsc -p ./rtt-plugin",
-    "postversion": "git push && git push --tags --no-verify && npm publish"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Eythaann/readable-types.git"
+    ">=5.0": { "*": ["./dist/@5.0/main.d.ts"] },
+    ">=4.8": { "*": ["./dist/@4.8/main.d.ts"] },
+    ">=4.2": { "*": ["./dist/@4.2/main.d.ts"] }
   },
   "keywords": [
     "typescript",
@@ -35,15 +22,32 @@
   ],
   "author": "eythaann",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eythaann/readable-types.git"
+  },
   "bugs": {
     "url": "https://github.com/Eythaann/readable-types/issues"
   },
   "bin": {
     "rtft": "rtt-plugin/dist/run-tests.js"
   },
+  "scripts": {
+    "typeChecking": "bash ./scripts/typeChecking/script.sh",
+    "build": "npx -p typescript@latest tsc -p ./tsconfig.build.json",
+    "test": "rtft",
+    "debugTypes": "tsc --generateTrace ./outDir",
+    "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
+    "lint:fix": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0 --fix",
+    "prepare": "husky install",
+    "postversion": "git push && git push --tags --no-verify && npm publish"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "readable-test-for-types": "file:./rtt-plugin",
-    "typescript": ">=4.2"
+    "typescript": "^4.2 || ^5.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.5.0",
@@ -53,12 +57,5 @@
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "husky": "^8.0.0",
     "typescript-eslint": "^7.1.1"
-  },
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "directories": {
-    "lib": "lib",
-    "dist": "dist"
   }
 }

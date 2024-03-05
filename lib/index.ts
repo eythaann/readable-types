@@ -14,6 +14,4 @@ export type RT_CONFIG_SCHEME = {
   };
 };
 
-/** Internal utilities use at your own risk */
-export * as _RT from './modules/internals';
 export * from './modules';
