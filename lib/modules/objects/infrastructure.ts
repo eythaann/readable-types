@@ -2,9 +2,12 @@ import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { equals } from '../comparison/infrastructure';
 import { $keyof, waitFor } from '../generals/infrastructure';
 import { nonUndefined } from '../undefined/infrastructure';
+
 import { isType } from '../app';
-import { empty_object_key } from './domain';
 import { assign } from './app';
+
+import { SerializableBySelf } from '../generals/domain';
+import { empty_object_key } from './domain';
 
 export * from './app/ModifyPlusOrderedCombinations';
 export * from './app/ModifyPlusCombinations';
@@ -26,40 +29,66 @@ declare global {
   type anyObject = { [key in PropertyKey]: any };
 
   type emptyObject = { [empty_object_key]?: never };
+
+  /** anyConstructor */
+  type Constructor<T = any> = new (...args: any[]) => T;
 }
+
+/**
+ * todo description
+ */
+export type toPlain<T> = { [K in keyof T as T[K] extends anyFunction ? never : K]: T[K] };
+
+/**
+ * todo description
+ */
+export type toJSON<T> = _toJSON<T> & {};
+type _toJSON<T, R = toPlain<T>> = R extends SerializableBySelf<T> ? R : Error<'Can not serialize this object.'>;
 
 /**
  * Return true if type is of type object array or function
  * if you are searching for only object use IsStrictObject instead.
-*/
+ */
 export type isObject<T> = isType<T, anyObject>;
 
 /**
  * Return true if type is of type object ignoring arrays and functions.
-*/
+ */
 export type isStrictObject<T> = isType<T, strictObject>;
 
-/** Same as `modify` but less pretty and preserving the context of `this`. */
+/**
+ * Same as `modify` but less pretty and preserving the context of `this`.
+ * This can't override `()` and `new()` properties.
+ */
 export type modifyInterface<T extends object, U extends object> = waitFor<T, assign<T, U>>;
 
 /**
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator.
  */
-export type modify<T, U> = $if<isStrictObject<T> & isStrictObject<U>, {
+export type modify<T, U> = $if<
+isStrictObject<T> & isStrictObject<U>,
+  {
   //@ts-ignore
-  then: prettify<assign<T, U>>;
-  else: T;
-}>;
+    then: prettify<assign<T, U>>;
+    else: T;
+  }
+>;
 
 /**
  * @deprecated will be removed in 4.0
  * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
  * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
  */
-export type modifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = $if<(isStrictObject<T> & isStrictObject<U>), {
-  then: prettify<{ [_ in KeyToDiscrimitate]?: undefined } & T | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & modify<T, U[Key]> }[keyof U]>;
-  else: T;
-}>;
+export type modifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = $if<
+isStrictObject<T> & isStrictObject<U>,
+  {
+    then: prettify<
+  | ({ [_ in KeyToDiscrimitate]?: undefined } & T)
+  | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & modify<T, U[Key]> }[keyof U]
+    >;
+    else: T;
+  }
+>;
 
 /**
  * Recreate complex types for readability.
@@ -82,21 +111,27 @@ export type prettify<T> = {
  * type R2 = pickByValue<T1, [string | number]>;
  * //   ^? { c: string | number; }
  */
-export type pickByValue<
-  Type,
-  ValuesToPick extends unknown[],
-  _result = {},
-> = $if<(not<isTuple<ValuesToPick>> | isEmptyArray<ValuesToPick>), {
-  then: prettify<_result>;
-  else: ValuesToPick extends [infer X, ...infer Rest]
-    ? pickByValue<Type, Rest, _result & {
-      [Key in keyof Type as $if<equals<Type[Key], X>, {
-        then: Key;
-        else: never;
-      }>]: Type[Key]
-    }>
-    : never;
-}>;
+export type pickByValue<Type, ValuesToPick extends unknown[], _result = {}> = $if<
+not<isTuple<ValuesToPick>> | isEmptyArray<ValuesToPick>,
+  {
+    then: prettify<_result>;
+    else: ValuesToPick extends [infer X, ...infer Rest]
+      ? pickByValue<
+        Type,
+        Rest,
+    _result & {
+      [Key in keyof Type as $if<
+        equals<Type[Key], X>,
+        {
+          then: Key;
+          else: never;
+        }
+      >]: Type[Key];
+    }
+      >
+      : never;
+  }
+>;
 
 /**
  * Returns if the object can be `{}`
@@ -115,10 +150,13 @@ export type canBeEmptyObject<Type extends unknownObject> = [{}] extends [Type] ?
  * //   ^? "b"
  */
 export type getReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: $if<equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
-    then: Key;
-    else: never;
-  }>
+  [Key in keyof Type]-?: $if<
+    equals<{ readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>,
+    {
+      then: Key;
+      else: never;
+    }
+  >;
 }[keyof Type];
 
 /**
@@ -128,10 +166,13 @@ export type getReadonlyKeys<Type> = {
  * //   ^? "a"
  */
 export type getNoReadonlyKeys<Type> = {
-  [Key in keyof Type]-?: $if<equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>, {
-    then: Key;
-    else: never;
-  }>
+  [Key in keyof Type]-?: $if<
+    equals<{ -readonly [_ in Key]: Type[Key] }, { [_ in Key]: Type[Key] }>,
+    {
+      then: Key;
+      else: never;
+    }
+  >;
 }[keyof Type];
 
 /**
@@ -141,10 +182,13 @@ export type getNoReadonlyKeys<Type> = {
  * //   ^? "b" | "c"
  */
 export type getRequiredKeys<Type> = {
-  [Key in keyof Type]-?: $if<not<canBeEmptyObject<{ [_ in Key]: Type[Key] }>>, {
-    then: Key;
-    else: never;
-  }>
+  [Key in keyof Type]-?: $if<
+    not<canBeEmptyObject<{ [_ in Key]: Type[Key] }>>,
+    {
+      then: Key;
+      else: never;
+    }
+  >;
 }[keyof Type];
 
 /**
@@ -154,10 +198,13 @@ export type getRequiredKeys<Type> = {
  * //   ^? "a" | "b"
  */
 export type getOptionalKeys<Type> = {
-  [Key in keyof Type]-?: $if<canBeEmptyObject<{ [_ in Key]: Type[Key] }>, {
-    then: Key;
-    else: never;
-  }>
+  [Key in keyof Type]-?: $if<
+    canBeEmptyObject<{ [_ in Key]: Type[Key] }>,
+    {
+      then: Key;
+      else: never;
+    }
+  >;
 }[keyof Type];
 
 /**
@@ -174,7 +221,9 @@ export type hasProperty<T, K> = K extends $keyof<T> ? true : false;
  * type U = someToReadonly<{ a: 'a'; b: 'b' }, 'a'>
  * //   ^? { readonly a: 'a', b: 'b' }
  */
-export type someToReadonly<T, K extends $keyof<T>> = prettify<Omit<T, K> & { readonly [key in K]: T[K] }>;
+export type someToReadonly<T, K extends $keyof<T>> = prettify<
+Omit<T, K> & { readonly [key in K]: T[K] }
+>;
 
 /**
  * Remove readonly to specific properties of an object `T`.
@@ -182,7 +231,9 @@ export type someToReadonly<T, K extends $keyof<T>> = prettify<Omit<T, K> & { rea
  * type U = someToWritable<{ readonly a: 'a'; readonly b: 'b' }, 'a'>
  * //   ^? { a: 'a', readonly b: 'b' }
  */
-export type someToWritable<T, K extends $keyof<T>> = prettify<Omit<T, K> & { -readonly [key in K]: T[K] }>;
+export type someToWritable<T, K extends $keyof<T>> = prettify<
+Omit<T, K> & { -readonly [key in K]: T[K] }
+>;
 
 /**
  * Convert specific properties of an object `T` to optional.
@@ -198,7 +249,9 @@ export type someToPartial<T, K extends $keyof<T>> = prettify<Omit<T, K> & { [key
  * type U = someToRequired<{ a?: 'a'; b?: 'b' }, 'a'>
  * //   ^? { a: 'a', b: 'b' }
  */
-export type someToRequired<T, K extends $keyof<T>> = prettify<Omit<T, K> & { [key in K]-?: nonUndefined<T[K]> }>;
+export type someToRequired<T, K extends $keyof<T>> = prettify<
+Omit<T, K> & { [key in K]-?: nonUndefined<T[K]> }
+>;
 
 /**
  * Converts a tuple to an object.

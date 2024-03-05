@@ -1,10 +1,13 @@
-import { forceExtract, forceToString } from '../../../app';
-import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
-import { equals } from '../../../comparison/infrastructure';
-import { split, join } from '../../../strings/infrastructure';
-import { CarryOnAddition, DecimalHashMap } from '../domain';
 import { ToDecimal } from './addition';
 import { InternalBiggerThan } from './arimetic';
+
+import { equals } from '../../../comparison/infrastructure';
+import { join, split } from '../../../strings/infrastructure';
+
+import { forceExtract, forceToString } from '../../../app';
+import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
+
+import { CarryOnAddition, DecimalHashMap } from '../domain';
 
 type substractMap = [0, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 type substractMapForCarry = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
@@ -24,10 +27,10 @@ type sustractDecimal<A, B, CarryIn, Result = GetSustract<GetSustract<A, CarryIn>
 type _SubstractOnShifted<A, B, CarryIn = 0> = sustractDecimal<ToDecimal<forceExtract<A, 'extracted'>>, ToDecimal<forceExtract<B, 'extracted'>>, CarryIn>;
 
 type _next<A, B, lastIncompleteResult, lastCarryOut, actualSustract = _SubstractOnShifted<A, B, lastCarryOut>> = MakeSubstractOnTuple<
-forceExtract<A, 'rest'>,
-forceExtract<B, 'rest'>,
-forceConcat<[forceExtract<actualSustract, 'result'>], lastIncompleteResult>,
-forceExtract<actualSustract, 'carryOut'>
+  forceExtract<A, 'rest'>,
+  forceExtract<B, 'rest'>,
+  forceConcat<[forceExtract<actualSustract, 'result'>], lastIncompleteResult>,
+  forceExtract<actualSustract, 'carryOut'>
 >;
 
 type removeZeros<T> = T extends [infer C, ...infer R] ? C extends 0 ? removeZeros<R> : T : T;
@@ -46,7 +49,3 @@ export type InternalSubstract<A, B, R = MakeSubstract<split<forceToString<A>>, s
     : R extends`${infer X extends number}`
       ? X
       : never;
-
-type T0 = InternalSubstract<100, 109>;
-
-type T = `${-1}` extends `${infer X extends number}` ? X : never;

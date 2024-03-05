@@ -1,3 +1,5 @@
+import { prettify } from '..';
+
 export type binaryMap<T> = {
   1: false;
   0: unknown extends T ? true : false;
@@ -66,3 +68,23 @@ export interface toBoolean {
   0: false;
   1: true;
 }
+
+export type _EqualsObject<_A, _B, A = prettify<_A>, B = prettify<_B>> =
+  (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? true : false;
+
+export type _Equals<
+  A,
+  B,
+  AIsAny extends 0 | 1 = IsAny<A>,
+  BIsAny extends 0 | 1 = IsAny<B>,
+> = If<{
+  condition: OR[AIsAny][BIsAny];
+  type: toBoolean[AND[AIsAny][BIsAny]];
+  else: If<{
+    condition: AND[IsStrictObject<A>][IsStrictObject<B>];
+    type: _EqualsObject<A, B>;
+    else: toBoolean[
+      AND[IsSubTypeBinary<A, B>][IsSuperTypeBinary<A, B>]
+    ];
+  }>;
+}>;

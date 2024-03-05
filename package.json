@@ -2,10 +2,11 @@
   "name": "readable-types",
   "version": "3.4.0",
   "description": "Utils for typescript language",
-  "types": "./lib/index.d.ts",
-  "main": "./rtt-plugin/dist/LaguageServicePlugin.js",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "scripts": {
-    "typeChecking": "tsc",
+    "typeChecking": "tsc --noEmit",
+    "build": "tsc -b ./tsconfig.build.json",
     "test": "rtft",
     "debugTypes": "tsc --generateTrace ./outDir",
     "lint": "eslint \"./lib/**/*.{ts,tsx}\" --max-warnings 0",
@@ -44,10 +45,11 @@
   "devDependencies": {
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "@typescript-eslint/parser": "^5.55.0",
+    "@stylistic/eslint-plugin": "^1.6.3",
     "eslint": "^8.36.0",
-    "husky": "^8.0.0"
+    "eslint-plugin-simple-import-sort": "^12.0.0",
+    "husky": "^8.0.0",
+    "typescript-eslint": "^7.1.1"
   },
   "engines": {
     "node": ">=12.0.0"

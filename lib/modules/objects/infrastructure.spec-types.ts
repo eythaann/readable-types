@@ -1,4 +1,4 @@
-import { canBeEmptyObject, hasProperty, isObject, isStrictObject, modify, modifyByKey, getNoReadonlyKeys, getOptionalKeys, pickByValue, prettify, getReadonlyKeys, getRequiredKeys, someToPartial, someToReadonly, someToRequired, someToWritable, TupleToObject } from './infrastructure';
+import { canBeEmptyObject, getNoReadonlyKeys, getOptionalKeys, getReadonlyKeys, getRequiredKeys, hasProperty, isObject, isStrictObject, modify, modifyByKey, pickByValue, prettify, someToPartial, someToReadonly, someToRequired, someToWritable, TupleToObject } from './infrastructure';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
@@ -49,7 +49,9 @@ describeType('IsStrictObject', () => {
   ]);
 
   testType('Should return true if type is a interface', () => {
-    interface A { prop: string }
+    interface A {
+      prop: string;
+    }
     assertType<isStrictObject<A>>().toBeTrue();
   });
 });

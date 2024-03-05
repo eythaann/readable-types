@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
+    "target": "ES5",
+    "module": "CommonJS",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
@@ -18,6 +20,6 @@
     "./lib",
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }

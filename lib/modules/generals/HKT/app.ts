@@ -1,6 +1,8 @@
-import { modifyInterface } from '../../infrastructure';
+import { modifyInterface } from '../..';
+
 import { InternalAdd } from '../../numbers/math/app/addition';
 import { forceExtract } from '../app';
+
 import { $ArgumentTypes, $BINDED_ARGS } from './domain';
 
 export type Call<$Generic, Args> = $BINDED_ARGS extends keyof $Generic

@@ -1,4 +1,6 @@
-import { isNull, isUndefined, isUnknown } from '../infrastructure';
+import { isNull, isUndefined, isUnknown } from '..';
+
+import { SerializableByFn, SerializableBySelf } from './domain';
 
 export * from './HKT/infrastructure';
 export * from './newtypes/infrastructure';
@@ -69,3 +71,22 @@ export type defaultOnNullable<Type, Default> = $if<isUnknown<Type> | isUndefined
   then: Default;
   else: Type;
 }>;
+
+declare global {
+  interface Error<_ extends string = ''> {}
+  interface WillThrow<_ extends string> {}
+
+  /** A parsed JSON value. */
+  type json = string | number | boolean | null | json[] | { [key: string]: json };
+
+  /** A JSON stringify-able value. */
+  type serializable =
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | serializable[]
+    | SerializableBySelf
+    | SerializableByFn;
+}

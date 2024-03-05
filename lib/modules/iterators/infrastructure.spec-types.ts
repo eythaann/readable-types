@@ -1,4 +1,5 @@
-import { add, equals, TupleFind, TupleReduce, UnionMap } from '../infrastructure';
+import { add, equals, TupleFind, TupleReduce, UnionMap } from '..';
+
 import { TupleMap } from './infrastructure';
 
 describeType('TupleMap', () => {

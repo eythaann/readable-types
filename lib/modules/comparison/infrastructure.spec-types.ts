@@ -157,14 +157,14 @@ describeType('Equals', () => {
 
   testType('functions', () => {
     type expected = equals<
-    {
-      (x: 0, y: null): void;
-      (x: number, y: null): void;
-    },
-    {
-      (x: number, y: null): void;
-      (x: 0, y: null): void;
-    }
+      {
+        (x: 0, y: null): void;
+        (x: number, y: null): void;
+      },
+      {
+        (x: number, y: null): void;
+        (x: 0, y: null): void;
+      }
     >;
     return assertType<expected>().toBeTrue();
   });

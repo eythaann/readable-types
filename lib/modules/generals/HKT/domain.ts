@@ -1,5 +1,5 @@
-declare const $ArgumentTypes: unique symbol;
-declare const $BINDED_ARGS: unique symbol;
+export declare const $ArgumentTypes: unique symbol;
+export declare const $BINDED_ARGS: unique symbol;
 
 export type $ArgumentTypes = typeof $ArgumentTypes;
 export type $BINDED_ARGS = typeof $BINDED_ARGS;

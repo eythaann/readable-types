@@ -1,5 +1,6 @@
+import { Bind as _Bind, Call as _Call } from './app';
+
 import { $ArgumentTypes } from './domain';
-import { Call as _Call, Bind as _Bind } from './app';
 
 type $Base = $<[] | nLengthTuple | unknownObject>;
 

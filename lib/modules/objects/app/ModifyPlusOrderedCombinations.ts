@@ -1,11 +1,13 @@
-import { modify } from '../infrastructure';
-import { forceExtract, forceToString } from '../../app';
+import { TupleReduce, UnionMap } from '../..';
+
 import { getIndexes } from '../../arrays-and-tuples/infrastructure';
-import { forceConcat } from '../../arrays-and-tuples/app';
 import { isNever } from '../../never/infrastructure';
+import { modify } from '../infrastructure';
+
+import { forceExtract, forceToString } from '../../app';
+import { forceConcat } from '../../arrays-and-tuples/app';
 import { InternalAdd } from '../../numbers/math/app/addition';
 import { InternalBiggerThan } from '../../numbers/math/app/arimetic';
-import { TupleReduce, UnionMap } from '../../infrastructure';
 
 interface $CreateGroup<T, maxLenght, Result extends unknown[], lastKey> extends $<[current: unknown]> {
   return: InternalBiggerThan<[lastKey], [this[0]]> extends true
@@ -24,12 +26,12 @@ type GetAllPosibleGroupsByNumericOrder<
   T,
   current extends number | string = '1',
   lastResult = never,
-  newResult = GetUnionGroupByNumericOrder<T, current>
+  newResult = GetUnionGroupByNumericOrder<T, current>,
 > = isNever<newResult> extends true ? lastResult : GetAllPosibleGroupsByNumericOrder<T, InternalAdd<current, 1>, lastResult | newResult>;
 
 interface $CreateAcumulativeModified<U, K extends PropertyKey> extends $<[acc: unknown, current: unknown]> {
   return: modify<
-  this['0'],
+    this['0'],
   forceExtract<forceExtract<U, this['1']>, 1> & {
     readonly [_ in K]: forceConcat<forceExtract<this['0'], K>, [forceExtract<forceExtract<U, this['1']>, 0>]>
   }>;
@@ -59,9 +61,9 @@ interface $CreateAllAcumulativeModified<T, U, K extends PropertyKey> extends $<[
 export type modifyByKeyPlusOrderedCombinations<
   mainObj,
   overrides extends [string, any][],
-  keyToDiscrimitate extends PropertyKey = '__key'
+  keyToDiscrimitate extends PropertyKey = '__key',
 > = (mainObj & { [_ in keyToDiscrimitate]?: undefined })
 | UnionMap<
-GetAllPosibleGroupsByNumericOrder<getIndexes<overrides>>,
-$CreateAllAcumulativeModified<mainObj, overrides, keyToDiscrimitate>
+  GetAllPosibleGroupsByNumericOrder<getIndexes<overrides>>,
+  $CreateAllAcumulativeModified<mainObj, overrides, keyToDiscrimitate>
 >;

@@ -1,25 +1,4 @@
-import { prettify } from '../objects/infrastructure';
-import { AND, If, IsAny, IsStrictObject, IsSubTypeBinary, IsSuperTypeBinary, OR, toBoolean } from './app';
-
-type _EqualsObject<_A, _B, A = prettify<_A>, B = prettify<_B>> =
-  (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? true : false;
-
-type _Equals<
-  A,
-  B,
-  AIsAny extends 0 | 1 = IsAny<A>,
-  BIsAny extends 0 | 1 = IsAny<B>,
-> = If<{
-  condition: OR[AIsAny][BIsAny];
-  type: toBoolean[AND[AIsAny][BIsAny]];
-  else: If<{
-    condition: AND[IsStrictObject<A>][IsStrictObject<B>];
-    type: _EqualsObject<A, B>;
-    else: toBoolean[
-      AND[IsSubTypeBinary<A, B>][IsSuperTypeBinary<A, B>]
-    ];
-  }>;
-}>;
+import { _Equals } from './app';
 
 /**
  * Determines if two types are equal.

@@ -1,4 +1,4 @@
-import { And, isBoolean, Or, isTrue, isFalse, Xor } from './infrastructure';
+import { And, isBoolean, isFalse, isTrue, Or, Xor } from './infrastructure';
 
 describeType('IsBoolean', () => {
   testType('Should return true only for boolean', [
@@ -52,39 +52,91 @@ describeType('Xor', () => {
 });
 
 describeType('IsTrue', () => {
-  testType('Should determine if a type is `true`', [
-    assertType<isTrue<true>>().__internal.shouldBe(true),
-    assertType<isTrue<false>>().__internal.shouldBe(false),
-    assertType<isTrue<any>>().__internal.shouldBe(false),
-    assertType<isTrue<unknown>>().__internal.shouldBe(false),
-    assertType<isTrue<never>>().__internal.shouldBe(false),
-    assertType<isTrue<{}>>().__internal.shouldBe(false),
-    assertType<isTrue<null>>().__internal.shouldBe(false),
-    assertType<isTrue<undefined>>().__internal.shouldBe(false),
-    assertType<isTrue<0>>().__internal.shouldBe(false),
-    assertType<isTrue<1>>().__internal.shouldBe(false),
-    assertType<isTrue<string>>().__internal.shouldBe(false),
-    assertType<isTrue<boolean>>().__internal.shouldBe(false),
-    assertType<isTrue<'true'>>().__internal.shouldBe(false),
-    assertType<isTrue<'false'>>().__internal.shouldBe(false),
-  ]);
+  testType('Should determine if a type is `true`', () => {
+    let _1: isTrue<false> = false;
+    let _2: isTrue<true> = true;
+    let _3: isTrue<any> = false;
+    let _4: isTrue<unknown> = false;
+    let _5: isTrue<never> = false;
+    let _6: isTrue<{}> = false;
+    let _7: isTrue<undefined> = false;
+    let _8: isTrue<0> = false;
+    let _9: isTrue<1> = false;
+    let _10: isTrue<string> = false;
+    let _11: isTrue<boolean> = false;
+    let _12: isTrue<'true'> = false;
+    let _13: isTrue<'false'> = false;
+
+    // @ts-expect-error
+    let _1b: isTrue<false> = true;
+    // @ts-expect-error
+    let _2b: isTrue<true> = false;
+    // @ts-expect-error
+    let _3b: isTrue<any> = true;
+    // @ts-expect-error
+    let _4b: isTrue<unknown> = true;
+    // @ts-expect-error
+    let _5b: isTrue<never> = true;
+    // @ts-expect-error
+    let _6b: isTrue<{}> = true;
+    // @ts-expect-error
+    let _7b: isTrue<undefined> = true;
+    // @ts-expect-error
+    let _8b: isTrue<0> = true;
+    // @ts-expect-error
+    let _9b: isTrue<1> = true;
+    // @ts-expect-error
+    let _10b: isTrue<string> = true;
+    // @ts-expect-error
+    let _11b: isTrue<boolean> = true;
+    // @ts-expect-error
+    let _12b: isTrue<'true'> = true;
+    // @ts-expect-error
+    let _13b: isTrue<'false'> = true;
+  });
 });
 
 describeType('IsFalse', () => {
-  testType('Should determine if a type is `false`', [
-    assertType<isFalse<false>>().__internal.shouldBe(true),
-    assertType<isFalse<true>>().__internal.shouldBe(false),
-    assertType<isFalse<any>>().__internal.shouldBe(false),
-    assertType<isFalse<unknown>>().__internal.shouldBe(false),
-    assertType<isFalse<never>>().__internal.shouldBe(false),
-    assertType<isFalse<{}>>().__internal.shouldBe(false),
-    assertType<isFalse<null>>().__internal.shouldBe(false),
-    assertType<isFalse<undefined>>().__internal.shouldBe(false),
-    assertType<isFalse<0>>().__internal.shouldBe(false),
-    assertType<isFalse<1>>().__internal.shouldBe(false),
-    assertType<isFalse<string>>().__internal.shouldBe(false),
-    assertType<isFalse<boolean>>().__internal.shouldBe(false),
-    assertType<isFalse<'true'>>().__internal.shouldBe(false),
-    assertType<isFalse<'false'>>().__internal.shouldBe(false),
-  ]);
+  testType('Should determine if a type is `false`', () => {
+    let _1: isFalse<false> = true;
+    let _2: isFalse<true> = false;
+    let _3: isFalse<any> = false;
+    let _4: isFalse<unknown> = false;
+    let _5: isFalse<never> = false;
+    let _6: isFalse<{}> = false;
+    let _7: isFalse<undefined> = false;
+    let _8: isFalse<0> = false;
+    let _9: isFalse<1> = false;
+    let _10: isFalse<string> = false;
+    let _11: isFalse<boolean> = false;
+    let _12: isFalse<'true'> = false;
+    let _13: isFalse<'false'> = false;
+
+    // @ts-expect-error
+    let _1b: isFalse<false> = false;
+    // @ts-expect-error
+    let _2b: isFalse<true> = true;
+    // @ts-expect-error
+    let _3b: isFalse<any> = true;
+    // @ts-expect-error
+    let _4b: isFalse<unknown> = true;
+    // @ts-expect-error
+    let _5b: isFalse<never> = true;
+    // @ts-expect-error
+    let _6b: isFalse<{}> = true;
+    // @ts-expect-error
+    let _7b: isFalse<undefined> = true;
+    // @ts-expect-error
+    let _8b: isFalse<0> = true;
+    // @ts-expect-error
+    let _9b: isFalse<1> = true;
+    // @ts-expect-error
+    let _10b: isFalse<string> = true;
+    // @ts-expect-error
+    let _11b: isFalse<boolean> = true;
+    // @ts-expect-error
+    let _12b: isFalse<'true'> = true;
+    // @ts-expect-error
+    let _13b: isFalse<'false'> = true;
+  });
 });

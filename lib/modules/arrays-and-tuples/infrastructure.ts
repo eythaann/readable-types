@@ -1,11 +1,12 @@
 import { isAny } from '../any/infrastructure';
-import { forceToString, isType } from '../app';
 import { equals } from '../comparison/infrastructure';
 import { isNever } from '../never/infrastructure';
 import { strToNumber } from '../numbers/infrastructure';
-import { InternalAdd } from '../numbers/math/app/addition';
 import { substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings/infrastructure';
+
+import { forceToString, isType } from '../app';
+import { InternalAdd } from '../numbers/math/app/addition';
 
 export * from './domain';
 
@@ -118,7 +119,7 @@ export type ShiftRecursive<
   T extends unknown[],
   minLength extends number = 0,
   Result = minLength extends 0 ? [] : never,
-  Shifted extends unknown[] = Shift<T>
+  Shifted extends unknown[] = Shift<T>,
 > = T['length'] extends minLength
   ? Result
   : ShiftRecursive<Shifted, minLength, Result | Shifted>;
@@ -135,7 +136,7 @@ export type PopRecursive<
   T extends unknown[],
   minLength extends number = 0,
   Result = minLength extends 0 ? [] : never,
-  Poped extends unknown[] = Pop<T>
+  Poped extends unknown[] = Pop<T>,
 > = T['length'] extends 0
   ? Result
   : PopRecursive<Poped, minLength, Result | Poped>;

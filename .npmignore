@@ -17,20 +17,16 @@
 commitlint.config.ts
 
 # ts files
+tsconfig.build
+tsconfig.build.tsbuildinfo
 tsconfig.tsbuildinfo
 tsconfig.json
-outDir
 
 # tests
-*spec-types.ts
-*test-types.ts
+/lib
 
 # media
 /blob
 
 #env files
 rt.config.ts
-
-#plugin
-/lib/plugins/src
-/lib/plugins/tsconfig.json

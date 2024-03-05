@@ -1,10 +1,12 @@
+import { equals } from '../../../comparison/infrastructure';
+import { join, split } from '../../../strings/infrastructure';
+
 import { forceExtract, forceToString } from '../../../app';
 import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
-import { equals } from '../../../comparison/infrastructure';
-import { split, join } from '../../../strings/infrastructure';
+
 import { CarryOnAddition, DecimalHashMap } from '../domain';
 
-type ToDecimal<str> = forceExtract<DecimalHashMap[0], str>;
+export type ToDecimal<str> = forceExtract<DecimalHashMap[0], str>;
 
 type GetSum<A, B> = forceExtract<forceExtract<DecimalHashMap, A>, B>;
 
@@ -26,12 +28,12 @@ type _next<
 
   _shiftedA = Pop<A_Digits>,
   _shiftedB = Pop<B_Digits>,
-  _actualSum = sumDecimal<ToDecimal<forceExtract<_shiftedA, 'extracted'>>, ToDecimal<forceExtract<_shiftedB, 'extracted'>>, lastCarryOut>
+  _actualSum = sumDecimal<ToDecimal<forceExtract<_shiftedA, 'extracted'>>, ToDecimal<forceExtract<_shiftedB, 'extracted'>>, lastCarryOut>,
 > = MakeAdditionOnTuple<
-forceExtract<_shiftedA, 'rest'>,
-forceExtract<_shiftedB, 'rest'>,
-forceConcat<[forceExtract<_actualSum, 'result'>], lastIncompleteResult>,
-forceExtract<_actualSum, 'carryOut'>
+  forceExtract<_shiftedA, 'rest'>,
+  forceExtract<_shiftedB, 'rest'>,
+  forceConcat<[forceExtract<_actualSum, 'result'>], lastIncompleteResult>,
+  forceExtract<_actualSum, 'carryOut'>
 >;
 
 type MakeAdditionOnTuple<
@@ -46,5 +48,5 @@ type MakeAdditionOnTuple<
   : _next<A_Digits, B_Digits, lastIncompleteResult, lastCarryOut>;
 
 export type InternalAdd<A, B> = join<
-MakeAdditionOnTuple<split<forceToString<A>>, split<forceToString<B>>>
+  MakeAdditionOnTuple<split<forceToString<A>>, split<forceToString<B>>>
 > extends `${infer x extends number}` ? x : never;

@@ -2,7 +2,8 @@
 .vscode
 /node_modules
 tsconfig.tsbuildinfo
-outDir
 
 #plugin
 /lib/plugins/dist
+
+/dist

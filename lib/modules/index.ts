@@ -14,3 +14,4 @@ export * from './strings/infrastructure';
 export * from './undefined/infrastructure';
 export * from './unknow/infrastructure';
 export * from './iterators/infrastructure';
+export * from './decorators/module';

@@ -1,4 +1,5 @@
 import { CONFIG } from '../shared/config';
+
 import { ExplicitCondition, ExtendsCaseMapA, ExtendsCaseMapB, ExtendsCaseMapC } from './app';
 
 type IfMode = CONFIG['conditionWay'];
@@ -25,7 +26,7 @@ declare global {
    * @rt_keyword
    *
    * Conditional type that selects one of two possible types based on a boolean condition or a condition object.
-   * The way as you declare condition can be changed in your global.d.ts file
+   * The way as you declare condition can be changed in your rt.config.ts file
    *
    * @example
    * 'Single Line'
@@ -48,6 +49,6 @@ declare global {
   type $if<
     A extends AType,
     B extends BType = never,
-    C extends CType = never
+    C extends CType = never,
   > = ExplicitCondition<Modes<A, B, C>[IfMode]>;
 }

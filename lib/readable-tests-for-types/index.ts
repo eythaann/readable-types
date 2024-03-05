@@ -1,30 +1,30 @@
-import { forceExtract } from '../modules/app';
 import {
-  isFunction,
-  isArray,
-  isObject,
-  isStrictObject,
-  isNull,
-  isUndefined,
   equals,
+  hasProperty,
+  isAny,
+  isArray,
+  isBoolean,
+  isFalse,
+  isFunction,
+  isNever,
+  isNull,
+  isNumber,
+  isObject,
+  isPromise,
+  isStrictObject,
+  isString,
   isSubtype,
   isSupertype,
-  isNever,
-  isString,
-  isNumber,
-  isBoolean,
-  isAny,
-  isPromise,
-  isUnknown,
-  isTuple,
   isTrue,
-  isFalse,
+  isTuple,
+  isUndefined,
+  isUnknown,
   Opaque,
-  hasProperty,
   Xor,
-} from '../modules/infrastructure';
-import { CONFIG } from '../modules/shared/config';
+} from '../modules';
 import { FailMsgs } from './messages';
+
+import { forceExtract } from '../modules/app';
 
 type RTT_PASS = {
   status: Opaque<string, 'PASS'>;
@@ -35,26 +35,19 @@ type RTT_FAIL<_T extends string = 'No Message'> = {
   msg: _T;
 };
 
-type InferrableTypes = string | number | boolean | object | undefined | null;
 type Awaited<Type> = Type extends Promise<infer K> ? Awaited<K> : Type;
 type Returned<Type> = Type extends (() => infer K) ? K : never;
 
 type Assertion<
   Result extends boolean,
   Invert extends boolean,
-  keyToErrorsMsg extends keyof FailMsgs
+  keyToErrorsMsg extends keyof FailMsgs,
 > = () => $if<Xor<Invert, Result>, {
   then: RTT_PASS;
   else: RTT_FAIL<FailMsgs<Invert>[keyToErrorsMsg]>;
 }>;
 
-type DevelopmentAssertions<T> = isTrue<CONFIG['development']> extends true ? {
-  __internal: {
-    shouldBe: (a: T) => void;
-  };
-} : {};
-
-interface Assertions<T, I extends boolean = false> extends DevelopmentAssertions<T> {
+interface Assertions<T, I extends boolean = false> {
   not: Assertions<T, not<I>>;
 
   awaited: Assertions<Awaited<T>, I>;
