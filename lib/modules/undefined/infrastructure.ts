@@ -1,4 +1,4 @@
-import { isType } from '../app';
+import { isType } from '../internals';
 
 /**
  * Evaluates if the specified type is `undefined`.

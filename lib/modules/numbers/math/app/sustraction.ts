@@ -1,10 +1,10 @@
+import { forceExtract, forceToString } from '../../../internals';
 import { ToDecimal } from './addition';
 import { InternalBiggerThan } from './arimetic';
 
 import { equals } from '../../../comparison/infrastructure';
 import { join, split } from '../../../strings/infrastructure';
 
-import { forceExtract, forceToString } from '../../../app';
 import { forceConcat, Pop } from '../../../arrays-and-tuples/app';
 
 import { CarryOnAddition, DecimalHashMap } from '../domain';

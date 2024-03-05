@@ -1,6 +1,6 @@
-import { isNever } from '../never/infrastructure';
+import { isType } from '../internals';
 
-import { isType } from '../app';
+import { isNever } from '../never/infrastructure';
 
 /**
  * Evaluates if the specified type is a boolean.

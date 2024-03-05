@@ -1,9 +1,10 @@
+import { isType } from '../internals';
+
 import { isEmptyArray, isTuple } from '../arrays-and-tuples/infrastructure';
 import { equals } from '../comparison/infrastructure';
 import { $keyof, waitFor } from '../generals/infrastructure';
 import { nonUndefined } from '../undefined/infrastructure';
 
-import { isType } from '../app';
 import { assign } from './app';
 
 import { SerializableBySelf } from '../generals/domain';

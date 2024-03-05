@@ -1,10 +1,10 @@
 import { TupleReduce, UnionMap } from '../..';
+import { forceExtract, forceToString } from '../../internals';
 
 import { getIndexes } from '../../arrays-and-tuples/infrastructure';
 import { isNever } from '../../never/infrastructure';
 import { modify } from '../infrastructure';
 
-import { forceExtract, forceToString } from '../../app';
 import { forceConcat } from '../../arrays-and-tuples/app';
 import { InternalAdd } from '../../numbers/math/app/addition';
 import { InternalBiggerThan } from '../../numbers/math/app/arimetic';

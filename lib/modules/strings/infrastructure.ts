@@ -1,4 +1,4 @@
-import { isType } from '../app';
+import { isType } from '../internals';
 
 type stringtifible = string | number | bigint | boolean | null | undefined;
 

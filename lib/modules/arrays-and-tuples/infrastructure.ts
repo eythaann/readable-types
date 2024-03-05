@@ -1,3 +1,5 @@
+import { forceToString, isType } from '../internals';
+
 import { isAny } from '../any/infrastructure';
 import { equals } from '../comparison/infrastructure';
 import { isNever } from '../never/infrastructure';
@@ -5,7 +7,6 @@ import { strToNumber } from '../numbers/infrastructure';
 import { substract } from '../numbers/math/infrastructure';
 import { startsWith } from '../strings/infrastructure';
 
-import { forceToString, isType } from '../app';
 import { InternalAdd } from '../numbers/math/app/addition';
 
 export * from './domain';

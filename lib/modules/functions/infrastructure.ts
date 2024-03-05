@@ -1,4 +1,4 @@
-import { isType } from '../app';
+import { isType } from '../internals';
 
 declare global {
   /** The type of "what a function is", extensible for any function type. */

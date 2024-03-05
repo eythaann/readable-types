@@ -1,7 +1,7 @@
 
 .vscode
 /node_modules
-tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 #plugin
 /lib/plugins/dist

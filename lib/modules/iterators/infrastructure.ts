@@ -1,6 +1,7 @@
+import { forceExtract } from '../internals';
+
 import { isTrue } from '../booleans/infrastructure';
 
-import { forceExtract } from '../app';
 import { forceConcat } from '../arrays-and-tuples/app';
 import { Call } from '../generals/HKT/app';
 import { InternalAdd } from '../numbers/math/app/addition';

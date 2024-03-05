@@ -1,6 +1,6 @@
-import { toJSON } from '../..';
+import { toJSON } from '../../../modules';
 
-import { SerializableByFn, SerializableBySelf } from '../../generals/domain';
+import { SerializableByFn, SerializableBySelf } from '../../../modules/generals/domain';
 
 /** Constructor that return a deserializable instance by `fromJSON` static method */
 export type Deserializable<T extends Constructor = Constructor> = T & {

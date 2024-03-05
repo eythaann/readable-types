@@ -22,9 +22,8 @@ import {
   Opaque,
   Xor,
 } from '../modules';
+import { forceExtract } from '../modules/internals';
 import { FailMsgs } from './messages';
-
-import { forceExtract } from '../modules/app';
 
 type RTT_PASS = {
   status: Opaque<string, 'PASS'>;

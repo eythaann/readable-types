@@ -8,5 +8,5 @@
     "./lib/**/*.test-types.ts",
     "./lib/**/*.spec-types.ts",
   ],
-  "extends": ["./tsconfig.json"],
+  "extends": "./tsconfig.json",
 }

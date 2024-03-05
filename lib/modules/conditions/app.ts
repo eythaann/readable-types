@@ -1,4 +1,4 @@
-import { forceExtract } from '../app';
+import { forceExtract } from '../internals';
 
 type Explicit = {
   condition: boolean;
