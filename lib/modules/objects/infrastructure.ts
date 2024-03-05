@@ -29,20 +29,23 @@ declare global {
 
   type emptyObject = { [empty_object_key]?: never };
 
-  /** anyConstructor */
+  /** any constructor */
   type Constructor<T = any> = new (...args: any[]) => T;
+
+  /** any abstract constructor */
+  type AbstractConstructor<T = any> = abstract new (...args: any[]) => T;
 }
 
 /**
  * todo description
  */
-export type toPlain<T> = { [K in keyof T as T[K] extends anyFunction ? never : K]: T[K] };
+export type Plain<T> = { [K in keyof T as T[K] extends anyFunction ? never : K]: T[K] };
 
 /**
  * todo description
  */
 export type toJSON<T> = _toJSON<T> & {};
-type _toJSON<T, R = toPlain<T>> = R extends SerializableBySelf<T> ? R : Error<'Can not serialize this object.'>;
+type _toJSON<T, R = Plain<T>> = R extends SerializableBySelf<T> ? R : Error<'Can not serialize this object.'>;
 
 /**
  * Return true if type is of type object array or function
