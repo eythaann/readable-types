@@ -1,8 +1,12 @@
-
-.vscode
 /node_modules
-tsconfig.tsbuildinfo
-outDir
+.vscode
 
 #plugin
 /lib/plugins/dist
+
+# artifacts
+/dist
+*.tsbuildinfo
+
+# testing
+/FakeProject

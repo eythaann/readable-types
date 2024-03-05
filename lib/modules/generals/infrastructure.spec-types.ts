@@ -1,4 +1,4 @@
-import { cast, defaultOnNullable, $keyof, unionToIntersection, valueof } from './infrastructure';
+import { $keyof, cast, defaultOnNullable, unionToIntersection, valueof } from './infrastructure';
 
 describeType('ValueOf', () => {
   testType('Should return the union of the value types', [

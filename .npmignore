@@ -1,36 +1,18 @@
-# node
-/node_modules
+/.github
 /.husky
+/.vscode
+/blob
+/FakeProject
+/lib
+/node_modules
+/scripts
 
-# git
 .gitignore
 .gitmodules
-/.github
-
-# eslint
 .eslintrc.cjs
-
-# vs code
-.vscode
-
-# commitlint
 commitlint.config.ts
-
-# ts files
-tsconfig.tsbuildinfo
-tsconfig.json
-outDir
-
-# tests
-*spec-types.ts
-*test-types.ts
-
-# media
-/blob
-
-#env files
 rt.config.ts
 
-#plugin
-/lib/plugins/src
-/lib/plugins/tsconfig.json
+tsconfig.build.json
+tsconfig.json
+*.tsbuildinfo
