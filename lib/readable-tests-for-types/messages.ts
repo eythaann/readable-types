@@ -1,5 +1,5 @@
-type recieve = 'Tested <type>';
-type expected = '`expected`';
+type recieve = 'Recieved <type>';
+type expected = '<expected>';
 
 type p = 'is';
 type n = 'is not';

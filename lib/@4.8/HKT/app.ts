@@ -3,7 +3,7 @@ import { modifyInterface } from '../../modules';
 import { forceExtract } from '../../modules/generals/app';
 import { InternalAdd } from '../math/app/addition';
 
-import { $ArgumentTypes, $BINDED_ARGS } from './domain';
+import { $ARGUMENTS, $BINDED_ARGS } from './domain';
 
 export type Call<$Generic, Args> = $BINDED_ARGS extends keyof $Generic
   //@ts-ignore
@@ -22,7 +22,7 @@ type cut<bindedArgs, args> = forceExtract<args, 'length'> extends forceExtract<b
 
 export type Bind<$Generic, BindedArgs> = $Generic & {
   [$BINDED_ARGS]: BindedArgs;
-  [$ArgumentTypes]: cut<BindedArgs, forceExtract<$Generic, $ArgumentTypes>>;
+  [$ARGUMENTS]: cut<BindedArgs, forceExtract<$Generic, $ARGUMENTS>>;
 } & {
   [K in Exclude<keyof BindedArgs, keyof []>]: BindedArgs[K]
 };
