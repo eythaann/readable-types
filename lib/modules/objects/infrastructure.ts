@@ -11,7 +11,7 @@ import { empty_object_key } from './domain';
 
 export * from './app/ModifyPlusCombinations';
 
-/** @deprecated use offical type PropertyKey instead */
+/** @alias PropertyKey */
 export type KeyOfObject = PropertyKey;
 
 declare global {
@@ -72,22 +72,6 @@ isStrictObject<T> & isStrictObject<U>,
   {
   //@ts-ignore
     then: prettify<assign<T, U>>;
-    else: T;
-  }
->;
-
-/**
- * @deprecated will be removed in 4.0
- * Allow modify interfaces or object types without the restrictions of use `extends` or `&` operator
- * Creates a Union Discrimated Type with the overrides + the keys pased for modify the object.
- */
-export type modifyByKey<T, U, KeyToDiscrimitate extends KeyOfObject = '__key'> = $if<
-isStrictObject<T> & isStrictObject<U>,
-  {
-    then: prettify<
-  | ({ [_ in KeyToDiscrimitate]?: undefined } & T)
-  | { [Key in keyof U]: { [_ in KeyToDiscrimitate]: Key } & modify<T, U[Key]> }[keyof U]
-    >;
     else: T;
   }
 >;

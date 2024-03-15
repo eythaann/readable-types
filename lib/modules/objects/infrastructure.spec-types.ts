@@ -1,4 +1,4 @@
-import { canBeEmptyObject, getNoReadonlyKeys, getOptionalKeys, getReadonlyKeys, getRequiredKeys, hasProperty, isObject, isStrictObject, modify, modifyByKey, pickByValue, prettify, someToPartial, someToReadonly, someToRequired, someToWritable, TupleToObject } from './infrastructure';
+import { canBeEmptyObject, getNoReadonlyKeys, getOptionalKeys, getReadonlyKeys, getRequiredKeys, hasProperty, isObject, isStrictObject, modify, pickByValue, prettify, someToPartial, someToReadonly, someToRequired, someToWritable, TupleToObject } from './infrastructure';
 
 describeType('IsObject', () => {
   testType('Should return false if type is not of type object, array or func', [
@@ -123,22 +123,6 @@ describeType('OptionalKeys', () => {
     assertType<getOptionalKeys<{ a: 'a' }>>().toBeNever(),
     assertType<getOptionalKeys<{ a?: 'a'; b?: 'b'; c?: 'c' }>>().equals<'a' | 'b' | 'c'>(),
   ]);
-});
-
-describeType('ModifyByKey', () => {
-  testType('Should create the union type with the keys', () => {
-    type mainType = {};
-
-    type overrides = {
-      'override1': {};
-      'override2': {};
-      'override3': {};
-    };
-
-    type expected = { t?: undefined } | { t: 'override1' } | { t: 'override2' } | { t: 'override3' };
-
-    return assertType<modifyByKey<mainType, overrides, 't'>>().equals<expected>();
-  });
 });
 
 describeType('HasProperty', () => {
