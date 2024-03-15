@@ -1,6 +1,6 @@
 {
   "name": "readable-types",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Utils for typescript language",
   "main": "./dist/@5.0/main.js",
   "types": "./dist/@4.2/main.d.ts",
@@ -18,10 +18,10 @@
   },
   "exports": {
     ".": {
-        "types@>=5.0": "./dist/@5.0/main.d.ts",
-        "types@>=4.8": "./dist/@4.8/main.d.ts",
-        "types": "./dist/@4.2/main.d.ts",
-        "import": "./dist/@5.0/main.js"
+      "types@>=5.0": "./dist/@5.0/main.d.ts",
+      "types@>=4.8": "./dist/@4.8/main.d.ts",
+      "types": "./dist/@4.2/main.d.ts",
+      "import": "./dist/@5.0/main.js"
     }
   },
   "keywords": [
