@@ -39,8 +39,11 @@ type MakeSubstractOnTuple<A, B, Result = [], CarryIn = 0> = A extends []
   ? removeZeros<Result>
   : _next<Pop<A>, Pop<B>, Result, CarryIn>;
 
+// Todo(eythan) remove ts-ignore added for @5.4: Type instantiation is excessively deep and possibly infinite.
 type MakeSubstract<A_Digits, B_Digits> = InternalBiggerThan<B_Digits, A_Digits> extends true
+  //@ts-ignore
   ? `-${join<MakeSubstractOnTuple<B_Digits, A_Digits>>}`
+  //@ts-ignore
   : join<MakeSubstractOnTuple<A_Digits, B_Digits>>;
 
 export type InternalSubstract<A, B, R = MakeSubstract<split<forceToString<A>>, split<forceToString<B>>>> =
